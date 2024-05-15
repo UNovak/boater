@@ -3,7 +3,7 @@ import './App.css'
 const App = () => {
   return (
     <>
-      <h1>boater</h1>
+      <h1 className="text-3xl font-bold underline">boater</h1>
     </>
   )
 }
