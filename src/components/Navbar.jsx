@@ -9,13 +9,13 @@ const Navbar = () => {
       <NavLink className="btn m-2 h-6 min-h-0" to={"registration"}>
         Register
       </NavLink>
-      <NavLink className="btn m-2 h-6 min-h-0" to={"/host"}>
+      <NavLink className="btn m-2 h-6 min-h-0" to={"host"}>
         Host
       </NavLink>
-      <NavLink className="btn m-2 h-6 min-h-0" to={"/listing"}>
+      <NavLink className="btn m-2 h-6 min-h-0" to={"renter/listing"}>
         Listing
       </NavLink>
-      <NavLink className="btn m-2 h-6 min-h-0 " to={"/renter"}>
+      <NavLink className="btn m-2 h-6 min-h-0 " to={"renter"}>
         Renter
       </NavLink>
     </div>
