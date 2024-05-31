@@ -5,6 +5,7 @@ import {
   Navigate,
   Outlet,
 } from "react-router-dom";
+import useStore from "./Store";
 
 import Layout from "./Layout";
 import LandingPage from "@pages/LandingPage";
@@ -16,7 +17,7 @@ import Renter from "@pages/Renter";
 // router for handling the navigation accross the App
 
 export const ProtectedRoutes = () => {
-  const authStatus = true;
+  const authStatus = useStore(state => state.authenticated);
 
   return !authStatus ? <Navigate to={"/"} /> : <Outlet />;
 };
