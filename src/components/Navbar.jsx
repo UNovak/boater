@@ -6,11 +6,13 @@ import Svg from "@icons";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const [modal, setModal] = useState(false);
 
   const dropdown = [
     { label: "FAQ", action: () => navigate("/") },
-    { label: "login", action: () => setModal(true) },
+    {
+      label: "login",
+      action: () => document.getElementById("login_modal").showModal(),
+    },
     { label: "signup", action: () => navigate("registration") },
   ];
 
@@ -30,10 +32,11 @@ const Navbar = () => {
         <NavLink className={"btn min-h-0"} to={"renter"}>
           I like cash 💰
         </NavLink>
-        <Modal /> {/* modal for picking language and cirrancy interaction */}
+        {/* <Modal /> modal for picking language and cirrancy interaction */}
         {/* account options dropdown*/}
         <Dropdown label={"hower me"} links={dropdown} />
-        <Modal /> {/* modal for login interaction */}
+        {/* modal for login interaction */}
+        <Modal />
       </nav>
     </header>
   );
