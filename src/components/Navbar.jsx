@@ -2,6 +2,7 @@ import Dropdown from "@components/Dropdown";
 import Modal from "@components/Modal";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import Svg from "@icons";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -15,12 +16,14 @@ const Navbar = () => {
 
   return (
     <header className=" flex items-center justify-between bg-cyan-100">
-      <div className="flex h-9 items-center justify-between">
-        <NavLink className={"text-4xl text-black"} to={"/"}>
-          {/* TODO: logo and title */}
-          logo
-        </NavLink>
-      </div>
+      <NavLink
+        className={
+          "ml-4 flex h-10 w-32 items-center justify-center text-4xl text-black"
+        }
+        to={"/"}
+      >
+        <Svg.Logo />
+      </NavLink>
 
       {/* links and dropdown */}
       <nav className="flex gap-3 *:my-1 *:last:mx-1">
