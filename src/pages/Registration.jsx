@@ -1,9 +1,37 @@
 import Icon from "@icons";
+import useAuth from "@utils/useAuth";
+import { useForm } from "react-hook-form";
+import { DevTool } from "@hookform/devtools";
+import { useRef } from "react";
+import { Link, NavLink } from "react-router-dom";
 
 const Registration = () => {
+  const { sign } = useAuth;
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    control,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {};
+
+  const onErrors = (errors) => {
+    console.log(errors);
+  };
+
+  // console.log(watch("email"));
+  // console.log(watch("password"));
+  // console.log(watch("firstName"));
+  // console.log(watch("lastName"));
+
   return (
     <section className="bg-white">
       <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
+        {/* on image in wide */}
+
         <section className="relative flex h-32 items-end bg-gray-900 lg:col-span-5 lg:h-full lg:rounded-r-xl xl:col-span-6">
           <img
             alt="sailboat on calm blue sea"
@@ -17,11 +45,13 @@ const Registration = () => {
             </h2>
 
             <p className="mt-4 leading-relaxed text-white/90">
-              Your platform for finding theperfect boat regardless of your
-              location
+              Your platform for finding the perfect boat regardless of your
+              location preferences or budget. We have it all.
             </p>
           </div>
         </section>
+
+        {/* above form on small */}
 
         <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
           <div className="max-w-xl lg:max-w-3xl">
@@ -31,7 +61,6 @@ const Registration = () => {
                 href="#"
               >
                 <span className="sr-only">Home</span>
-                <Icon type="" className="" />
               </a>
 
               <h1 className="mt-2 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
@@ -39,58 +68,91 @@ const Registration = () => {
               </h1>
 
               <p className="mt-4 leading-relaxed text-gray-500">
-                Your platform for finding theperfect boat regardless of your
-                location
+                Your platform for finding the perfect boat regardless of your
+                location preferences or budget. We have it all.
               </p>
             </div>
 
-            <form action="#" className="mt-8 grid grid-cols-6 gap-6">
+            {/* form content */}
+
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              noValidate
+              className="mt-8 grid grid-cols-6 gap-6"
+            >
               <div className="col-span-6 sm:col-span-3">
                 <label
-                  htmlFor="FirstName"
+                  htmlFor="firstName"
                   className="block text-sm font-medium text-gray-700"
                 >
                   First Name
                 </label>
 
                 <input
+                  {...register("firstName", {
+                    required: {
+                      value: true,
+                      message: "first name required",
+                    },
+                  })}
+                  id="firstName"
                   type="text"
-                  id="FirstName"
-                  name="first_name"
-                  className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                  className="w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0"
+                  placeholder="John"
                 />
+                {/* {errors.[replace] && (
+                    <p className="mt-1 text-sm text-red-400 opacity-90">
+                      {errors.[replace].message}
+                    </p>
+                  )} */}
               </div>
 
               <div className="col-span-6 sm:col-span-3">
                 <label
-                  htmlFor="LastName"
+                  htmlFor="lastName"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Last Name
                 </label>
 
                 <input
+                  {...register("lastName", {
+                    required: {
+                      value: true,
+                      message: "last name required",
+                    },
+                  })}
+                  id="firstName"
                   type="text"
-                  id="LastName"
-                  name="last_name"
-                  className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                  className="w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0"
+                  placeholder="Doe"
                 />
+                {/* {errors.[replace] && (
+                    <p className="mt-1 text-sm text-red-400 opacity-90">
+                      {errors.[replace].message}
+                    </p>
+                  )} */}
               </div>
 
-              <div className="col-span-6">
+              <div className="col-span-6 sm:col-span-3">
                 <label
-                  htmlFor="Email"
+                  htmlFor="email"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  {" "}
-                  Email{" "}
+                  Email
                 </label>
-
                 <input
+                  {...register("email", {
+                    pattern: {
+                      value: /.+@.+\..+/,
+                      message: "Invalid format",
+                    },
+                  })}
+                  className="w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0"
+                  id="email"
+                  placeholder="john.doe@example.com"
                   type="email"
-                  id="Email"
-                  name="email"
-                  className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                  autoComplete="email"
                 />
               </div>
 
@@ -104,26 +166,18 @@ const Registration = () => {
                 </label>
 
                 <input
+                  {...register("password", {
+                    required: "You must specify a password",
+                    minLength: {
+                      value: 8,
+                      message: "Password must have at least 8 characters",
+                    },
+                  })}
+                  id="password"
                   type="password"
-                  id="Password"
-                  name="password"
-                  className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
-                />
-              </div>
-
-              <div className="col-span-6 sm:col-span-3">
-                <label
-                  htmlFor="PasswordConfirmation"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Password Confirmation
-                </label>
-
-                <input
-                  type="password"
-                  id="PasswordConfirmation"
-                  name="password_confirmation"
-                  className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                  className="w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0"
+                  placeholder=""
+                  autoComplete="new-password webauthn"
                 />
               </div>
 
@@ -146,26 +200,29 @@ const Registration = () => {
               <div className="col-span-6">
                 <p className="text-sm text-gray-500">
                   By creating an account, you agree to our
-                  <a href="#" className="text-gray-700 underline">
+                  <Link to={"#"} className="text-gray-700 underline">
                     {" "}
                     terms and conditions{" "}
-                  </a>
+                  </Link>
                   and
-                  <a href="#" className="text-gray-700 underline">
+                  <Link to={"#"} className="ml-1 text-gray-700 underline">
                     privacy policy
-                  </a>
+                  </Link>
                   .
                 </p>
               </div>
 
               <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
-                <button className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500">
+                <button
+                  type="submit"
+                  className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
+                >
                   Create an account
                 </button>
 
                 <p className="mt-4 text-sm text-gray-500 sm:mt-0">
                   Already have an account?
-                  <a href="#" className="text-gray-700 underline">
+                  <a href="#" className="ml-1 text-gray-700 underline">
                     Log in
                   </a>
                   .
@@ -175,7 +232,9 @@ const Registration = () => {
           </div>
         </main>
       </div>
+      <DevTool control={control} />
     </section>
   );
 };
+
 export default Registration;
