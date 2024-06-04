@@ -2,7 +2,9 @@ import Account from "./account_circle.svg?react";
 import Close from "./close.svg?react";
 import Facebook from "./facebook.svg?react";
 import Hidden from "./hidden.svg?react";
+import Login from "./login.svg?react";
 import Logo from "./logo.svg?react";
+import Logout from "./logout.svg?react";
 import MenuOpen from "./menu_open.svg?react";
 import Person from "./person.svg?react";
 import Trash_closed from "./trashcan_closed.svg?react";
@@ -16,7 +18,9 @@ const icon = {
   Close,
   Facebook,
   Hidden,
+  Login,
   Logo,
+  Logout,
   MenuOpen,
   Person,
   Person,

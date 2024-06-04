@@ -12,14 +12,15 @@ const Navbar = () => {
   const { logout } = useAuth();
 
   const dropdownLinks = [
-    { type: "all", label: "FAQ", action: () => navigate("/") },
+    { type: "all", label: "FAQ", path: "/" },
     {
       type: "guest",
       label: "Login",
+      icon: "Login",
       action: () => document.getElementById("login_modal").showModal(),
     },
-    { type: "guest", label: "Signup", action: () => navigate("registration") },
-    { type: "auth", label: "Logout", action: logout },
+    { type: "guest", label: "Signup", path: "/registration" },
+    { type: "auth", label: "Logout", icon: "Logout", action: logout },
   ].filter((link) =>
     authenticated ? link.type !== "guest" : link.type !== "auth",
   );
