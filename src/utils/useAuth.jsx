@@ -4,32 +4,30 @@ import useStore from "./Store";
 
 const useAuth = () => {
   const navigate = useNavigate();
-  const user = {
-    email: 'test@test.com',
-    password: 'password',
-  };
 
-  const logIn = async () => {
+  const login = async (email, password) => {
     let { data, error } = await supabase.auth.signInWithPassword({
-      email: user.email,
-      password: user.password,
+      email: email,
+      password: password,
     });
     if (error) {
       console.error(error);
+      return error;
     } else {
       const user = {
         id: data.user.id,
         email: data.user.email,
         token: data.session.access_token,
-      }
+      };
       console.log("logged in successfully as: ", data.user);
-      useStore.getState().setUser(user)
+      useStore.getState().setUser(user);
+
       // TODO:
       // fetch registration status and redirect accordingly
     }
   };
 
-  const logOut = async () => {
+  const logout = async () => {
     let { error } = await supabase.auth.signOut();
     if (error) {
       console.error(error);
@@ -40,10 +38,10 @@ const useAuth = () => {
     }
   };
 
-  const signUp = async () => {
+  const signup = async (email, password) => {
     let { data, error } = await supabase.auth.signUp({
-      email: user.email,
-      password: user.password,
+      email: email,
+      password: password,
     });
     if (error) {
       console.error(error);
@@ -52,7 +50,7 @@ const useAuth = () => {
     }
   };
 
-  return { logIn, logOut, signUp };
+  return { login, logout, signup };
 };
 
 export default useAuth;
