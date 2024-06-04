@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Icon from "@icons";
 
 export const Dropdown = ({ label, links }) => {
-  const [hovered, setHovered] = useState(true);
+  const [hovered, setHovered] = useState(false);
 
   const getClassName = (label) => {
     let className = "block rounded-lg px-4 py-2 text-sm w-full ";
@@ -49,7 +49,10 @@ export const Dropdown = ({ label, links }) => {
                 </Link>
               ) : (
                 <button
-                  onClick={link.action}
+                  onClick={() => {
+                    link.action();
+                    setHovered(false);
+                  }}
                   className={getClassName(link.label)}
                 >
                   <span className="flex w-full items-center justify-between">
