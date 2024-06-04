@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import useAuth from "@utils/useAuth";
 import Icon from "@icons";
-import { useEffect } from "react";
 
 export const Modal = () => {
   const { login } = useAuth();
@@ -13,11 +12,18 @@ export const Modal = () => {
     handleSubmit,
     register,
     watch,
+    reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
   const close = () => {
     document.getElementById("login_modal").close();
+    reset();
   };
 
   const signUp = () => {
@@ -54,25 +60,34 @@ export const Modal = () => {
           className="btn btn-circle btn-ghost btn-sm absolute right-2 top-2"
           onClick={() => close()}
         >
-          ✕
+          <Icon type="Close" className="h-7 w-7" />
         </button>
 
-        <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-screen-xl px-4 py-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-lg">
             <h4>Login or sign up</h4>
-            <h1 className="mt-2 text-center text-2xl font-bold text-indigo-600 sm:text-3xl">
+            <h1 className="mt-2 text-center text-2xl font-bold text-blue-400 hover:text-blue-600 sm:text-3xl">
               Welcome to Boater
             </h1>
 
             <form
               onSubmit={handleSubmit(onSubmit, onErrors)}
               noValidate
-              className="mb-0 mt-4 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8"
+              className="mb-0 mt-4 space-y-4"
             >
               <div>
                 <label htmlFor="email" className="sr-only">
                   Email
                 </label>
+                {errors.email && (
+                  <p className="mb-2 text-sm text-red-400 opacity-90">
+                    {errors.email.message}
+                  </p>
+                )}
+
+                {/* 
+                TODO: Improve error message displaying 
+                 */}
 
                 <div className="relative">
                   <input
@@ -80,21 +95,14 @@ export const Modal = () => {
                       pattern: {
                         value: /.+@.+\..+/,
                         message: "Invalid format",
-                        text: " asdadawdaw",
                       },
                     })}
-                    className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                    className="w-4/5 rounded-lg border-gray-300 p-4 pe-12 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0"
                     id="email"
                     placeholder="Enter email"
                     type="email"
                   />
-                  {errors.email && (
-                    <p className="mt-1 text-sm text-red-400 opacity-90">
-                      {errors.email.message}
-                    </p>
-                  )}
-
-                  <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
+                  <span className="pointer-events-none absolute inset-y-0 end-[10%] grid place-content-center px-4">
                     @
                   </span>
                 </div>
@@ -115,19 +123,19 @@ export const Modal = () => {
                     })}
                     id="password"
                     type="password"
-                    className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                    className="w-4/5 rounded-lg border-gray-300 p-4 pe-12 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0"
                     placeholder="Enter password"
                   />
-                  {errors.password && (
-                    <p className="mt-1 text-sm text-red-400 opacity-90">
-                      {errors.password.message}
-                    </p>
-                  )}
-
-                  <span className="color-red-200 absolute inset-y-0 end-0 grid place-content-center px-4">
-                    <Icon type="Visible" className="w-4" />
+                  <span className="color-red-200 absolute inset-y-0 end-[10%] grid place-content-center px-4">
+                    <Icon type="Visible" className="w- w-4" />
                   </span>
                 </div>
+
+                {errors.password && (
+                  <p className="mt-1 text-sm text-red-400 opacity-90">
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
 
               <button
