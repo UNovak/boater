@@ -39,16 +39,15 @@ const useAuth = () => {
   };
 
   const signup = async (email, password) => {
-    let { data, error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email: email,
       password: password,
     });
     if (error) {
-      // signup failed
       console.error(error);
-      return error;
-    } else {
-      // successfoul registration
+      return { data: null, error };
+    }
+    if (data) {
       const user = {
         id: data.user.id,
         email: data.user.email,
@@ -56,7 +55,7 @@ const useAuth = () => {
       };
       console.log("registered successfully as: ", data.user);
       useStore.getState().setUser(user);
-      return data;
+      return { data, error: null };
     }
   };
 

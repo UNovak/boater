@@ -1,9 +1,8 @@
-import Icon from "@icons";
-import useAuth from "@utils/useAuth";
-import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
-import { useRef } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import useAuth from "@utils/useAuth";
+import supabase from "@utils/supabase";
 
 const Registration = () => {
   const { signup } = useAuth();
@@ -13,17 +12,43 @@ const Registration = () => {
     watch,
     reset,
     control,
+    getValues,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
-    console.log("sending: ", data);
-    let res = await signup(data.email, data.password);
-    console.log(res);
-  };
-
   const onErrors = (errors) => {
     console.log(errors);
+  };
+
+  const update_data = async (form, id) => {
+    const { data, error } = await supabase
+      .from("profiles")
+      .update({
+        full_name: `${form.firstName} ${form.lastName}`,
+        email: form.email,
+      })
+      .eq("id", id)
+      .select();
+
+    if (error) {
+      console.error(error);
+    }
+
+    if (data) {
+      console.log(data);
+    }
+  };
+
+  const onSubmit = async (form) => {
+    const { data, error } = await signup(form.email, form.password);
+    if (error) {
+      console.error(error);
+      return;
+    }
+    if (data) {
+      console.log(data);
+      update_data(form, data.user.id);
+    }
   };
 
   // console.log(watch("email"));
@@ -80,7 +105,7 @@ const Registration = () => {
             {/* form content */}
 
             <form
-              onSubmit={handleSubmit(onSubmit)}
+              onSubmit={handleSubmit(onSubmit, onErrors)}
               noValidate
               className="mt-8 grid grid-cols-6 gap-6"
             >
@@ -96,7 +121,7 @@ const Registration = () => {
                   {...register("firstName", {
                     required: {
                       value: true,
-                      message: "first name required",
+                      message: "First name required",
                     },
                   })}
                   id="firstName"
@@ -104,11 +129,11 @@ const Registration = () => {
                   className="w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0"
                   placeholder="John"
                 />
-                {/* {errors.[replace] && (
-                    <p className="mt-1 text-sm text-red-400 opacity-90">
-                      {errors.[replace].message}
-                    </p>
-                  )} */}
+                {errors.firstName && (
+                  <p className="mt-1 text-sm text-red-400 opacity-90">
+                    {errors.firstName.message}
+                  </p>
+                )}
               </div>
 
               <div className="col-span-6 sm:col-span-3">
@@ -123,7 +148,7 @@ const Registration = () => {
                   {...register("lastName", {
                     required: {
                       value: true,
-                      message: "last name required",
+                      message: "Last name required",
                     },
                   })}
                   id="lastName"
@@ -131,11 +156,11 @@ const Registration = () => {
                   className="w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0"
                   placeholder="Doe"
                 />
-                {/* {errors.[replace] && (
-                    <p className="mt-1 text-sm text-red-400 opacity-90">
-                      {errors.[replace].message}
-                    </p>
-                  )} */}
+                {errors.lastName && (
+                  <p className="mt-1 text-sm text-red-400 opacity-90">
+                    {errors.lastName.message}
+                  </p>
+                )}
               </div>
 
               <div className="col-span-6 sm:col-span-3">
@@ -147,9 +172,10 @@ const Registration = () => {
                 </label>
                 <input
                   {...register("email", {
+                    required: "Email is required",
                     pattern: {
                       value: /.+@.+\..+/,
-                      message: "Invalid format",
+                      message: "Invalid email format",
                     },
                   })}
                   className="w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0"
@@ -158,15 +184,19 @@ const Registration = () => {
                   type="email"
                   autoComplete="email"
                 />
+                {errors.email && (
+                  <p className="mt-1 text-sm text-red-400 opacity-90">
+                    {errors.email.message}
+                  </p>
+                )}
               </div>
 
               <div className="col-span-6 sm:col-span-3">
                 <label
-                  htmlFor="Password"
+                  htmlFor="password"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  {" "}
-                  Password{" "}
+                  Password
                 </label>
 
                 <input
@@ -180,20 +210,23 @@ const Registration = () => {
                   id="password"
                   type="password"
                   className="w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0"
-                  placeholder=""
                   autoComplete="new-password webauthn"
                 />
+                {errors.password && (
+                  <p className="mt-1 text-sm text-red-400 opacity-90">
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
 
               <div className="col-span-6">
-                <label htmlFor="MarketingAccept" className="flex gap-4">
+                <label htmlFor="marketingAccept" className="flex gap-4">
                   <input
+                    {...register("marketingAccept")}
                     type="checkbox"
-                    id="MarketingAccept"
-                    name="marketing_accept"
+                    id="marketingAccept"
                     className="size-5 rounded-md border-gray-200 bg-white shadow-sm"
                   />
-
                   <span className="text-sm text-gray-700">
                     I want to receive emails about events, product updates and
                     company announcements.
@@ -205,8 +238,7 @@ const Registration = () => {
                 <p className="text-sm text-gray-500">
                   By creating an account, you agree to our
                   <Link to={"#"} className="text-gray-700 underline">
-                    {" "}
-                    terms and conditions{" "}
+                    terms and conditions
                   </Link>
                   and
                   <Link to={"#"} className="ml-1 text-gray-700 underline">
