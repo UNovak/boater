@@ -6,7 +6,7 @@ import { useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
 
 const Registration = () => {
-  const { sign } = useAuth;
+  const { signup } = useAuth();
   const {
     register,
     handleSubmit,
@@ -16,7 +16,11 @@ const Registration = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {};
+  const onSubmit = async (data) => {
+    console.log("sending: ", data);
+    let res = await signup(data.email, data.password);
+    console.log(res);
+  };
 
   const onErrors = (errors) => {
     console.log(errors);
@@ -122,7 +126,7 @@ const Registration = () => {
                       message: "last name required",
                     },
                   })}
-                  id="firstName"
+                  id="lastName"
                   type="text"
                   className="w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0"
                   placeholder="Doe"

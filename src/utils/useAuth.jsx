@@ -44,9 +44,19 @@ const useAuth = () => {
       password: password,
     });
     if (error) {
+      // signup failed
       console.error(error);
+      return error;
     } else {
-      console.log(data);
+      // successfoul registration
+      const user = {
+        id: data.user.id,
+        email: data.user.email,
+        token: data.session.access_token,
+      };
+      console.log("registered successfully as: ", data.user);
+      useStore.getState().setUser(user);
+      return data;
     }
   };
 
