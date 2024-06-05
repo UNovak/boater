@@ -28,7 +28,7 @@ const Navbar = () => {
   return (
     <header className="bg-white">
       <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-16 items-center justify-between text-center ">
           <div className=" block md:flex md:items-center md:gap-12">
             <NavLink
               to={"/"}
@@ -43,12 +43,16 @@ const Navbar = () => {
           <div className="block items-center gap-4 md:flex">
             <div className="flex gap-4">
               <NavLink
-                className="content-center rounded-md bg-teal-600 px-2 py-1 align-middle text-sm font-medium text-white shadow"
+                className={({ isActive }) =>
+                  "m-auto block rounded px-3 py-2  " +
+                  (isActive
+                    ? " pointer-events-none border-0 bg-transparent text-blue-600"
+                    : " p-0 text-gray-900 hover:bg-gray-100 hover:bg-transparent hover:text-blue-600 md:border-0")
+                }
                 to={"registration"}
               >
                 Rent your boat
               </NavLink>
-
               <div className="block md:flex">
                 <Dropdown
                   label={
@@ -83,3 +87,7 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+// TODO:
+// - Fix button on small screen
+// Adjust rent your boat button
