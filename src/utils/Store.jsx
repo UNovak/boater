@@ -2,29 +2,44 @@ import { create } from "zustand";
 
 // Define the initial state
 const initialState = {
-  authenticated: false,
-  id: "",
-  email: "",
-  token: "",
-  host: false,
+  session: {
+    id: "",
+    authenticated: false,
+  },
+  user: {
+    id: "",
+    email: "",
+    full_name: "",
+    avatar_url: "",
+    host: false,
+    registered: false,
+  },
 };
 
 const useStore = create((set) => ({
   ...initialState,
 
-  // Function to manage user store state with partial updates
-
-  // update values in store
-  setUser: (user) =>
+  setSession: (sessionId) =>
     set((state) => ({
-      ...state,
-      ...user,
-      authenticated: true,
+      session: {
+        ...state.session,
+        id: sessionId,
+        authenticated: true,
+      },
     })),
 
-  // sets the store back to initial values
-  clearUser: () => {
-    set(initialState);
+  // Function to manage user store state with partial updates
+  setUser: (updates) =>
+    set((state) => ({
+      user: {
+        ...state.user,
+        ...updates,
+      },
+    })),
+
+  // Sets the store back to initial values
+  clearStore: () => {
+    set(() => ({ ...initialState }));
   },
 }));
 
@@ -36,8 +51,8 @@ export default useStore;
 //    get value:
 //      const user = useStore((state) => state.user) // all values
 //      const email = useUser(state => state.email);
-// 
+//
 //    use functions:
 //      const setUser = useStore.getState().setUser; // !rerender
 //      const setUser = useStore((state) => state.setUser()) // rerender
-//      () => setUser(user: JSON object) || setUser(user)
+//      () => setUser(user: JSON object) || setUser(user)
