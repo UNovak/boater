@@ -10,6 +10,7 @@ import Person from "./person.svg?react";
 import Trash_closed from "./trashcan_closed.svg?react";
 import Trash_open from "./trashcan_open.svg?react";
 import Twitter from "./twitter.svg?react";
+import Upload from "./upload.svg?react";
 import Visible from "./visible.svg?react";
 import Youtube from "./youtube.svg?react";
 
@@ -27,6 +28,7 @@ const icon = {
   Trash_closed,
   Trash_open,
   Twitter,
+  Upload,
   Visible,
   Youtube,
 };
