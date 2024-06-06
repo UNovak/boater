@@ -26,7 +26,7 @@ export const Dropdown = ({ label, links }) => {
       <div className="inline-flex items-center overflow-hidden rounded-md border">
         <div
           role="button"
-          className="flex rounded-md border-e px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-700"
+          className="flex rounded-md px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-700"
         >
           {label}
         </div>
