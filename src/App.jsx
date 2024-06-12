@@ -3,39 +3,47 @@ import { RouterProvider } from "react-router-dom";
 import { useEffect } from "react";
 import supabase from "@utils/supabase";
 import useStore from "@utils/Store";
+import useSupabase from "@utils/useSupabase";
 
 import "./App.css";
 
 const App = () => {
+  const { updateUser } = useSupabase();
+  const clearStore = useStore((state) => state.clearStore);
   const setSession = useStore((state) => state.setSession);
-  const session_data = useStore((state) => state.session);
-  const user_data = useStore((state) => state.user);
-  const clear = useStore((state) => state.clearStore);
 
+  const updateStatus = (id) => {
+    setSession(id);
+    updateUser(id);
+  };
+
+  // mounts supabse listeners
   useEffect(() => {
-    let shouldClear = true;
+    // try reading from session storage
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
-        setSession(session.user.id);
-        shouldClear = false;
-      } else {
+        updateStatus(session.user.id);
       }
     });
 
-    supabase.auth.onAuthStateChange((_event, session) => {
-      if (session) {
-        setSession(session.user.id);
-        shouldClear = false;
+    // user authentication status change
+    const { data } = supabase.auth.onAuthStateChange((event, session) => {
+      if (
+        event === "INITIAL_SESSION" ||
+        event === "SIGNED_IN" ||
+        event === "TOKEN_REFRESHED" ||
+        event === "USER_UPDATED"
+      ) {
+        updateStatus(session.user.id);
+      } else if (event === "SIGNED_OUT") {
+        clearStore();
       }
     });
 
-    if (shouldClear) clear();
+    return () => {
+      data.subscription.unsubscribe();
+    };
   }, []);
-
-  useEffect(() => {
-    console.log("session: ", session_data);
-    console.log("user: ", user_data);
-  }, [session_data, user_data]);
 
   return (
     <>
