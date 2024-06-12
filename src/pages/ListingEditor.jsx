@@ -1,40 +1,65 @@
-import { useForm } from "react-hook-form";
-import FileUpload from "@components/FileUpload";
 import { DevTool } from "@hookform/devtools";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import ImageCollector from "@components/ImageCollector";
+import supabase from "@utils/supabase";
+import useStore from "@utils/Store";
 
 export const ListingEditor = (type) => {
+  const id = useStore((state) => state.session.id);
+  const [boat, setBoat] = useState(null);
+  const [images, setImages] = useState([]);
+
   const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
     control,
-    getValues,
+    handleSubmit,
+    register,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      title: "",
+      attributes: {},
       description: "",
       location: {},
-      attributes: {},
+      title: "",
       type: "",
     },
   });
+
+  // insert new boat
+  const insert_data = async (form) => {
+    const { data, error } = await supabase
+      .from("boats")
+      .insert([
+        {
+          owner_id: id,
+          title: form.title,
+          description: form.description,
+          thumbnail_url: "some url",
+          location: "location data",
+          attributes: { atribute1: "some attribute" },
+        },
+      ])
+      .select();
+
+    if (error) {
+      console.error(error);
+    }
+    if (data) {
+      console.log(data);
+      setBoat(data[0].id);
+      return data;
+    }
+  };
 
   const onErrors = (errors) => {
     console.log(errors);
   };
 
-  const onSubmit = (form) => {
-    console.log(form);
+  const onSubmit = async (form) => {
+    console.log("form values: ", form);
+    console.log("images: ", images);
   };
-
-  // images display the title of uploaded images
-  // title - text
-  // description - user text
-  // location - Geodata ?
-  // attributes - JSON
-  // type - select from sailboat dingy fishing yacht cruiser
 
   return (
     <>
@@ -61,7 +86,6 @@ export const ListingEditor = (type) => {
             <p role="alert">First name is required</p>
           )}
         </div>
-
         <div>
           <label
             htmlFor="fileUpload"
@@ -69,9 +93,8 @@ export const ListingEditor = (type) => {
           >
             Show off
           </label>
-          <FileUpload />
+          <ImageCollector images={images} setImages={setImages} />
         </div>
-
         <div>
           <label
             htmlFor="description"
@@ -88,20 +111,7 @@ export const ListingEditor = (type) => {
               required: {},
             })}
           />
-        </div>
-
-        <div className="h-fit w-full">
-          <label className="inline-block cursor-pointer items-center">
-            <input
-              id="toggle"
-              type="checkbox"
-              value=""
-              className="peer sr-only"
-              {...register("toggle")}
-            />
-            <div className="peer relative h-6 w-11 justify-center rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800"></div>
-            <span className=" ms-3 hidden text-sm font-medium text-gray-900 dark:text-gray-300"></span>
-          </label>
+          ˝
         </div>
 
         <input
@@ -115,3 +125,9 @@ export const ListingEditor = (type) => {
 };
 
 export default ListingEditor;
+
+// TODO
+// - Use real form data
+// - Implement file upload
+// - Redirect after confirmation
+// - Add more fields
