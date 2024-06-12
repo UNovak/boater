@@ -1,23 +1,23 @@
 import {
   createBrowserRouter,
   createRoutesFromElements,
-  Route,
   Navigate,
   Outlet,
+  Route,
 } from "react-router-dom";
-import useStore from "./Store";
-
-import Layout from "./Layout";
-import LandingPage from "@pages/LandingPage";
 import Host from "@pages/Host";
-import Registration from "@pages/Registration";
+import LandingPage from "@pages/LandingPage";
+import Layout from "./Layout";
 import Listing from "@pages/Listing";
+import ListingEditor from "@pages/ListingEditor";
+import Registration from "@pages/Registration";
 import Renter from "@pages/Renter";
+import useStore from "./Store";
 
 // router for handling the navigation accross the App
 
 export const ProtectedRoutes = () => {
-  const authStatus = useStore(state => state.authenticated);
+  const authStatus = useStore((state) => state.session.authenticated);
 
   return !authStatus ? <Navigate to={"/"} /> : <Outlet />;
 };
@@ -28,7 +28,8 @@ export const mainRouter = createBrowserRouter(
       <Route index element={<LandingPage />} />
       <Route path="registration" element={<Registration />} />
       <Route path="host" element={<ProtectedRoutes />}>
-        <Route path="" element={<Host />} />
+        <Route path=":id" element={<Host />} />
+        <Route path="listing/create" element={<ListingEditor type={"new"} />} />
       </Route>
       <Route path="renter" element={<ProtectedRoutes />}>
         <Route path="listing" element={<Listing />} />

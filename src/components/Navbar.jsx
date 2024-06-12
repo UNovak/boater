@@ -1,15 +1,14 @@
+import { NavLink } from "react-router-dom";
 import Dropdown from "@components/Dropdown";
-import Modal from "@components/Modal";
-import { NavLink, useNavigate } from "react-router-dom";
 import Icon from "@icons";
-import useStore from "@utils/Store";
+import Modal from "@components/Modal";
 import useAuth from "@utils/useAuth";
+import useStore from "@utils/Store";
 
 const Navbar = () => {
-  const navigate = useNavigate();
-  const authenticated = useStore((state) => state.authenticated);
-  // const hosting = useStore((state) => state.host);
-  const hosting = false;
+  const authenticated = useStore((state) => state.session.authenticated);
+  const hosting = useStore((state) => state.user.host);
+  const user = useStore((state) => state.user.id);
   const { logout } = useAuth();
 
   // Dropdown links
@@ -34,16 +33,17 @@ const Navbar = () => {
   // Your dropdownLinks array remains unchanged
 
   const filters = [
+    (link) => link.type === "all",
     (link) => link.type === "auth" && authenticated,
+    (link) => link.type === "guest" && !authenticated,
     (link) => link.type === "host" && authenticated && hosting,
     (link) => link.type === "user" && authenticated && !hosting,
-    (link) => link.type === "guest" && !authenticated,
-    (link) => link.type === "all",
   ];
 
   const dropdownLinks = [
-    { type: "host", label: "Dashboard", path: "/host" },
+    { type: "host", label: "Dashboard", path: `/host/${user}` },
     { type: "all", label: "FAQ", path: "/" },
+    { type: "host", label: "ListingEditor", path: "/host/listing/create" },
     { type: "guest", label: "Signup", path: "/registration" },
     { type: "auth", label: "Logout", icon: "Logout", action: logout },
     {
@@ -80,7 +80,10 @@ const Navbar = () => {
                 }
                 to={"registration"}
               >
-                Rent your boat
+                <span className="rounded bg-slate-50 p-2 text-2xl shadow-sm sm:hidden">
+                  ⛵️
+                </span>
+                <span className="hidden sm:flex">Rent your boat</span>
               </NavLink>
               <div className="block md:flex">
                 <Dropdown
@@ -116,7 +119,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-// TODO:
-// - Fix button on small screen
-// Adjust rent your boat button
