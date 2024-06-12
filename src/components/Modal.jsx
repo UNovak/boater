@@ -11,8 +11,8 @@ export const Modal = () => {
     control,
     handleSubmit,
     register,
-    watch,
     reset,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -34,8 +34,15 @@ export const Modal = () => {
   // runs when any button is clicked
   // validation passes
   const onSubmit = async (data) => {
-    console.log("sending: ", data);
-    if (!(await login(data.email, data.password))) {
+    let res = await login(data.email, data.password);
+    if (res.error) {
+      console.error(
+        "Login failed:",
+        res.error.message || "An unknown error occurred.",
+      );
+      return;
+    } else {
+      // if login successfoul close the modal
       close();
     }
   };
@@ -52,7 +59,7 @@ export const Modal = () => {
   return (
     <dialog
       id="login_modal"
-      className="modal modal-bottom visible sm:modal-middle"
+      className="modal modal-bottom visible text-clip sm:modal-middle "
     >
       <div className="modal-box">
         {/* close modal button */}
