@@ -46,8 +46,52 @@ export const useSupabase = () => {
     return { data, error: null };
   };
 
+  // updates boat with new data
+  // boat has to be of form:
+  // {
+  //   column-to-change: new-value,
+  //   other -column-to-change: other-new-value,
+  // }
+  const updateBoat = async (boat_id, id, boat, images) => {
+    if (images) {
+      // upload images to boat/boat_id/... bucket if they exist
+      const urls = [];
+      const errors = [];
+      await Promise.all(
+        images.map(async (image) => {
+          const result = await uploadFile(image.file, id, boat_id, "boats");
+          if (result.error) errors.push(result.error); // error uploading a spacific image
+          if (result.data) urls.push(result.data); // image uploded sucessfully => gets publicURL
+        }),
+      );
+
+      if (errors.length > 0) return { data: null, errors }; // if an error accoures during image upload
+
+      // otherwise add urls to boat object
+      boat = {
+        ...boat,
+        image_urls: urls,
+        thumbnail_url: urls[0],
+      };
+    }
+
+    // update database values for boat
+    const { data, error } = await supabase
+      .from("boats")
+      .update({
+        ...boat,
+      })
+      .eq("id", boat_id)
+      .eq("owner_id", id)
+      .select();
+
+    if (error) return { data: null, error };
+    return { data, error: null };
+  };
+
   // insert new boat
   const createBoat = async (form, id, images) => {
+    console.log("create boat params: ", form, id, images);
     const { data, error } = await supabase
       .from("boats")
       .insert([
@@ -61,43 +105,39 @@ export const useSupabase = () => {
       .select();
 
     // if there is an error creating a new boat entry
-    if (error) {
-      console.error(error);
-      return { data: null, error };
-    }
+    if (error) return { data: null, error };
+    let boat_id = data[0].id;
 
-    // upload images to boat/boatid bucket
-    const errors = [];
-    const urls = [];
-    await Promise.all(
-      images.map(async (image) => {
-        const result = await uploadFile(image.file, id, data[0].id, "boats");
-        if (result.error) errors.push(result.error); // error uploading a spacific image
-        if (result.data) urls.push(result.data); // image uploded sucessfully => gets publicURL
-      }),
-    );
+    // if images are to be added runs uploadFile on each
+    if (images) {
+      const errors = [];
+      const urls = [];
 
-    // if any image fails to upload
-    if (errors.length > 0) return { data: null, error: errors };
+      await Promise.all(
+        images.map(async (image) => {
+          const result = await uploadFile(image.file, id, boat_id, "boats");
+          if (result.error) errors.push(result.error); // error uploading a spacific image
+          if (result.data) urls.push(result.data); // image uploded sucessfully => gets publicURL
+        }),
+      );
 
-    if (urls) {
-      const { data: full_data, error: update_error } = await supabase
-        .from("boats")
-        .update({
+      if (errors.length > 0) return { data: null, error: errors }; // if error when uploading images
+
+      // if images were uploaded update the images_url and thumbnail
+      if (urls) {
+        const { data, error } = await updateBoat(boat_id, id, {
           image_urls: urls,
           thumbnail_url: urls[0],
-        })
-        .eq("id", data[0].id)
-        .eq("owner_id", id)
-        .select();
+        });
 
-      if (update_error) return { data: null, error: update_error };
+        if (error) return { data: null, error };
+        return { data, error: null };
+      }
     }
-
     return { data, error: null };
   };
 
-  return { updateUser, uploadFile, createBoat };
+  return { updateUser, uploadFile, createBoat, updateBoat };
 };
 
 export default useSupabase;
