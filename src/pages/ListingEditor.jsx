@@ -2,14 +2,14 @@ import { DevTool } from "@hookform/devtools";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import ImageCollector from "@components/ImageCollector";
-import supabase from "@utils/supabase";
 import useStore from "@utils/Store";
+import useSupabase from "@utils/useSupabase";
 
 export const ListingEditor = (type) => {
   const id = useStore((state) => state.session.id);
-  const [boat, setBoat] = useState(null);
   const [images, setImages] = useState([]);
 
+  const { createBoat } = useSupabase();
   const {
     control,
     handleSubmit,
@@ -26,39 +26,14 @@ export const ListingEditor = (type) => {
     },
   });
 
-  // insert new boat
-  const insert_data = async (form) => {
-    const { data, error } = await supabase
-      .from("boats")
-      .insert([
-        {
-          owner_id: id,
-          title: form.title,
-          description: form.description,
-          thumbnail_url: "some url",
-          location: "location data",
-          attributes: { atribute1: "some attribute" },
-        },
-      ])
-      .select();
-
-    if (error) {
-      console.error(error);
-    }
-    if (data) {
-      console.log(data);
-      setBoat(data[0].id);
-      return data;
-    }
-  };
-
   const onErrors = (errors) => {
     console.log(errors);
   };
 
   const onSubmit = async (form) => {
     console.log("form values: ", form);
-    console.log("images: ", images);
+    let res = await createBoat(form, id, images);
+    if (res.error) console.error(res.errors);
   };
 
   return (
@@ -111,7 +86,6 @@ export const ListingEditor = (type) => {
               required: {},
             })}
           />
-          ˝
         </div>
 
         <input
@@ -128,6 +102,5 @@ export default ListingEditor;
 
 // TODO
 // - Use real form data
-// - Implement file upload
 // - Redirect after confirmation
 // - Add more fields
