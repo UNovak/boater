@@ -27,12 +27,12 @@ export const mainRouter = createBrowserRouter(
     <Route path="/" element={<Layout />}>
       <Route index element={<LandingPage />} />
       <Route path="registration" element={<Registration />} />
+      <Route path="listing/:boat_id" element={<Listing />} />
       <Route path="host" element={<ProtectedRoutes />}>
         <Route path=":id" element={<Host />} />
         <Route path="listing/create" element={<ListingEditor type={"new"} />} />
       </Route>
       <Route path="renter" element={<ProtectedRoutes />}>
-        <Route path="listing" element={<Listing />} />
         <Route path="" element={<Renter />} />
       </Route>
     </Route>,

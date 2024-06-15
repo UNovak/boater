@@ -137,7 +137,14 @@ export const useSupabase = () => {
     return { data, error: null };
   };
 
-  return { updateUser, uploadFile, createBoat, updateBoat };
+  const getBoats = async () => {
+    const { data, error } = await supabase.from("boats").select("*");
+
+    if (error) return { data: null, error };
+    return { data, error: null };
+  };
+
+  return { updateUser, uploadFile, createBoat, updateBoat, getBoats };
 };
 
 export default useSupabase;
