@@ -151,7 +151,10 @@ const ImageCollector = ({ images, setImages }) => {
         </span>
       </div>
       {/* display previews */}
-      <div className="hover:bg-grey-100 mt-4 flex h-32 w-full flex-col items-center justify-center gap-2 overflow-clip rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 py-2 sm:flex-row">
+      <div
+        className="hover:bg-grey-100 mx-auto mt-4 flex h-fit w-fit flex-wrap items-center justify-center gap-2 overflow-hidden rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-4
+        sm:flex-row dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400"
+      >
         {images.length > 0 ? (
           images.map((image) => (
             <img
@@ -164,7 +167,9 @@ const ImageCollector = ({ images, setImages }) => {
             />
           ))
         ) : (
-          <span className="text-sm text-gray-500">A space for your images</span>
+          <span className="flex h-28 w-28 items-center text-center text-sm text-gray-500">
+            A space for your images
+          </span>
         )}
       </div>
     </div>
