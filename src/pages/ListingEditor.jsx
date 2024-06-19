@@ -20,9 +20,13 @@ export const ListingEditor = (type) => {
     defaultValues: {
       attributes: {},
       description: "",
-      location: {},
       title: "",
       type: "",
+      location: {
+        city: "",
+        zip: "",
+        country: "",
+      },
     },
   });
 
@@ -48,7 +52,7 @@ export const ListingEditor = (type) => {
             htmlFor="title"
             className="mb-2 block text-sm font-medium text-gray-700 dark:text-white"
           >
-            Boat name{" "}
+            Boat name
             {errors.title?.type === "required" && (
               <span role="alert" className="mt-1 text-xs text-red-500">
                 *
@@ -84,8 +88,10 @@ export const ListingEditor = (type) => {
               Select the type of your boat
             </label>
             <select
-              id="countries"
-              placeholder="How would you classify your boat?"
+              id="type"
+              {...register("type∫∫", {
+                required: {},
+              })}
               className="mb-2 inline w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 sm:mb-0 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
             >
               <option>Sailboat</option>
@@ -107,21 +113,30 @@ export const ListingEditor = (type) => {
             <div className="grid w-full grid-cols-8 gap-1">
               <input
                 type="text"
-                id="Address"
+                id="city"
                 placeholder="Koper"
                 className="col-span-4 block w-full rounded-lg border  border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 shadow-md focus:border-blue-500  focus:shadow-blue-200 focus:outline-none focus:ring-0 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                {...register("location.city", {
+                  required: {},
+                })}
               />
               <input
                 type="text"
                 id="zip"
                 placeholder="6000"
                 className="col-span-2 block w-full rounded-lg border  border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 shadow-md focus:border-blue-500  focus:shadow-blue-200 focus:outline-none focus:ring-0 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                {...register("location.zip", {
+                  required: {},
+                })}
               />
               <input
                 type="text"
                 id="country"
                 placeholder="Slovenia"
                 className="col-span-2 block w-full rounded-lg border  border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 shadow-md focus:border-blue-500 focus:shadow-blue-200 focus:outline-none focus:ring-0 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                {...register("location.country", {
+                  required: {},
+                })}
               />
             </div>
           </div>
