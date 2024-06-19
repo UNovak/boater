@@ -21,7 +21,7 @@ export const ListingEditor = (type) => {
       attributes: {},
       description: "",
       title: "",
-      type: "",
+      type: "Sailboat",
       location: {
         city: "",
         zip: "",
@@ -90,9 +90,9 @@ export const ListingEditor = (type) => {
             <select
               id="type"
               {...register("type", {
-                required: {},
+                required: true,
               })}
-              className="mb-2 inline w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 sm:mb-0 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+              className="w-full appearance-none rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 shadow-md focus:border-blue-500 focus:shadow-blue-200 focus:outline-none focus:ring-0 focus:ring-blue-500 sm:mb-0 dark:border-gray-600 dark:bg-gray-700  dark:text-white dark:placeholder-gray-400  dark:focus:border-blue-500 dark:focus:ring-blue-500"
             >
               <option>Sailboat</option>
               <option>Rubber dinghie</option>
