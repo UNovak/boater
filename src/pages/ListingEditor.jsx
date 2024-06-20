@@ -19,6 +19,7 @@ export const ListingEditor = (type) => {
       description: "",
       title: "",
       type: "Sailboat",
+      price: 500,
       location: {
         city: "",
         zip: "",
@@ -96,7 +97,7 @@ export const ListingEditor = (type) => {
               htmlFor="type"
               className="mb-2 inline-block text-sm font-medium text-gray-700 dark:text-white"
             >
-              Select the type of your boat
+              Boat type
             </label>
             <select
               id="type"
@@ -188,6 +189,33 @@ export const ListingEditor = (type) => {
                 : 300 - descriptionCount}
             </span>
           )}
+        </div>
+
+        <div className="container mx-auto h-full w-full">
+          <label
+            htmlFor="base price"
+            className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Price:
+            <span className="text-xs text-slate-500 dark:text-slate-400">
+              {" " + watch("price") + " $"}
+            </span>
+          </label>
+
+          <div className="flex w-full items-center justify-center gap-4 text-slate-700 dark:text-slate-300">
+            <span className="text-xs text-gray-500">0</span>
+            <input
+              type="range"
+              id="price"
+              className="h-2 w-1/2 appearance-none rounded-full bg-slate-100 focus:outline-blue-700 dark:bg-slate-800 dark:focus:outline-blue-600 [&::-moz-range-thumb]:size-4 [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-none [&::-moz-range-thumb]:bg-blue-700 active:[&::-moz-range-thumb]:scale-110 [&::-moz-range-thumb]:dark:bg-blue-600 [&::-webkit-slider-thumb]:size-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-none [&::-webkit-slider-thumb]:bg-blue-700 active:[&::-webkit-slider-thumb]:scale-110 [&::-webkit-slider-thumb]:dark:bg-blue-600"
+              defaultValue="500"
+              max="1000"
+              min="0"
+              step="10"
+              {...register("price")}
+            />
+            <span className="text-xs text-gray-500">1000</span>
+          </div>
         </div>
 
         <hr className="mx-auto my-2 h-1 w-48 rounded border-0 bg-gray-100 md:my-10 dark:bg-gray-700" />
