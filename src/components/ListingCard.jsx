@@ -50,7 +50,7 @@ const ListingCard = ({ boat }) => {
               <Icon className="h-4 w-4" type="LocationPin" />
             </div>
             <span className="flex h-5 items-center text-xs">
-              Izola, Slovenia
+              {`${boat.location?.city}, ${boat.location?.country}`}
             </span>
           </div>
         </div>
@@ -70,7 +70,7 @@ const ListingCard = ({ boat }) => {
             className="-mb-px -mr-2 w-7 transition-transform duration-200 ease-linear group-hover/button:rotate-90"
           />
         </Link>
-        <span className="align-middle text-sm">100 $ / Day</span>
+        <span className="align-middle text-sm">{boat.price} $ / Day</span>
       </div>
     </div>
   );
