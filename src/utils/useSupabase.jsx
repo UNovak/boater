@@ -71,7 +71,6 @@ export const useSupabase = () => {
       boat = {
         ...boat,
         image_urls: urls,
-        thumbnail_url: urls[0],
       };
     }
 
@@ -102,7 +101,7 @@ export const useSupabase = () => {
           attributes: { attribute1: "some attribute" },
           location: form.location,
           price: form.price,
-          boat_type: form.type,
+          type: form.type,
         },
       ])
       .select();
@@ -130,7 +129,6 @@ export const useSupabase = () => {
       if (urls) {
         const { data, error } = await updateBoat(boat_id, id, {
           image_urls: urls,
-          thumbnail_url: urls[0],
         });
 
         if (error) return { data: null, error };

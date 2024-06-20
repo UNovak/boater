@@ -3,16 +3,19 @@ import Icon from "@icons";
 
 const ListingCard = ({ boat }) => {
   const getIcon = () => {
+    console.log(boat);
     if (boat.type) boat.type.charAt(0).toUpperCase() + boat.type.slice(1);
     return "Sailboat";
   };
+
+  console.log(boat.location);
 
   return (
     <div className="group flex w-full max-w-sm flex-col gap-3 rounded-lg border border-gray-200 bg-white shadow-lg duration-100 ease-in-out hover:shadow-blue-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:shadow-gray-800">
       <div className="overflow-hidden">
         <img
           className="h-64 w-full rounded-t-lg object-cover"
-          src={boat.thumbnail_url}
+          src={boat.image_urls[0]}
           alt="card thumbnail - boats best photo"
         />
       </div>
