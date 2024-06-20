@@ -6,9 +6,6 @@ import useStore from "@utils/Store";
 import useSupabase from "@utils/useSupabase";
 
 export const ListingEditor = (type) => {
-  const id = useStore((state) => state.session.id);
-  const [images, setImages] = useState([]);
-
   const { createBoat } = useSupabase();
   const {
     control,
@@ -29,6 +26,9 @@ export const ListingEditor = (type) => {
       },
     },
   });
+  const id = useStore((state) => state.session.id);
+  const [images, setImages] = useState([]);
+  const descriptionCount = watch("description").length;
 
   const onErrors = (errors) => {
     console.log(errors);
@@ -64,9 +64,20 @@ export const ListingEditor = (type) => {
             type="text"
             id="title"
             className="block w-full rounded-lg border border-gray-300  bg-gray-50 p-2 text-sm text-gray-900 shadow-md focus:border-blue-500 focus:shadow-blue-200  focus:outline-none focus:ring-0 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-            {...register("title", { required: true })}
+            {...register("title", {
+              required: true,
+              minLength: {
+                value: 3,
+                message: "Title should be at least 3 characters long",
+              },
+            })}
             aria-invalid={errors.title ? "true" : "false"}
           />
+          {errors.title && (
+            <span className="mt-1 text-xs text-red-500">
+              {errors.title?.message}
+            </span>
+          )}
         </div>
 
         <div>
@@ -117,7 +128,7 @@ export const ListingEditor = (type) => {
                 placeholder="Koper"
                 className="col-span-4 block w-full rounded-lg border  border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 shadow-md focus:border-blue-500  focus:shadow-blue-200 focus:outline-none focus:ring-0 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                 {...register("location.city", {
-                  required: {},
+                  required: true,
                 })}
               />
               <input
@@ -126,7 +137,7 @@ export const ListingEditor = (type) => {
                 placeholder="6000"
                 className="col-span-2 block w-full rounded-lg border  border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 shadow-md focus:border-blue-500  focus:shadow-blue-200 focus:outline-none focus:ring-0 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                 {...register("location.zip", {
-                  required: {},
+                  required: true,
                 })}
               />
               <input
@@ -135,10 +146,15 @@ export const ListingEditor = (type) => {
                 placeholder="Slovenia"
                 className="col-span-2 block w-full rounded-lg border  border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 shadow-md focus:border-blue-500 focus:shadow-blue-200 focus:outline-none focus:ring-0 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                 {...register("location.country", {
-                  required: {},
+                  required: true,
                 })}
               />
             </div>
+            {errors.location && (
+              <span className="mt-1 text-xs text-red-500">
+                All filds are required
+              </span>
+            )}
           </div>
         </div>
 
@@ -152,12 +168,26 @@ export const ListingEditor = (type) => {
           <textarea
             id="description"
             rows="4"
-            className="block w-full  rounded-lg border border-gray-300 bg-gray-50 p-3 text-sm text-gray-900 shadow-md focus:border-blue-500 focus:shadow-blue-200 focus:outline-none focus:ring-0 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+            className="block  w-full rounded-lg border border-gray-300 bg-gray-50 p-3 text-sm text-gray-900 shadow-md focus:border-blue-500 focus:shadow-blue-200 focus:outline-none focus:ring-0 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
             placeholder="Whats special about it?"
             {...register("description", {
-              required: {},
+              maxLength: {
+                value: 299,
+                message: "too long",
+              },
             })}
           />
+          {errors.description ? (
+            <span className="mt-1 text-[0.6rem] text-red-500">
+              {errors.description.message}
+            </span>
+          ) : (
+            <span className="mt-1 text-[0.6rem] text-gray-500">
+              {descriptionCount >= 300
+                ? "Limit reached"
+                : 300 - descriptionCount}
+            </span>
+          )}
         </div>
 
         <hr className="mx-auto my-2 h-1 w-48 rounded border-0 bg-gray-100 md:my-10 dark:bg-gray-700" />
@@ -179,3 +209,4 @@ export default ListingEditor;
 // - Use real form data
 // - Redirect after confirmation
 // - Add more fields: attibutes picker, price per day, space, speed, power
+// - text are only enable delete after limit is reached
