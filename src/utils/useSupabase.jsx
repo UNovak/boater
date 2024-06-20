@@ -100,6 +100,9 @@ export const useSupabase = () => {
           title: form.title,
           description: form.description,
           attributes: { attribute1: "some attribute" },
+          location: form.location,
+          price: form.price,
+          boat_type: form.type,
         },
       ])
       .select();
