@@ -98,7 +98,7 @@ export const useSupabase = () => {
           owner_id: id,
           title: form.title,
           description: form.description,
-          attributes: { attribute1: "some attribute" },
+          attributes: form.attributes,
           location: form.location,
           price: form.price,
           type: form.type,

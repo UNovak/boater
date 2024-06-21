@@ -1,27 +1,50 @@
+import { useController } from "react-hook-form";
+import { useState } from "react";
 import Icon from "@icons";
 
-const AttributePicker = () => {
-  const attributes = [
-    { label: "kitchen", icon: "Pen" },
-    { label: "toilet", icon: "Toilet" },
-    { label: "pets allowed", icon: "Dog" },
-    { label: "bedrooms", icon: "Bed" },
-    { label: "diving gear", icon: "Goggles" },
-    { label: "shower", icon: "ShowerHead" },
-    { label: "autopilot", icon: "Avtopilot" },
-    { label: "electricity", icon: "Electricity" },
-  ];
+const AttributePicker = ({ control, name }) => {
+  const { field } = useController({
+    control,
+    name,
+  });
+  const [attributes, setAttributes] = useState([
+    { label: "kitchen", icon: "Pen", checked: false },
+    { label: "toilet", icon: "Toilet", checked: false },
+    { label: "pets allowed", icon: "Dog", checked: false },
+    { label: "bedrooms", icon: "Bed", checked: false },
+    { label: "diving gear", icon: "Goggles", checked: false },
+    { label: "shower", icon: "ShowerHead", checked: false },
+    { label: "autopilot", icon: "Avtopilot", checked: false },
+    { label: "electricity", icon: "Electricity", checked: false },
+  ]);
 
   return (
     <div className="flex h-fit w-full flex-wrap gap-2 rounded-lg border border-solid border-gray-300 bg-gray-50 p-3 text-sm text-gray-900 shadow-md  focus:border-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
       {attributes.map((attribute, index) => {
         return (
-          <div key={index}>
+          <div key={attribute.label}>
             <input
               type="checkbox"
+              value={attribute.label}
               id={attribute.label}
-              value=""
               className="peer hidden"
+              checked={attribute.checked}
+              onChange={(e) => {
+                const _attributes = [...attributes];
+
+                // update checkbox value
+                _attributes[index].checked = e.target.checked;
+
+                // send data to react hook form
+                field.onChange(
+                  _attributes
+                    .filter((attribute) => attribute.checked)
+                    .map((attribute) => attribute.label),
+                );
+
+                // update local state
+                setAttributes(_attributes);
+              }}
             />
             <label
               htmlFor={attribute.label}

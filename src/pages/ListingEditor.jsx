@@ -2,6 +2,7 @@ import { DevTool } from "@hookform/devtools";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import ImageCollector from "@components/ImageCollector";
+import AttributePicker from "@components/AttributePicker";
 import useStore from "@utils/Store";
 import useSupabase from "@utils/useSupabase";
 
@@ -15,7 +16,7 @@ export const ListingEditor = (type) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      attributes: {},
+      attributes: [],
       description: "",
       title: "",
       type: "Sailboat",
@@ -36,7 +37,6 @@ export const ListingEditor = (type) => {
   };
 
   const onSubmit = async (form) => {
-    console.log("form values: ", form);
     let res = await createBoat(form, id, images);
     if (res.error) console.error(res.errors);
   };
@@ -217,6 +217,8 @@ export const ListingEditor = (type) => {
             <span className="text-xs text-gray-500">1000</span>
           </div>
         </div>
+
+        <AttributePicker control={control} name="attributes" />
 
         <hr className="mx-auto my-2 h-1 w-48 rounded border-0 bg-gray-100 md:my-10 dark:bg-gray-700" />
 
