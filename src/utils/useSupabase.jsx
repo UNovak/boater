@@ -2,6 +2,8 @@ import supabase from "./supabase";
 import useStore from "./Store";
 
 export const useSupabase = () => {
+  const id = useStore((state) => state.session.id);
+
   // fetch user data from supabase
   // stores it in global store
   // returns the currently stored data
@@ -145,7 +147,33 @@ export const useSupabase = () => {
     return { data, error: null };
   };
 
-  return { updateUser, uploadFile, createBoat, updateBoat, getBoats };
+  const modeSwitch = async () => {
+    // fetch current view from zustand
+    const current = useStore.getState().getHost();
+
+    // attempt updating host_view in supabase
+    const { data, error } = await supabase
+      .from("profiles")
+      .update({ host_view: !current })
+      .eq("id", id)
+      .select();
+
+    // if update fails return the error
+    if (error) return { data: null, error };
+
+    // else update local store value
+    useStore.getState().setUser({ host: data[0].host_view });
+    return { data, error: null };
+  };
+
+  return {
+    updateUser,
+    uploadFile,
+    createBoat,
+    updateBoat,
+    getBoats,
+    modeSwitch,
+  };
 };
 
 export default useSupabase;

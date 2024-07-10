@@ -1,15 +1,17 @@
-import { NavLink } from "react-router-dom";
 import Dropdown from "@components/Dropdown";
-import Icon from "@icons";
 import Modal from "@components/Modal";
-import useAuth from "@utils/useAuth";
+import Icon from "@icons";
 import useStore from "@utils/Store";
+import useAuth from "@utils/useAuth";
+import { NavLink } from "react-router-dom";
+import useSupabase from "@utils/useSupabase";
 
 const Navbar = () => {
   const authenticated = useStore((state) => state.session.authenticated);
   const hosting = useStore((state) => state.user.host);
   const user = useStore((state) => state.user.id);
   const { logout } = useAuth();
+  const { modeSwitch } = useSupabase();
 
   // Dropdown links
 
@@ -46,6 +48,7 @@ const Navbar = () => {
     { type: "host", label: "ListingEditor", path: "/host/listing/create" },
     { type: "guest", label: "Signup", path: "/registration" },
     { type: "auth", label: "Logout", icon: "Logout", action: logout },
+    { type: "auth", label: "Toggle host mode", action: modeSwitch },
     {
       type: "guest",
       label: "Login",

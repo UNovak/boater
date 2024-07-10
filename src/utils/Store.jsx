@@ -16,7 +16,7 @@ const initialState = {
   },
 };
 
-const useStore = create((set) => ({
+const useStore = create((set, get) => ({
   ...initialState,
 
   setSession: (sessionId) =>
@@ -36,6 +36,8 @@ const useStore = create((set) => ({
         ...updates,
       },
     })),
+
+  getHost: () => get().user.host,
 
   // Sets the store back to initial values
   clearStore: () => {
