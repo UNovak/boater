@@ -1,15 +1,15 @@
-import Sidebar from "@components/Sidebar";
-import Dashboard from "@pages/Dashboard";
+import Sidebar from '@components/Sidebar'
+import Dashboard from '@components/Dashboard'
 
 const Host = () => {
   return (
-    <div className="flex h-screen">
+    <div className='flex h-screen'>
       <Sidebar />
-      <div className="flex-grow">
+      <div className='flex-grow'>
         <Dashboard />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Host;
+export default Host

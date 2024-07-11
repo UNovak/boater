@@ -1,11 +1,11 @@
-import { DevTool } from "@hookform/devtools";
-import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import useAuth from "@utils/useAuth";
-import supabase from "@utils/supabase";
+import { DevTool } from '@hookform/devtools'
+import { Link } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import useAuth from '@utils/useAuth'
+import supabase from '@utils/supabase'
 
 const Registration = () => {
-  const { signup } = useAuth();
+  const { signup } = useAuth()
   const {
     register,
     handleSubmit,
@@ -14,42 +14,42 @@ const Registration = () => {
     control,
     getValues,
     formState: { errors },
-  } = useForm();
+  } = useForm()
 
   const onErrors = (errors) => {
-    console.log(errors);
-  };
+    console.log(errors)
+  }
 
   const update_data = async (form, id) => {
     const { data, error } = await supabase
-      .from("profiles")
+      .from('profiles')
       .update({
         full_name: `${form.firstName} ${form.lastName}`,
         email: form.email,
       })
-      .eq("id", id)
-      .select();
+      .eq('id', id)
+      .select()
 
     if (error) {
-      console.error(error);
+      console.error(error)
     }
 
     if (data) {
-      console.log(data);
+      console.log(data)
     }
-  };
+  }
 
   const onSubmit = async (form) => {
-    const { data, error } = await signup(form.email, form.password);
+    const { data, error } = await signup(form.email, form.password)
     if (error) {
-      console.error(error);
-      return;
+      console.error(error)
+      return
     }
     if (data) {
-      console.log(data);
-      update_data(form, data.user.id);
+      console.log(data)
+      update_data(form, data.user.id)
     }
-  };
+  }
 
   // console.log(watch("email"));
   // console.log(watch("password"));
@@ -57,23 +57,23 @@ const Registration = () => {
   // console.log(watch("lastName"));
 
   return (
-    <section className="bg-white">
-      <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
+    <section className='bg-white'>
+      <div className='lg:grid lg:min-h-screen lg:grid-cols-12'>
         {/* on image in wide */}
 
-        <section className="relative flex h-32 items-end bg-gray-900 lg:col-span-5 lg:h-full lg:rounded-r-xl xl:col-span-6">
+        <section className='relative flex h-32 items-end bg-gray-900 lg:col-span-5 lg:h-full lg:rounded-r-xl xl:col-span-6'>
           <img
-            alt="sailboat on calm blue sea"
-            src="https://images.unsplash.com/photo-1563187867-2cd158d07999?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            className="absolute inset-0 h-full w-full object-cover opacity-80  lg:rounded-r-xl "
+            alt='sailboat on calm blue sea'
+            src='https://images.unsplash.com/photo-1563187867-2cd158d07999?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+            className='absolute inset-0 h-full w-full object-cover opacity-80  lg:rounded-r-xl '
           />
 
-          <div className="hidden lg:relative lg:block lg:p-12">
-            <h2 className="mt-6 text-2xl font-bold text-white sm:text-3xl md:text-4xl">
+          <div className='hidden lg:relative lg:block lg:p-12'>
+            <h2 className='mt-6 text-2xl font-bold text-white sm:text-3xl md:text-4xl'>
               Welcome to Boater ⛵️
             </h2>
 
-            <p className="mt-4 leading-relaxed text-white/90">
+            <p className='mt-4 leading-relaxed text-white/90'>
               Your platform for finding the perfect boat regardless of your
               location preferences or budget. We have it all.
             </p>
@@ -82,21 +82,20 @@ const Registration = () => {
 
         {/* above form on small */}
 
-        <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
-          <div className="max-w-xl lg:max-w-3xl">
-            <div className="relative -mt-16 block lg:hidden">
+        <main className='flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6'>
+          <div className='max-w-xl lg:max-w-3xl'>
+            <div className='relative -mt-16 block lg:hidden'>
               <a
-                className="inline-flex size-16 items-center justify-center rounded-full bg-white text-blue-600 sm:size-20"
-                href="#"
-              >
-                <span className="sr-only">Home</span>
+                className='inline-flex size-16 items-center justify-center rounded-full bg-white text-blue-600 sm:size-20'
+                href='#'>
+                <span className='sr-only'>Home</span>
               </a>
 
-              <h1 className="mt-2 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
+              <h1 className='mt-2 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl'>
                 Welcome to Boater ⛵️
               </h1>
 
-              <p className="mt-4 leading-relaxed text-gray-500">
+              <p className='mt-4 leading-relaxed text-gray-500'>
                 Your platform for finding the perfect boat regardless of your
                 location preferences or budget. We have it all.
               </p>
@@ -107,158 +106,152 @@ const Registration = () => {
             <form
               onSubmit={handleSubmit(onSubmit, onErrors)}
               noValidate
-              className="mt-8 grid grid-cols-6 gap-6"
-            >
-              <div className="col-span-6 sm:col-span-3">
+              className='mt-8 grid grid-cols-6 gap-6'>
+              <div className='col-span-6 sm:col-span-3'>
                 <label
-                  htmlFor="firstName"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                  htmlFor='firstName'
+                  className='block text-sm font-medium text-gray-700'>
                   First Name
                 </label>
 
                 <input
-                  {...register("firstName", {
+                  {...register('firstName', {
                     required: {
                       value: true,
-                      message: "First name required",
+                      message: 'First name required',
                     },
                   })}
-                  id="firstName"
-                  type="text"
-                  className="w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0"
-                  placeholder="John"
+                  id='firstName'
+                  type='text'
+                  className='w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0'
+                  placeholder='John'
                 />
                 {errors.firstName && (
-                  <p className="mt-1 text-sm text-red-400 opacity-90">
+                  <p className='mt-1 text-sm text-red-400 opacity-90'>
                     {errors.firstName.message}
                   </p>
                 )}
               </div>
 
-              <div className="col-span-6 sm:col-span-3">
+              <div className='col-span-6 sm:col-span-3'>
                 <label
-                  htmlFor="lastName"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                  htmlFor='lastName'
+                  className='block text-sm font-medium text-gray-700'>
                   Last Name
                 </label>
 
                 <input
-                  {...register("lastName", {
+                  {...register('lastName', {
                     required: {
                       value: true,
-                      message: "Last name required",
+                      message: 'Last name required',
                     },
                   })}
-                  id="lastName"
-                  type="text"
-                  className="w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0"
-                  placeholder="Doe"
+                  id='lastName'
+                  type='text'
+                  className='w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0'
+                  placeholder='Doe'
                 />
                 {errors.lastName && (
-                  <p className="mt-1 text-sm text-red-400 opacity-90">
+                  <p className='mt-1 text-sm text-red-400 opacity-90'>
                     {errors.lastName.message}
                   </p>
                 )}
               </div>
 
-              <div className="col-span-6 sm:col-span-3">
+              <div className='col-span-6 sm:col-span-3'>
                 <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                  htmlFor='email'
+                  className='block text-sm font-medium text-gray-700'>
                   Email
                 </label>
                 <input
-                  {...register("email", {
-                    required: "Email is required",
+                  {...register('email', {
+                    required: 'Email is required',
                     pattern: {
                       value: /.+@.+\..+/,
-                      message: "Invalid email format",
+                      message: 'Invalid email format',
                     },
                   })}
-                  className="w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0"
-                  id="email"
-                  placeholder="john.doe@example.com"
-                  type="email"
-                  autoComplete="email"
+                  className='w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0'
+                  id='email'
+                  placeholder='john.doe@example.com'
+                  type='email'
+                  autoComplete='email'
                 />
                 {errors.email && (
-                  <p className="mt-1 text-sm text-red-400 opacity-90">
+                  <p className='mt-1 text-sm text-red-400 opacity-90'>
                     {errors.email.message}
                   </p>
                 )}
               </div>
 
-              <div className="col-span-6 sm:col-span-3">
+              <div className='col-span-6 sm:col-span-3'>
                 <label
-                  htmlFor="password"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                  htmlFor='password'
+                  className='block text-sm font-medium text-gray-700'>
                   Password
                 </label>
 
                 <input
-                  {...register("password", {
-                    required: "You must specify a password",
+                  {...register('password', {
+                    required: 'You must specify a password',
                     minLength: {
                       value: 8,
-                      message: "Password must have at least 8 characters",
+                      message: 'Password must have at least 8 characters',
                     },
                   })}
-                  id="password"
-                  type="password"
-                  className="w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0"
-                  autoComplete="new-password webauthn"
+                  id='password'
+                  type='password'
+                  className='w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0'
+                  autoComplete='new-password webauthn'
                 />
                 {errors.password && (
-                  <p className="mt-1 text-sm text-red-400 opacity-90">
+                  <p className='mt-1 text-sm text-red-400 opacity-90'>
                     {errors.password.message}
                   </p>
                 )}
               </div>
 
-              <div className="col-span-6">
-                <label htmlFor="marketingAccept" className="flex gap-4">
+              <div className='col-span-6'>
+                <label htmlFor='marketingAccept' className='flex gap-4'>
                   <input
-                    {...register("marketingAccept")}
-                    type="checkbox"
-                    id="marketingAccept"
-                    className="size-5 rounded-md border-gray-200 bg-white shadow-sm"
+                    {...register('marketingAccept')}
+                    type='checkbox'
+                    id='marketingAccept'
+                    className='size-5 rounded-md border-gray-200 bg-white shadow-sm'
                   />
-                  <span className="text-sm text-gray-700">
+                  <span className='text-sm text-gray-700'>
                     I want to receive emails about events, product updates and
                     company announcements.
                   </span>
                 </label>
               </div>
 
-              <div className="col-span-6">
-                <p className="text-sm text-gray-500">
+              <div className='col-span-6'>
+                <p className='text-sm text-gray-500'>
                   By creating an account, you agree to our
-                  <Link to={"#"} className="text-gray-700 underline">
+                  <Link to={'#'} className='text-gray-700 underline'>
                     terms and conditions
                   </Link>
                   and
-                  <Link to={"#"} className="ml-1 text-gray-700 underline">
+                  <Link to={'#'} className='ml-1 text-gray-700 underline'>
                     privacy policy
                   </Link>
                   .
                 </p>
               </div>
 
-              <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
+              <div className='col-span-6 sm:flex sm:items-center sm:gap-4'>
                 <button
-                  type="submit"
-                  className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
-                >
+                  type='submit'
+                  className='inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500'>
                   Create an account
                 </button>
 
-                <p className="mt-4 text-sm text-gray-500 sm:mt-0">
+                <p className='mt-4 text-sm text-gray-500 sm:mt-0'>
                   Already have an account?
-                  <a href="#" className="ml-1 text-gray-700 underline">
+                  <a href='#' className='ml-1 text-gray-700 underline'>
                     Log in
                   </a>
                   .
@@ -270,7 +263,7 @@ const Registration = () => {
       </div>
       <DevTool control={control} />
     </section>
-  );
-};
+  )
+}
 
-export default Registration;
+export default Registration

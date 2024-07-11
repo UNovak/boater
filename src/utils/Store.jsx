@@ -1,20 +1,20 @@
-import { create } from "zustand";
+import { create } from 'zustand'
 
 // Define the initial state
 const initialState = {
   session: {
-    id: "",
+    id: '',
     authenticated: false,
   },
   user: {
-    id: "",
-    email: "",
-    full_name: "",
-    avatar_url: "",
-    host: false,
+    id: '',
+    email: '',
+    full_name: '',
+    avatar_url: '',
+    host: true,
     registered: false,
   },
-};
+}
 
 const useStore = create((set, get) => ({
   ...initialState,
@@ -41,11 +41,11 @@ const useStore = create((set, get) => ({
 
   // Sets the store back to initial values
   clearStore: () => {
-    set(() => ({ ...initialState }));
+    set(() => ({ ...initialState }))
   },
-}));
+}))
 
-export default useStore;
+export default useStore
 
 //  Usage example:
 //    import useStore from '@utils/Store'
