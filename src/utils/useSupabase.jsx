@@ -166,9 +166,10 @@ export const useSupabase = () => {
 
   return {
     createBoat,
-    updateBoat,
     getBoats,
     modeSwitch,
+    updateBoat,
+    updateUser,
   }
 }
 
