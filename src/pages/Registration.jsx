@@ -1,3 +1,4 @@
+import Spinner from '@components/Spinner'
 import { DevTool } from '@hookform/devtools'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
@@ -7,6 +8,8 @@ import { useState } from 'react'
 
 const Registration = () => {
   const [serverError, setServerError] = useState(null)
+  const navigate = useNavigate()
+  const [submitting, setSubmitting] = useState(false)
   const { signup } = useAuth()
   const {
     register,
@@ -22,6 +25,20 @@ const Registration = () => {
     console.log(errors)
   }
 
+  const onSubmit = async (form) => {
+    setSubmitting(true)
+    const { data, error } = await signup(form.email, form.password)
+    if (error) {
+      console.error(error)
+      setSubmitting(false)
+      return
+    }
+    if (data) {
+      console.log(data)
+      update_data(form, data.user.id)
+    }
+  }
+
   const update_data = async (form, id) => {
     const { data, error } = await supabase
       .from('profiles')
@@ -35,23 +52,11 @@ const Registration = () => {
     if (error) {
       console.error(error)
       setServerError(error)
+      setSubmitting(false)
     }
 
     if (data) {
       console.log(data)
-    }
-  }
-
-  const onSubmit = async (form) => {
-    const { data, error } = await signup(form.email, form.password)
-    if (error) {
-      console.error(error)
-      setServerError(error.message)
-      return
-    }
-    if (data) {
-      console.log(data)
-      update_data(form, data.user.id)
     }
   }
 
@@ -254,9 +259,10 @@ const Registration = () => {
 
               <div className='col-span-6 sm:flex sm:items-center sm:gap-4'>
                 <button
+                  disabled={submitting}
                   type='submit'
-                  className='inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500'>
-                  Create an account
+                  className='inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500 disabled:cursor-default disabled:hover:bg-blue-600'>
+                  {!submitting ? 'Create an account' : <Spinner />}
                 </button>
 
                 <p className='mt-4 text-sm text-gray-500 sm:mt-0'>
