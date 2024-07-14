@@ -7,8 +7,8 @@ import supabase from '@utils/supabase'
 import { useState } from 'react'
 
 const Registration = () => {
-  const [serverError, setServerError] = useState(null)
   const navigate = useNavigate()
+  const [serverError, setServerError] = useState(null)
   const [submitting, setSubmitting] = useState(false)
   const { signup } = useAuth()
   const {
@@ -30,6 +30,7 @@ const Registration = () => {
     const { data, error } = await signup(form.email, form.password)
     if (error) {
       console.error(error)
+      setServerError(error.message)
       setSubmitting(false)
       return
     }
