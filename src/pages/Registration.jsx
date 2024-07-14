@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import useAuth from '@utils/useAuth'
 import supabase from '@utils/supabase'
+import { useState } from 'react'
 
 const Registration = () => {
+  const [serverError, setServerError] = useState(null)
   const { signup } = useAuth()
   const {
     register,
@@ -32,6 +34,7 @@ const Registration = () => {
 
     if (error) {
       console.error(error)
+      setServerError(error)
     }
 
     if (data) {
@@ -43,6 +46,7 @@ const Registration = () => {
     const { data, error } = await signup(form.email, form.password)
     if (error) {
       console.error(error)
+      setServerError(error.message)
       return
     }
     if (data) {
@@ -100,6 +104,12 @@ const Registration = () => {
                 location preferences or budget. We have it all.
               </p>
             </div>
+
+            {/* server error */}
+
+            {serverError && (
+              <div className='text-md mt-6 text-red-400'>{serverError}</div>
+            )}
 
             {/* form content */}
 
