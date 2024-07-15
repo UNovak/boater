@@ -11,7 +11,7 @@ const initialState = {
     email: '',
     full_name: '',
     avatar_url: '',
-    host: true,
+    host: false,
     registered: false,
   },
 }

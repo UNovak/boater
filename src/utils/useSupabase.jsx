@@ -22,9 +22,9 @@ export const useSupabase = () => {
 
     if (profiles) {
       // update global store
-      const { host_view, ...profile } = profiles[0]
+      const { host, ...profile } = profiles[0]
       useStore.getState().setUser({
-        host: host_view,
+        host: host,
         ...profile,
       })
     }
@@ -152,7 +152,7 @@ export const useSupabase = () => {
     // attempt updating host_view in supabase
     const { data, error } = await supabase
       .from('profiles')
-      .update({ host_view: !current })
+      .update({ host: !current })
       .eq('id', id)
       .select()
 
@@ -160,7 +160,7 @@ export const useSupabase = () => {
     if (error) return { data: null, error }
 
     // else update local store value
-    useStore.getState().setUser({ host: data[0].host_view })
+    useStore.getState().setUser({ host: data[0].host })
     return { data, error: null }
   }
 
