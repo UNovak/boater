@@ -1,7 +1,7 @@
 import { DevTool } from '@hookform/devtools'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import useAuth from '@utils/useAuth'
+import useAuth from '@hooks/useAuth'
 import Icon from '@icons'
 
 export const Modal = () => {

@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react'
 import ListingCard from '@components/ListingCard'
-import useSupabase from '@utils/useSupabase'
+import useBoats from '@hooks/useBoats'
 
 const LandingPage = () => {
-  const { getBoats } = useSupabase()
+  const { getAllBoats } = useBoats()
   const [boats, setBoats] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await getBoats()
+      const result = await getAllBoats()
       if (result.error) setError(result.error)
       if (result.data && !result.error) setBoats(result.data)
       setLoading(false)

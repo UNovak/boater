@@ -15,6 +15,7 @@ export default defineConfig({
       '@icons': path.resolve(__dirname, './src/assets/icons/Svg'),
       '@pages': path.resolve(__dirname, './src/pages'),
       '@utils': path.resolve(__dirname, './src/utils'),
+      '@hooks': path.resolve(__dirname, './src/utils/hooks'),
     },
   },
 })

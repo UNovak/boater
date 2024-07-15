@@ -4,10 +4,10 @@ import { useState } from 'react'
 import ImageCollector from '@components/ImageCollector'
 import AttributePicker from '@components/AttributePicker'
 import useStore from '@utils/Store'
-import useSupabase from '@utils/useSupabase'
+import useBoats from '@hooks/useBoats'
 
 export const ListingEditor = (type) => {
-  const { createBoat } = useSupabase()
+  const { createBoat } = useBoats()
   const {
     control,
     handleSubmit,
@@ -37,7 +37,7 @@ export const ListingEditor = (type) => {
   }
 
   const onSubmit = async (form) => {
-    let res = await createBoat(form, id, images)
+    const res = await createBoat(form, id, images)
     if (res.error) console.error(res.errors)
   }
 

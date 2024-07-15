@@ -3,19 +3,19 @@ import { RouterProvider } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import supabase from '@utils/supabase'
 import useStore from '@utils/Store'
-import useSupabase from '@utils/useSupabase'
+import useUsers from '@hooks/useUsers'
 
 import './App.css'
 
 const App = () => {
-  const { updateUser } = useSupabase()
+  const { getUser } = useUsers()
   const clearStore = useStore((state) => state.clearStore)
   const setSession = useStore((state) => state.setSession)
   const [loading, setLoading] = useState(true)
 
   const updateStatus = (id) => {
     setSession(id)
-    updateUser(id)
+    getUser(id)
   }
 
   useEffect(() => {

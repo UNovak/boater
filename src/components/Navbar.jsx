@@ -2,16 +2,16 @@ import Dropdown from '@components/Dropdown'
 import Modal from '@components/Modal'
 import Icon from '@icons'
 import useStore from '@utils/Store'
-import useAuth from '@utils/useAuth'
+import useAuth from '@hooks/useAuth'
 import { NavLink } from 'react-router-dom'
-import useSupabase from '@utils/useSupabase'
+import useUsers from '@hooks/useUsers'
 
 const Navbar = () => {
   const authenticated = useStore((state) => state.session.authenticated)
   const hosting = useStore((state) => state.user.host)
   const user = useStore((state) => state.user.id)
   const { logout } = useAuth()
-  const { modeSwitch } = useSupabase()
+  const { modeSwitch } = useUsers()
 
   // Dropdown links
 

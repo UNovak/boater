@@ -1,10 +1,9 @@
 import Spinner from '@components/Spinner'
 import { DevTool } from '@hookform/devtools'
-import { Link } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
-import useAuth from '@utils/useAuth'
-import supabase from '@utils/supabase'
+import useAuth from '@hooks/useAuth'
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Registration = () => {
   const navigate = useNavigate()
@@ -42,6 +41,7 @@ const Registration = () => {
       setSubmitting(false)
       return
     }
+<<<<<<< HEAD
     if (data) {
       console.log(data)
       update_data(form, data.user.id)
@@ -67,6 +67,11 @@ const Registration = () => {
     if (data) {
       console.log(data)
     }
+=======
+    setSubmitting(false)
+    console.log('successfoul signup with form data as:', form)
+    console.log('supabases response: ', data)
+>>>>>>> ed91e6c (refactor: move custom hooks to a separate folder)
   }
 
   // console.log(watch("email"));
