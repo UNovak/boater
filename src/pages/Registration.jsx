@@ -19,7 +19,15 @@ const Registration = () => {
     control,
     getValues,
     formState: { errors },
-  } = useForm()
+  } = useForm({
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      beHost: false,
+    },
+  })
 
   const onErrors = (errors) => {
     console.log(errors)
@@ -227,6 +235,29 @@ const Registration = () => {
                     {errors.password.message}
                   </p>
                 )}
+              </div>
+
+              <div className='col-span-6'>
+                <span className='relative flex justify-center'>
+                  <div className='absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-transparent bg-gradient-to-r from-transparent via-gray-500 to-transparent opacity-75'></div>
+
+                  <span className='relative z-10 bg-white py-5'></span>
+                </span>
+
+                <div className='container mx-auto inline-flex shrink-0 flex-wrap content-center justify-center gap-3 align-middle'>
+                  <span className=''>start off as a host</span>
+                  <label
+                    htmlFor='beHost'
+                    className='relative inline-block h-6 w-12 cursor-pointer rounded-full bg-gray-300 transition duration-300 [-webkit-tap-highlight-color:_transparent] has-[:checked]:bg-blue-600'>
+                    <input
+                      type='checkbox'
+                      id='beHost'
+                      className='peer sr-only'
+                      {...register('beHost')}
+                    />
+                    <span className='absolute inset-y-0 start-0 m-1 size-4 rounded-full bg-white transition-all peer-checked:start-6'></span>
+                  </label>
+                </div>
               </div>
 
               <div className='col-span-6'>
