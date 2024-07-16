@@ -22,7 +22,7 @@ const useBoats = () => {
       ])
       .select()
 
-    // if there is an error creating a new boat entry
+    // if there is an error creating a new boat entry exit
     if (error) return { data: null, error }
     const boat_id = data[0].id
 
@@ -54,12 +54,6 @@ const useBoats = () => {
     return { data, error: null }
   }
 
-  // updates boat with new data
-  // boat has to be of form:
-  // {
-  //   column-to-change: new-value,
-  //   other -column-to-change: other-new-value,
-  // }
   const updateBoat = async (boat_id, id, boat, images) => {
     if (images) {
       // upload images to boat/boat_id/... bucket if they exist

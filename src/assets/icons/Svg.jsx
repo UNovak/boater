@@ -32,7 +32,6 @@ const icon = {
   Logout,
   MenuOpen,
   Person,
-  Person,
   Sailboat,
   Trash_closed,
   Trash_open,
@@ -52,7 +51,6 @@ const Icon = ({ className = 'w-6 h-6 content-center', type = 'Unknown' }) => {
     return null
   }
 
-  console.log()
   return (
     <div className={className}>
       <Icon className={'fill-current'} />

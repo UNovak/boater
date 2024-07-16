@@ -16,7 +16,6 @@ export const Modal = () => {
     handleSubmit,
     register,
     reset,
-    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -57,10 +56,6 @@ export const Modal = () => {
     return
   }
 
-  // uncomment for realtime values of fields
-  // console.log(watch("email"));
-  // console.log(watch("password"));
-
   return (
     <dialog
       id='login_modal'
@@ -98,10 +93,6 @@ export const Modal = () => {
                     {errors.email.message}
                   </p>
                 )}
-
-                {/* 
-                TODO: Improve error message displaying 
-                 */}
 
                 <div className='relative'>
                   <input

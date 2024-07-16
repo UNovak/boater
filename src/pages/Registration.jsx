@@ -38,7 +38,6 @@ const Registration = () => {
     setSubmitting(true)
     const { data, error } = await signup(form)
     if (error) {
-      console.error(error)
       setServerError(error.message)
       setSubmitting(false)
       return
@@ -68,11 +67,6 @@ const Registration = () => {
     setSubmitting(false)
     navigate('/')
   }
-
-  // console.log(watch("email"));
-  // console.log(watch("password"));
-  // console.log(watch("firstName"));
-  // console.log(watch("lastName"));
 
   return (
     <section className='bg-white'>

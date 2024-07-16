@@ -226,9 +226,3 @@ export const ListingEditor = (type) => {
 }
 
 export default ListingEditor
-
-// TODO
-// - Use real form data
-// - Redirect after confirmation
-// - Add more fields: attibutes picker, price per day, space, speed, power
-// - text are only enable delete after limit is reached

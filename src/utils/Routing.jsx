@@ -15,7 +15,6 @@ import Renter from '@pages/Renter'
 import useStore from './Store'
 
 // router for handling the navigation accross the App
-
 export const ProtectedRoutes = () => {
   const authStatus = useStore((state) => state.session.authenticated)
 
