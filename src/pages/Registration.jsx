@@ -34,7 +34,7 @@ const Registration = () => {
 
   const onSubmit = async (form) => {
     setSubmitting(true)
-    const { data, error } = await signup(form.email, form.password)
+    const { data, error } = await signup(form)
     if (error) {
       console.error(error)
       setServerError(error.message)

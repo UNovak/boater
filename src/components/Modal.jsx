@@ -33,12 +33,12 @@ export const Modal = () => {
 
   // runs when any button is clicked
   // validation passes
-  const onSubmit = async (data) => {
-    let res = await login(data.email, data.password)
-    if (res.error) {
+  const onSubmit = async (form) => {
+    const { data, error } = await login(form)
+    if (error) {
       console.error(
         'Login failed:',
-        res.error.message || 'An unknown error occurred.',
+        error.message || 'An unknown error occurred.',
       )
       return
     } else {
