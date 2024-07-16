@@ -12,7 +12,11 @@ const ListingCard = ({ boat }) => {
       <div className='overflow-hidden'>
         <img
           className='h-64 w-full rounded-t-lg object-cover'
-          src={boat.image_urls[0]}
+          src={
+            boat.image_urls != null && boat.image_urls.length > 0
+              ? boat.image_urls[0]
+              : 'https://images.unsplash.com/photo-1544189360-0c4ef5ccd5f1?q=80&w=3024&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+          }
           alt='card thumbnail - boats best photo'
         />
       </div>
