@@ -24,7 +24,7 @@ const Registration = () => {
       lastName: '',
       email: '',
       password: '',
-      beHost: false,
+      host: false,
     },
   })
 
@@ -250,15 +250,15 @@ const Registration = () => {
                 </span>
 
                 <div className='container mx-auto inline-flex shrink-0 flex-wrap content-center justify-center gap-3 align-middle'>
-                  <span className=''>start off as a host</span>
+                  <span>start off as a host</span>
                   <label
-                    htmlFor='beHost'
+                    htmlFor='host'
                     className='relative inline-block h-6 w-12 cursor-pointer rounded-full bg-gray-300 transition duration-300 [-webkit-tap-highlight-color:_transparent] has-[:checked]:bg-blue-600'>
                     <input
                       type='checkbox'
-                      id='beHost'
+                      id='host'
                       className='peer sr-only'
-                      {...register('beHost')}
+                      {...register('host')}
                     />
                     <span className='absolute inset-y-0 start-0 m-1 size-4 rounded-full bg-white transition-all peer-checked:start-6'></span>
                   </label>
