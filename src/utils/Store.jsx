@@ -12,18 +12,17 @@ const initialState = {
     full_name: '',
     avatar_url: '',
     host: false,
-    registered: false,
   },
 }
 
 const useStore = create((set, get) => ({
   ...initialState,
 
-  setSession: (sessionId) =>
+  setSession: (new_id) =>
     set((state) => ({
       session: {
         ...state.session,
-        id: sessionId,
+        id: new_id,
         authenticated: true,
       },
     })),

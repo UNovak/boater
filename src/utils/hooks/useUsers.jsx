@@ -13,17 +13,16 @@ const useUsers = () => {
       .eq('id', id)
 
     // error when fetching
-    if (error) {
-      console.error(error)
-      return { data: null, error }
-    }
+    if (error) return { data: null, error }
 
     // update zustand store if user data returned
     if (profiles) {
-      const { host, ...profile } = profiles[0]
+      const { host, email, full_name, avatar_url } = profiles[0]
       useStore.getState().setUser({
         host: host,
-        ...profile,
+        email: email,
+        full_name: full_name,
+        avatar_url: avatar_url,
       })
     }
 
