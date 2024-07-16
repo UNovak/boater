@@ -41,37 +41,8 @@ const Registration = () => {
       setSubmitting(false)
       return
     }
-<<<<<<< HEAD
-    if (data) {
-      console.log(data)
-      update_data(form, data.user.id)
-    }
-  }
-
-  const update_data = async (form, id) => {
-    const { data, error } = await supabase
-      .from('profiles')
-      .update({
-        full_name: `${form.firstName} ${form.lastName}`,
-        email: form.email,
-      })
-      .eq('id', id)
-      .select()
-
-    if (error) {
-      console.error(error)
-      setServerError(error)
-      setSubmitting(false)
-    }
-
-    if (data) {
-      console.log(data)
-    }
-=======
     setSubmitting(false)
-    console.log('successfoul signup with form data as:', form)
-    console.log('supabases response: ', data)
->>>>>>> ed91e6c (refactor: move custom hooks to a separate folder)
+    navigate('/')
   }
 
   // console.log(watch("email"));
