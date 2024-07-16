@@ -1,11 +1,15 @@
+import Spinner from '@components/Spinner'
 import { DevTool } from '@hookform/devtools'
-import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
 import useAuth from '@hooks/useAuth'
 import Icon from '@icons'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
 export const Modal = () => {
   const { login } = useAuth()
+  const [serverError, setServerError] = useState(null)
+  const [submitting, setSubmitting] = useState(false)
   const navigate = useNavigate()
   const {
     control,
@@ -23,6 +27,8 @@ export const Modal = () => {
 
   const close = () => {
     document.getElementById('login_modal').close()
+    setSubmitting(false)
+    setServerError(null)
     reset()
   }
 
@@ -34,22 +40,21 @@ export const Modal = () => {
   // runs when any button is clicked
   // validation passes
   const onSubmit = async (form) => {
+    setSubmitting(true)
     const { data, error } = await login(form)
     if (error) {
-      console.error(
-        'Login failed:',
-        error.message || 'An unknown error occurred.',
-      )
+      setServerError(error.message)
+      setSubmitting(false)
       return
-    } else {
-      // if login successfoul close the modal
-      close()
     }
+
+    // if login successfoul close the modal
+    if (data) close()
   }
 
   // runs when frontend validation fails
   const onErrors = (errors) => {
-    console.log(errors)
+    return
   }
 
   // uncomment for realtime values of fields
@@ -75,6 +80,11 @@ export const Modal = () => {
               Welcome to Boater
             </h1>
 
+            {/* server error if any */}
+            {serverError && (
+              <div className='text-md mt-6 text-red-400'>{serverError}</div>
+            )}
+
             <form
               onSubmit={handleSubmit(onSubmit, onErrors)}
               noValidate
@@ -96,6 +106,10 @@ export const Modal = () => {
                 <div className='relative'>
                   <input
                     {...register('email', {
+                      minLength: {
+                        value: 5,
+                        message: 'email is required',
+                      },
                       pattern: {
                         value: /.+@.+\..+/,
                         message: 'Invalid format',
@@ -124,6 +138,10 @@ export const Modal = () => {
                         value: true,
                         message: 'Password required',
                       },
+                      minLength: {
+                        value: 4,
+                        message: 'this password is too short',
+                      },
                     })}
                     id='password'
                     type='password'
@@ -143,9 +161,10 @@ export const Modal = () => {
               </div>
 
               <button
+                disabled={submitting}
                 type='submit'
                 className='inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500'>
-                Sign in
+                {!submitting ? 'Sign in' : <Spinner />}
               </button>
 
               <p className='text-center text-sm text-gray-500'>
