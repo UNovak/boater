@@ -1,9 +1,9 @@
-import { mainRouter } from '@utils/Routing'
-import { RouterProvider } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import supabase from '@utils/supabase'
-import useStore from '@utils/Store'
 import useUsers from '@hooks/useUsers'
+import { mainRouter } from '@utils/Routing'
+import useStore from '@utils/Store'
+import supabase from '@utils/supabase'
+import { useEffect, useState } from 'react'
+import { RouterProvider } from 'react-router-dom'
 
 import './App.css'
 

@@ -16,9 +16,7 @@ const Registration = () => {
     register,
     handleSubmit,
     watch,
-    reset,
     control,
-    getValues,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -114,13 +112,11 @@ const Registration = () => {
             </div>
 
             {/* server error */}
-
             {serverError && (
               <div className='text-md mt-6 text-red-400'>{serverError}</div>
             )}
 
             {/* form content */}
-
             <form
               onSubmit={handleSubmit(onSubmit, onErrors)}
               noValidate

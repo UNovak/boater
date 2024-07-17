@@ -1,7 +1,6 @@
-import { useNavigate } from 'react-router-dom'
-import supabase from '@utils/supabase'
 import useStore from '@utils/Store'
-import useUsers from '@hooks/useUsers'
+import supabase from '@utils/supabase'
+import { useNavigate } from 'react-router-dom'
 
 const useAuth = () => {
   const navigate = useNavigate()
