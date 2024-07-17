@@ -15,7 +15,7 @@ const App = () => {
 
   const updateStatus = (id) => {
     setSession(id)
-    getUser(id)
+    getUser()
   }
 
   useEffect(() => {

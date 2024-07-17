@@ -1,6 +1,7 @@
 import Spinner from '@components/Spinner'
 import { DevTool } from '@hookform/devtools'
 import useAuth from '@hooks/useAuth'
+import useUsers from '@hooks/useUsers'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
@@ -10,6 +11,7 @@ const Registration = () => {
   const [serverError, setServerError] = useState(null)
   const [submitting, setSubmitting] = useState(false)
   const { signup } = useAuth()
+  const { updateUser } = useUsers()
   const {
     register,
     handleSubmit,
@@ -41,6 +43,28 @@ const Registration = () => {
       setSubmitting(false)
       return
     }
+
+    if (data) {
+      // remove data not fitting for user profile
+      const accepted = ['full_name', 'email', 'address', 'host', 'updated_at']
+      const values = {
+        ...form,
+        full_name: `${form.firstName} ${form.lastName}`,
+      }
+      Object.keys(form)
+        .filter((key) => !accepted.includes(key))
+        .map((key) => delete values[key])
+
+      // attempt updating values in database
+      const { error } = await updateUser(values)
+      if (error) {
+        setServerError(error.message)
+        setSubmitting(false)
+        return
+      }
+    }
+
+    setServerError(null)
     setSubmitting(false)
     navigate('/')
   }

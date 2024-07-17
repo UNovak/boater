@@ -5,7 +5,7 @@ import useUsers from '@hooks/useUsers'
 
 const useAuth = () => {
   const navigate = useNavigate()
-  const { setUser } = useUsers()
+  const updateSession = useStore((state) => state.setSession)
 
   const login = async (form) => {
     let { data, error } = await supabase.auth.signInWithPassword({
@@ -16,12 +16,9 @@ const useAuth = () => {
     // fetch error
     if (error) return { data: null, error }
     if (data) {
-      console.log(data)
-      useStore.getState().setUser()
+      updateSession(data.user.id)
       return { data, error: null }
     }
-
-    return { data, error: null }
   }
 
   const signup = async (form) => {
@@ -34,10 +31,7 @@ const useAuth = () => {
     // problem with auth
     if (error) return { data: null, error }
     if (data) {
-      const { data, error } = await setUser(
-        form.filter((entry) => entry.key != 'password'),
-      ) // update user values in supabase
-      if (error) return { error, data: null }
+      updateSession(data.user.id)
       return { data, error: null }
     }
   }

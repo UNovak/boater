@@ -2,10 +2,10 @@ import supabase from '@utils/supabase'
 import useStore from '@utils/Store'
 
 const useUsers = () => {
-  const id = useStore((state) => state.session.id)
-
   // update user values in local store
-  const getUser = async (id, fields = '*') => {
+  const getUser = async (fields = '*') => {
+    const id = useStore.getState().session.id
+    console.log(id)
     // fetch current user data from supabase
     let { data: profiles, error } = await supabase
       .from('profiles')
@@ -13,7 +13,10 @@ const useUsers = () => {
       .eq('id', id)
 
     // error when fetching
-    if (error) return { data: null, error }
+    if (error) {
+      console.error(error)
+      return { data: null, error }
+    }
 
     // update zustand store if user data returned
     if (profiles) {
@@ -30,7 +33,8 @@ const useUsers = () => {
     return { profiles, error: null }
   }
 
-  const setUser = async (values) => {
+  const updateUser = async (values) => {
+    const id = useStore.getState().session.id
     const { data, error } = await supabase
       .from('profiles')
       .update({ ...values })
@@ -45,8 +49,8 @@ const useUsers = () => {
   }
 
   const modeSwitch = async () => {
-    // fetch current view from zustand
     const current = useStore.getState().getHost()
+    const id = useStore.getState().session.id
 
     // attempt updating value of host in supabase
     const { data, error } = await supabase
@@ -65,7 +69,7 @@ const useUsers = () => {
 
   return {
     getUser,
-    setUser,
+    updateUser,
     modeSwitch,
   }
 }
