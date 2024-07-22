@@ -1,6 +1,6 @@
-import { useController } from 'react-hook-form'
+import Icon from '@components/Icon'
 import { useState } from 'react'
-import Icon from '@icons'
+import { useController } from 'react-hook-form'
 
 const AttributePicker = ({ control, name }) => {
   const { field } = useController({

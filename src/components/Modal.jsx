@@ -1,7 +1,7 @@
+import Icon from '@components/Icon'
 import Spinner from '@components/Spinner'
 import { DevTool } from '@hookform/devtools'
 import useAuth from '@hooks/useAuth'
-import Icon from '@icons'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'

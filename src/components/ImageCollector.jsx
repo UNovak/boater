@@ -1,5 +1,5 @@
+import Icon from '@components/Icon'
 import { useEffect, useState } from 'react'
-import Icon from '@icons'
 
 const ImageCollector = ({ images, setImages }) => {
   const [drag, setDrag] = useState(false)

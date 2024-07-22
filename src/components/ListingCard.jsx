@@ -1,5 +1,5 @@
+import Icon from '@components/Icon'
 import { Link } from 'react-router-dom'
-import Icon from '@icons'
 
 const ListingCard = ({ boat }) => {
   const getIcon = () => {

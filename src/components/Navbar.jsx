@@ -1,10 +1,10 @@
 import Dropdown from '@components/Dropdown'
+import Icon from '@components/Icon'
 import Modal from '@components/Modal'
-import Icon from '@icons'
-import useStore from '@utils/Store'
 import useAuth from '@hooks/useAuth'
-import { NavLink } from 'react-router-dom'
 import useUsers from '@hooks/useUsers'
+import useStore from '@utils/Store'
+import { NavLink } from 'react-router-dom'
 
 const Navbar = () => {
   const authenticated = useStore((state) => state.session.authenticated)

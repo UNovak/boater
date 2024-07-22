@@ -1,4 +1,4 @@
-import Icon from '@icons'
+import Icon from '@components/Icon'
 import { Link } from 'react-router-dom'
 
 const Footer = () => {

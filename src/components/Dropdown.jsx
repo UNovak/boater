@@ -1,6 +1,6 @@
+import Icon from '@components/Icon'
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import Icon from '@icons'
 
 export const Dropdown = ({ label, links }) => {
   const [hovered, setHovered] = useState(false)
