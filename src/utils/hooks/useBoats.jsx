@@ -3,7 +3,7 @@ import useStore from '@utils/Store'
 import useBucket from '@hooks/useBucket'
 
 const useBoats = () => {
-  const { uploadImage } = useBucket()
+  const { uploadImage, deleteFiles } = useBucket()
 
   // create a new boat row in supabase
   const createBoat = async (form, id, images) => {
@@ -61,7 +61,7 @@ const useBoats = () => {
       const errors = []
       await Promise.all(
         images.map(async (image) => {
-          const result = await uploadImage(image.file, id, boat_id, 'boats')
+          const result = await uploadImage(image.file, boat_id, 'boats')
           if (result.error) errors.push(result.error) // error uploading a spacific image
           if (result.data) urls.push(result.data) // image uploded sucessfully => gets publicURL
         }),
@@ -90,6 +90,38 @@ const useBoats = () => {
     return { data, error: null }
   }
 
+  const getUserBoats = async () => {
+    const id = useStore.getState().session.id
+    const { data, error } = await supabase
+      .from('boats')
+      .select('*')
+      .eq('owner_id', id)
+
+    if (error) return { error, data: null }
+    return { data, error: null }
+  }
+
+  const deleteBoat = async (boat_id) => {
+    const owner_id = useStore.getState().session.id
+
+    const { data, error } = await supabase
+      .from('boats')
+      .delete()
+      .eq('id', boat_id)
+      .eq('owner_id', owner_id)
+      .select()
+
+    if (error) {
+      console.error(error)
+      return { error, data: null }
+    }
+    if (data) {
+      const { error } = await deleteFiles('boats', `${owner_id}/${boat_id}`)
+      if (error) return { error, data: null }
+    }
+    return { data, error: null }
+  }
+
   const getAllBoats = async () => {
     const { data, error } = await supabase.from('boats').select('*')
 
@@ -99,8 +131,10 @@ const useBoats = () => {
 
   return {
     createBoat,
-    updateBoat,
+    deleteBoat,
     getAllBoats,
+    getUserBoats,
+    updateBoat,
   }
 }
 

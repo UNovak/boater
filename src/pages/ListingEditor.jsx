@@ -1,10 +1,12 @@
-import { DevTool } from '@hookform/devtools'
-import { useForm } from 'react-hook-form'
-import { useState } from 'react'
-import ImageCollector from '@components/ImageCollector'
 import AttributePicker from '@components/AttributePicker'
-import useStore from '@utils/Store'
+import ImageCollector from '@components/ImageCollector'
+import Spinner from '@components/Spinner'
+import { DevTool } from '@hookform/devtools'
 import useBoats from '@hooks/useBoats'
+import useStore from '@utils/Store'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
 export const ListingEditor = (type) => {
   const { createBoat } = useBoats()
@@ -30,6 +32,8 @@ export const ListingEditor = (type) => {
   })
   const id = useStore((state) => state.session.id)
   const [images, setImages] = useState([])
+  const [working, setWorking] = useState(false)
+  const navigate = useNavigate()
   const descriptionCount = watch('description').length
 
   const onErrors = (errors) => {
@@ -37,8 +41,18 @@ export const ListingEditor = (type) => {
   }
 
   const onSubmit = async (form) => {
-    const res = await createBoat(form, id, images)
-    if (res.error) console.error(res.errors)
+    setWorking(true)
+    const { data, error } = await createBoat(form, id, images)
+    if (error) {
+      console.error(error.message)
+      setWorking(false)
+      return
+    }
+
+    if (data) {
+      setWorking(false)
+      navigate('/host')
+    }
   }
 
   return (
@@ -214,11 +228,17 @@ export const ListingEditor = (type) => {
 
         <hr className='mx-auto my-2 h-1 w-48 rounded border-0 bg-gray-100 md:my-10 dark:bg-gray-700' />
 
-        <input
-          type='submit'
-          value='Post listing'
-          className='inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500'
-        />
+        {working ? (
+          <button className='pointer-events-none inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition active:text-blue-500'>
+            <Spinner />
+          </button>
+        ) : (
+          <input
+            type='submit'
+            value='Post listing'
+            className='inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500'
+          />
+        )}
       </form>
       <DevTool control={control} />
     </>
