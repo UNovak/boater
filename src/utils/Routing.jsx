@@ -1,3 +1,9 @@
+import Host from '@pages/Host'
+import LandingPage from '@pages/LandingPage'
+import Listing from '@pages/Listing'
+import ListingEditor from '@pages/ListingEditor'
+import Registration from '@pages/Registration'
+import Renter from '@pages/Renter'
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -5,13 +11,7 @@ import {
   Outlet,
   Route,
 } from 'react-router-dom'
-import Host from '@pages/Host'
-import LandingPage from '@pages/LandingPage'
 import Layout from './Layout'
-import Listing from '@pages/Listing'
-import ListingEditor from '@pages/ListingEditor'
-import Registration from '@pages/Registration'
-import Renter from '@pages/Renter'
 import useStore from './Store'
 
 // router for handling the navigation accross the App
@@ -21,7 +21,7 @@ export const ProtectedRoutes = () => {
   return !authStatus ? <Navigate to={'/'} /> : <Outlet />
 }
 
-export const mainRouter = createBrowserRouter(
+export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<Layout />}>
       <Route index element={<LandingPage />} />
