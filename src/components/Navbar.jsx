@@ -9,7 +9,6 @@ import { NavLink } from 'react-router-dom'
 const Navbar = () => {
   const authenticated = useStore((state) => state.session.authenticated)
   const hosting = useStore((state) => state.user.host)
-  const user = useStore((state) => state.user.id)
   const { logout } = useAuth()
   const { modeSwitch } = useUsers()
 
@@ -43,9 +42,9 @@ const Navbar = () => {
   ]
 
   const dropdownLinks = [
-    { type: 'host', label: 'Dashboard', path: `/host/${user}` },
+    { type: 'user', label: 'Dashboard', path: '/user' },
+    { type: 'host', label: 'Dashboard', path: '/host' },
     { type: 'all', label: 'FAQ', path: '/' },
-    { type: 'host', label: 'ListingEditor', path: '/host/listing/create' },
     { type: 'guest', label: 'Signup', path: '/registration' },
     { type: 'auth', label: 'Logout', icon: 'Logout', action: logout },
     { type: 'auth', label: 'Toggle host mode', action: modeSwitch },
