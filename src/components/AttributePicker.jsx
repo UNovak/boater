@@ -8,14 +8,14 @@ const AttributePicker = ({ control, name }) => {
     name,
   })
   const [attributes, setAttributes] = useState([
-    { label: 'kitchen', icon: 'Pen', checked: false },
-    { label: 'toilet', icon: 'Toilet', checked: false },
-    { label: 'pets allowed', icon: 'Dog', checked: false },
-    { label: 'bedrooms', icon: 'Bed', checked: false },
-    { label: 'diving gear', icon: 'Goggles', checked: false },
-    { label: 'shower', icon: 'ShowerHead', checked: false },
-    { label: 'autopilot', icon: 'Avtopilot', checked: false },
-    { label: 'electricity', icon: 'Electricity', checked: false },
+    { label: 'autopilot', icon: 'Autopilot', checked: false },
+    { label: 'bedroom', icon: 'Bed', checked: false },
+    { label: 'diving gear', icon: 'ScubaDiving', checked: false },
+    { label: 'electricity', icon: 'Bolt', checked: false },
+    { label: 'kitchen', icon: 'Kitchen', checked: false },
+    { label: 'pets allowed', icon: 'Pets', checked: false },
+    { label: 'shower', icon: 'Shower', checked: false },
+    { label: 'toilet', icon: 'Restroom', checked: false },
   ])
 
   return (
