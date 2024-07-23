@@ -90,6 +90,17 @@ const useBoats = () => {
     return { data, error: null }
   }
 
+  const getUserBoats = async () => {
+    const id = useStore.getState().session.id
+    const { data, error } = await supabase
+      .from('boats')
+      .select('*')
+      .eq('owner_id', id)
+
+    if (error) return { error, data: null }
+    return { data, error: null }
+  }
+
   const getAllBoats = async () => {
     const { data, error } = await supabase.from('boats').select('*')
 
@@ -100,6 +111,7 @@ const useBoats = () => {
   return {
     createBoat,
     updateBoat,
+    getUserBoats,
     getAllBoats,
   }
 }
