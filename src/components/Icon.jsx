@@ -1,4 +1,5 @@
 import Account from '@icon/account_circle.svg?react'
+import Add from '@icon/add.svg?react'
 import Bed from '@icon/bed.svg?react'
 import Bolt from '@icon/bolt.svg?react'
 import ChevronForward from '@icon/chevron_forward.svg?react'
@@ -32,6 +33,7 @@ import Youtube from '@icon/youtube.svg?react'
 
 const icon = {
   Account,
+  Add,
   Autopilot,
   Bed,
   Bolt,
