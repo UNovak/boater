@@ -5,7 +5,6 @@ const useUsers = () => {
   // update user values in local store
   const getUser = async (fields = '*') => {
     const id = useStore.getState().session.id
-    console.log(id)
     // fetch current user data from supabase
     let { data: profiles, error } = await supabase
       .from('profiles')
@@ -30,7 +29,7 @@ const useUsers = () => {
     }
 
     // return fetched data
-    return { profiles, error: null }
+    return { data: profiles[0], error: null }
   }
 
   const updateUser = async (values) => {
