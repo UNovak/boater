@@ -1,4 +1,9 @@
 import Dashboard from '@pages/Dashboard'
+import Account from '@pages/dashboard/Account'
+import Host from '@pages/dashboard/Host'
+import Inbox from '@pages/dashboard/Inbox'
+import Settings from '@pages/dashboard/Settings'
+import User from '@pages/dashboard/User'
 import LandingPage from '@pages/LandingPage'
 import Listing from '@pages/Listing'
 import ListingEditor from '@pages/ListingEditor'
@@ -17,8 +22,6 @@ import useStore from './Store'
 export const ProtectedRoutes = ({ condition }) => {
   const authStatus = useStore((state) => state.session.authenticated)
   const hostRole = useStore((state) => state.user.host)
-
-  console.log('routing protocol: ', authStatus, hostRole)
 
   if (condition === 'no_host') {
     if (hostRole) return <Navigate to={'/host'} />
@@ -54,18 +57,22 @@ export const router = createBrowserRouter(
       </Route>
       <Route element={<ProtectedRoutes condition='host' />}>
         <Route path='host' element={<Dashboard />}>
-          <Route path='settings' element={<Dashboard />} />
-          <Route path='inbox' element={<Dashboard />} />
+          <Route path='' element={<Host />} />
+          <Route path='settings' element={<Settings mode={'host'} />} />
+          <Route path='inbox' element={<Inbox mode={'host'} />} />
+          <Route path='account' element={<Account mode={'host'} />} />
         </Route>
       </Route>
       <Route element={<ProtectedRoutes condition='user' />}>
         <Route path='user' element={<Dashboard />}>
-          <Route path='settings' element={<Dashboard />} />
-          <Route path='inbox' element={<Dashboard />} />
+          <Route path='' element={<User />} />
+          <Route path='settings' element={<Settings mode={'user'} />} />
+          <Route path='inbox' element={<Inbox mode={'user'} />} />
+          <Route path='account' element={<Account mode={'user'} />} />
         </Route>
       </Route>
       {/* protected routes that handle boats */}
-      <Route element={<ProtectedRoutes />}>
+      <Route element={<ProtectedRoutes condition='host' />}>
         <Route path='create' element={<ListingEditor type={'new'} />} />
         <Route path='edit' element={<ListingEditor type={'edit'} />} />
       </Route>

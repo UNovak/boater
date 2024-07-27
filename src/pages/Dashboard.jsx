@@ -1,23 +1,15 @@
 import Sidebar from '@components/dash/Sidebar'
-import Host from '@components/dash/Host'
-import User from '@components/dash/User'
 import useStore from '@utils/Store'
+import { Outlet } from 'react-router-dom'
 
 const Dashboard = () => {
   const host = useStore((state) => state.user.host)
 
-  return host ? (
+  return (
     <div className='flex h-screen'>
-      <Sidebar type={'host'} />
+      <Sidebar type={host ? 'host' : 'user'} />
       <div className='flex-grow'>
-        <Host />
-      </div>
-    </div>
-  ) : (
-    <div className='flex h-screen'>
-      <Sidebar type={'user'} />
-      <div className='flex-grow'>
-        <User />
+        <Outlet />
       </div>
     </div>
   )
