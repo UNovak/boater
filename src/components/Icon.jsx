@@ -21,6 +21,7 @@ import Pets from '@icon/pets.svg?react'
 import Restroom from '@icon/restroom.svg?react'
 import Sailboat from '@icon/sailboat.svg?react'
 import ScubaDiving from '@icon/scuba_diving.svg?react'
+import Search from '@icon/search.svg?react'
 import Settings from '@icon/settings.svg?react'
 import Shower from '@icon/shower.svg?react'
 import Trash_closed from '@icon/trashcan_closed.svg?react'
@@ -55,6 +56,7 @@ const icon = {
   Restroom,
   Sailboat,
   ScubaDiving,
+  Search,
   Settings,
   Shower,
   Trash_closed,

@@ -1,16 +1,19 @@
 import Icon from '@components/Icon'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import useAuth from '@hooks/useAuth'
 import useStore from '@utils/Store'
 
 const Sidebar = ({ type }) => {
   const { logout } = useAuth()
+  const { modeSwitch } = useUsers()
+  const navigate = useNavigate()
   const user = useStore((state) => state.user)
   const links = [
-    { text: 'Messages', path: 'inbox', icon: 'Inbox' },
     { text: 'Dashboard', path: `/${type}`, icon: 'Home' },
+    { text: 'Messages', path: 'inbox', icon: 'Inbox' },
     { text: 'Settings', path: 'settings', icon: 'Settings' },
-  ]
+    { text: 'Listings', path: '/', icon: 'Search', type: 'user' },
+  ].filter((link) => !link.type || link.type === type)
 
   const getAvatar = () => {
     // if we have an avatar image load that
