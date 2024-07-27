@@ -1,4 +1,4 @@
-import Sidebar from '@components/dash/Sidebar'
+import Sidebar from '@components/Sidebar'
 import useStore from '@utils/Store'
 import { Outlet } from 'react-router-dom'
 
