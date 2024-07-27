@@ -2,7 +2,6 @@ import Dropdown from '@components/Dropdown'
 import Icon from '@components/Icon'
 import Modal from '@components/Modal'
 import useAuth from '@hooks/useAuth'
-import useUsers from '@hooks/useUsers'
 import useStore from '@utils/Store'
 import { NavLink } from 'react-router-dom'
 
@@ -10,7 +9,6 @@ const Navbar = () => {
   const authenticated = useStore((state) => state.session.authenticated)
   const hosting = useStore((state) => state.user.host)
   const { logout } = useAuth()
-  const { modeSwitch } = useUsers()
 
   // Dropdown links
 
@@ -44,10 +42,9 @@ const Navbar = () => {
   const dropdownLinks = [
     { type: 'user', label: 'Dashboard', path: '/user' },
     { type: 'host', label: 'Dashboard', path: '/host' },
-    { type: 'all', label: 'FAQ', path: '/' },
+    { type: 'all', label: 'FAQ', path: '/faq' },
     { type: 'guest', label: 'Signup', path: '/registration' },
     { type: 'auth', label: 'Logout', icon: 'Logout', action: logout },
-    { type: 'auth', label: 'Toggle host mode', action: modeSwitch },
     {
       type: 'guest',
       label: 'Login',
@@ -87,25 +84,7 @@ const Navbar = () => {
               </NavLink>
               <div className='block md:flex'>
                 <Dropdown
-                  label={
-                    authenticated ? (
-                      <>
-                        <Icon type='MenuOpen' className='h-8 w-8' />
-                        <Icon
-                          type='Person'
-                          className='hidden h-8 w-8 md:flex'
-                        />
-                      </>
-                    ) : (
-                      <>
-                        <Icon type='MenuOpen' className='h-8 w-8' />
-                        <Icon
-                          type='Account'
-                          className='hidden h-8 w-8 md:flex'
-                        />
-                      </>
-                    )
-                  }
+                  label={<Icon type='MenuOpen' className='size-8' />}
                   links={dropdownLinks}
                 />
                 <Modal />
