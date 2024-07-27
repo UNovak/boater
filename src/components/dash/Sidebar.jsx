@@ -1,6 +1,7 @@
 import Icon from '@components/Icon'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import useAuth from '@hooks/useAuth'
+import useUsers from '@hooks/useUsers'
 import useStore from '@utils/Store'
 
 const Sidebar = ({ type }) => {
@@ -25,6 +26,11 @@ const Sidebar = ({ type }) => {
     if (name.length > 1)
       return `${name[0].charAt(0).toUpperCase()}${name[1].charAt(0).toUpperCase()}`
     return '00'
+  }
+
+  const modeToggle = () => {
+    type === 'user' ? navigate('/host') : navigate('/user')
+    modeSwitch()
   }
 
   return (
@@ -67,6 +73,21 @@ const Sidebar = ({ type }) => {
       </div>
 
       <div className='sticky inset-x-0 bottom-0 border-t border-gray-100 bg-white p-2'>
+        <div className='group container mx-auto inline-flex shrink-0 flex-wrap content-center justify-center gap-3 align-middle'>
+          <label className='relative inline-block h-4 w-7 cursor-pointer rounded-full bg-gray-300 transition duration-300 [-webkit-tap-highlight-color:_transparent] has-[:checked]:bg-blue-600'>
+            <input
+              type='checkbox'
+              checked={user.host}
+              className='peer sr-only'
+              onChange={() => modeToggle()}
+            />
+            <span className='absolute inset-y-0 start-0 m-0.5 size-3 rounded-full bg-white transition-all peer-checked:start-3'></span>
+          </label>
+          <span className='invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible'>
+            {user.host ? 'Toggle host off' : 'Toggle host on'}
+          </span>
+        </div>
+
         <button
           type='button'
           onClick={() => logout()}
