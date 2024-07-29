@@ -3,7 +3,7 @@ import useStore from '@utils/Store'
 import useBucket from '@hooks/useBucket'
 
 const useBoats = () => {
-  const { uploadImage } = useBucket()
+  const { uploadImage, deleteFiles } = useBucket()
 
   // create a new boat row in supabase
   const createBoat = async (form, id, images) => {
@@ -101,6 +101,27 @@ const useBoats = () => {
     return { data, error: null }
   }
 
+  const deleteBoat = async (boat_id) => {
+    const owner_id = useStore.getState().session.id
+
+    const { data, error } = await supabase
+      .from('boats')
+      .delete()
+      .eq('id', boat_id)
+      .eq('owner_id', owner_id)
+      .select()
+
+    if (error) {
+      console.error(error)
+      return { error, data: null }
+    }
+    if (data) {
+      const { error } = await deleteFiles('boats', `${owner_id}/${boat_id}`)
+      if (error) return { error, data: null }
+    }
+    return { data, error: null }
+  }
+
   const getAllBoats = async () => {
     const { data, error } = await supabase.from('boats').select('*')
 
@@ -110,9 +131,10 @@ const useBoats = () => {
 
   return {
     createBoat,
-    updateBoat,
-    getUserBoats,
+    deleteBoat,
     getAllBoats,
+    getUserBoats,
+    updateBoat,
   }
 }
 

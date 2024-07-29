@@ -5,7 +5,7 @@ import useStore from '@utils/Store'
 import Icon from '@components/Icon'
 
 const Host = () => {
-  const { getUserBoats } = useBoats()
+  const { getUserBoats, deleteBoat } = useBoats()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
   const [serverError, setServerError] = useState(null)
@@ -23,15 +23,27 @@ const Host = () => {
       }
       if (data) {
         setBoats(data)
+        setLoading(false)
       }
-      setLoading(false)
     }
     fetchBoats()
   }, [])
 
+  const handleRemove = async (id) => {
+    const { data, error } = await deleteBoat(id)
+    if (error) {
+      setServerError(error.message)
+      setLoading(false)
+      return
+    }
+    if (data) {
+      // remove boat with matching id from boats array
+      setBoats((prevBoats) => prevBoats.filter((boat) => boat.id !== id))
+    }
+  }
+
   return !loading && user ? (
     <div className='h-full w-full'>
-      <h1>Welcome to the dashboard</h1>
       <div className='mx-auto grid max-w-screen-xl grid-cols-1 content-center gap-2 px-4 py-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-4'>
         {boats.length >= 1 &&
           boats.map((boat) => {
@@ -53,7 +65,7 @@ const Host = () => {
                   </button>
                   <button
                     className='rounded-md bg-red-600 p-2 text-gray-800 hover:text-gray-700 dark:bg-red-800 dark:text-gray-300 dark:hover:text-gray-500'
-                    onClick={() => console.log('delete boat', boat.id)}>
+                    onClick={() => handleRemove(boat.id)}>
                     Remove
                   </button>
                 </div>

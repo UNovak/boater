@@ -16,7 +16,27 @@ const useBucket = () => {
     return { data, error: null }
   }
 
-  return { uploadImage }
+  // path ==> path to folder containing the images
+  // to delete meme.png from bucket memes located at: user1/meme_photos/meme.png
+  // deleteFiles('memes', 'user1/meme_photos')
+  const deleteFiles = async (bucket, path) => {
+    const { data, error } = await supabase.storage.from(bucket).list(path)
+
+    if (error) return { data: null, error }
+    if (data) {
+      const errors = []
+      for (const file of data) {
+        const { error } = await supabase.storage
+          .from(bucket)
+          .remove([`${path}/${file.name}`])
+        if (error) throw error
+      }
+      if (errors != []) return { errors, data: null }
+    }
+    return { error: null, data: [] }
+  }
+
+  return { uploadImage, deleteFiles }
 }
 
 export default useBucket
