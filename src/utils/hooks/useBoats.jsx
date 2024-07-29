@@ -61,7 +61,7 @@ const useBoats = () => {
       const errors = []
       await Promise.all(
         images.map(async (image) => {
-          const result = await uploadImage(image.file, id, boat_id, 'boats')
+          const result = await uploadImage(image.file, boat_id, 'boats')
           if (result.error) errors.push(result.error) // error uploading a spacific image
           if (result.data) urls.push(result.data) // image uploded sucessfully => gets publicURL
         }),

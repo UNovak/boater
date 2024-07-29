@@ -6,14 +6,16 @@ const useBucket = () => {
 
   // uploads a single file to spacified path
   const uploadImage = async (file, path, bucket) => {
-    const filePath = `${id}/${bucket}/${path}/${file.name}`
-    const { error } = await supabase.storage.from(bucket).upload(filePath, file)
+    // adjust if no aditional path is provided
+    const filePath = path ? `${id}/${path}/${file.name}` : `${id}/${file.name}`
 
+    // Attempt to upload the file
+    const { error } = await supabase.storage.from(bucket).upload(filePath, file)
     if (error) return { data: null, error }
 
-    const data = supabase.storage.from(bucket).getPublicUrl(filePath)
-      .data.publicUrl
-    return { data, error: null }
+    // If no error get and return publicUrl
+    const { data } = supabase.storage.from(bucket).getPublicUrl(filePath)
+    return { data: data.publicUrl }
   }
 
   // path ==> path to folder containing the images
