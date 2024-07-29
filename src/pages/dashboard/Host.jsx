@@ -1,13 +1,15 @@
+import Icon from '@components/Icon'
+import Spinner from '@components/Spinner'
 import useBoats from '@hooks/useBoats'
+import useStore from '@utils/Store'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import useStore from '@utils/Store'
-import Icon from '@components/Icon'
 
 const Host = () => {
   const { getUserBoats, deleteBoat } = useBoats()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
+  const [working, setWorking] = useState(false)
   const [serverError, setServerError] = useState(null)
   const [boats, setBoats] = useState([])
   const user = useStore((state) => state.user)
@@ -30,15 +32,18 @@ const Host = () => {
   }, [])
 
   const handleRemove = async (id) => {
+    setWorking(true)
     const { data, error } = await deleteBoat(id)
     if (error) {
       setServerError(error.message)
       setLoading(false)
+      setWorking(false)
       return
     }
     if (data) {
       // remove boat with matching id from boats array
       setBoats((prevBoats) => prevBoats.filter((boat) => boat.id !== id))
+      setWorking(false)
     }
   }
 
@@ -64,9 +69,9 @@ const Host = () => {
                     Edit
                   </button>
                   <button
-                    className='rounded-md bg-red-600 p-2 text-gray-800 hover:text-gray-700 dark:bg-red-800 dark:text-gray-300 dark:hover:text-gray-500'
+                    className='flex min-w-20 items-center justify-center rounded-md bg-red-600 p-2 text-gray-800 hover:text-gray-700 dark:bg-red-800 dark:text-gray-300 dark:hover:text-gray-500'
                     onClick={() => handleRemove(boat.id)}>
-                    Remove
+                    {working ? <Spinner /> : 'Remove'}
                   </button>
                 </div>
               </div>
