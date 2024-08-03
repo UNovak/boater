@@ -1,15 +1,19 @@
 import useBoats from '@hooks/useBoats'
+import useHandleBookings from '@hooks/useHandleBookings'
 import { DateTime } from 'luxon'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
+import Spinner from '@components/Spinner'
 
 const Listing = () => {
   const [boat, setBoat] = useState({})
   const [loading, setLoading] = useState(false)
+  const [working, setWorking] = useState(false)
   const [serverError, setServerError] = useState(null)
   const { boat_id } = useParams()
   const { getSingleBoat } = useBoats()
+  const { createBooking } = useHandleBookings()
 
   const {
     formState: { errors },
@@ -37,8 +41,29 @@ const Listing = () => {
     fetchBoat()
   }, [boat_id])
 
-  const onSubmit = (form) => {
-    console.log(form)
+  const onSubmit = async (form) => {
+    setWorking(true)
+    // add boat data to form data
+    form = {
+      ...form,
+      host: boat.owner_id,
+      boat_id: boat_id,
+      boat_price: boat.price,
+      thumbnail_url: boat.image_urls[0] || '',
+    }
+    const { data, error } = await createBooking(form)
+    if (error) {
+      setServerError(error)
+      setWorking(false)
+      return
+    }
+
+    if (data) {
+      console.log('success => ', data)
+    }
+
+    setWorking(false)
+    return
   }
 
   const onErrors = (errors) => {
@@ -65,20 +90,21 @@ const Listing = () => {
             <div className='flex w-full flex-row items-center justify-center gap-2'>
               <button
                 type='button'
-                className='w-full max-w-16 rounded-lg border border-gray-200 bg-white py-1 text-xs font-medium text-gray-800 shadow-sm hover:bg-gray-50 focus:bg-gray-50 focus:outline-none disabled:pointer-events-none disabled:opacity-50 lg:max-w-20 lg:py-2 lg:text-sm'
+                className='flex w-full max-w-16 justify-center rounded-lg border border-gray-200 bg-white py-2 text-xs font-medium text-gray-800 shadow-sm hover:bg-gray-50 focus:bg-gray-50 focus:outline-none disabled:pointer-events-none disabled:opacity-50 lg:max-w-20'
                 onClick={() => {
                   // resets fields: start => today, end => tomorrow
                   reset()
                 }}>
-                Reset
+                {working ? <Spinner /> : 'Clear'}
               </button>
               <div className='group flex flex-col'>
                 <input
+                  disabled={working}
                   min={DateTime.now().plus({ days: 1 }).toFormat('yyyy-MM-dd')}
                   aria-label='start day'
                   type='date'
                   name='start'
-                  className='relative w-fit rounded-lg border border-gray-300 bg-red-500 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500'
+                  className='relative w-fit rounded-lg border border-gray-300 p-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500'
                   {...register('start', {
                     valueAsDate: false,
                     required: {
@@ -109,7 +135,7 @@ const Listing = () => {
                   aria-label='end day'
                   type='date'
                   name='end'
-                  className='w-fit rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500'
+                  className='w-fit rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500'
                   {...register('end', {
                     valueAsDate: false,
                     required: {
@@ -134,10 +160,10 @@ const Listing = () => {
                 </label>
               </div>
               <button
-                disabled={Object.keys(errors).length !== 0}
+                disabled={working}
                 type='submit'
-                className='w-full max-w-16 rounded-lg border border-transparent bg-blue-600 py-1 text-xs font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 lg:max-w-20 lg:py-2 lg:text-sm'>
-                Book
+                className='flex w-full max-w-16 justify-center rounded-lg border border-transparent bg-blue-600 py-2 text-xs font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 lg:max-w-20'>
+                {working ? <Spinner /> : 'Book'}
               </button>
             </div>
           </div>
