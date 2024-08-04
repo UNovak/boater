@@ -8,7 +8,7 @@ const Dashboard = () => {
   return (
     <div className='flex h-screen'>
       <Sidebar type={host ? 'host' : 'user'} />
-      <div className='flex-grow'>
+      <div className='flex-grow overflow-y-auto'>
         <Outlet />
       </div>
     </div>
