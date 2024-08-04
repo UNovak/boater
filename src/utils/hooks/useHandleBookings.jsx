@@ -1,3 +1,4 @@
+import useStore from '@utils/Store'
 import supabase from '@utils/supabase'
 
 const useHandleBookings = () => {
@@ -22,7 +23,21 @@ const useHandleBookings = () => {
     if (data) return { data: data[0], error: null }
   }
 
-  return { createBooking }
+  const getUserBookings = async () => {
+    const id = useStore.getState().session.id
+    const { data, error } = await supabase
+      .from('bookings')
+      .select('*')
+      .eq('customer', id)
+
+    if (error) return { data: null, error }
+    if (data) return { data, error: null }
+  }
+
+  return {
+    createBooking,
+    getUserBookings,
+  }
 }
 
 export default useHandleBookings
