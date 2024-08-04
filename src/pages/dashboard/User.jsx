@@ -30,7 +30,7 @@ const User = () => {
   ) : (
     <div className='h-lvh w-full py-2'>
       {serverError && (
-        <div className='text-md m-6 text-red-400'>serverError.message</div>
+        <div className='text-md m-6 text-red-400'>{serverError.message}</div>
       )}
       <main>
         <h2 className='font-medium'>Upcoming bookings</h2>
@@ -56,14 +56,20 @@ const User = () => {
                   />
                 </div>
 
-                <div className='h-1/5 w-full flex-col gap-2 text-sm'>
-                  <div>{`duration: ${duration}${duration > 1 ? ' days' : ' day'}`}</div>
-                  <div>total price: {booking.price * duration} $</div>
+                <div className='h-1/5 w-full flex-col gap-2 p-2 text-sm'>
+                  <div>
+                    {`${duration}${duration > 1 ? ' days' : ' day'} - ${booking.price * duration} $`}
+                  </div>
+
                   <div className='flex justify-center gap-2 p-2'>
-                    <button className='min-w-16 rounded-lg bg-blue-500 py-1 text-white md:min-w-20 md:py-2'>
+                    <button
+                      type='button'
+                      className='flex w-full max-w-16 justify-center rounded-lg border border-transparent bg-blue-600 py-2 text-xs font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 lg:max-w-20'>
                       details
                     </button>
-                    <button className='min-w-16 rounded-lg bg-blue-500 py-1 text-white md:min-w-20 md:py-2'>
+                    <button
+                      type='button'
+                      className='flex w-full max-w-16 justify-center rounded-lg border border-transparent bg-blue-600 py-2 text-xs font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 lg:max-w-20'>
                       rate
                     </button>
                   </div>
