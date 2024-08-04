@@ -129,10 +129,21 @@ const useBoats = () => {
     return { data, error: null }
   }
 
+  const getSingleBoat = async (boat_id) => {
+    const { data, error } = await supabase
+      .from('boats')
+      .select('*')
+      .eq('id', boat_id)
+
+    if (error) return { error, data: null }
+    return { data: data[0], error: null }
+  }
+
   return {
     createBoat,
     deleteBoat,
     getAllBoats,
+    getSingleBoat,
     getUserBoats,
     updateBoat,
   }
