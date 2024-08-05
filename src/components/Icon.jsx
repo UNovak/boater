@@ -72,7 +72,7 @@ const Icon = ({ className = 'size-6', type = 'Unknown' }) => {
   const Icon = icon[type]
 
   // Ensure the selected component exists before rendering
-  if (!Icon || type == '') {
+  if (!Icon || type === '') {
     console.log('error finding an icon', type || undefined)
     return null
   }
