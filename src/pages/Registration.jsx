@@ -8,7 +8,6 @@ import { Link, useNavigate } from 'react-router-dom'
 
 const Registration = () => {
   const navigate = useNavigate()
-  const [serverError, setServerError] = useState(null)
   const [submitting, setSubmitting] = useState(false)
   const { signup } = useAuth()
   const { updateUser } = useUsers()
@@ -36,7 +35,6 @@ const Registration = () => {
     setSubmitting(true)
     const { data, error } = await signup(form)
     if (error) {
-      setServerError(error.message)
       setSubmitting(false)
       return
     }
@@ -55,13 +53,11 @@ const Registration = () => {
       // attempt updating values in database
       const { error } = await updateUser(values)
       if (error) {
-        setServerError(error.message)
         setSubmitting(false)
         return
       }
     }
 
-    setServerError(null)
     setSubmitting(false)
     navigate('/')
   }
@@ -110,11 +106,6 @@ const Registration = () => {
                 location preferences or budget. We have it all.
               </p>
             </div>
-
-            {/* server error */}
-            {serverError && (
-              <div className='text-md mt-6 text-red-400'>{serverError}</div>
-            )}
 
             {/* form content */}
             <form
