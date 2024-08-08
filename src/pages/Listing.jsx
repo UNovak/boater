@@ -1,19 +1,20 @@
+import Icon from '@components/Icon'
+import Spinner from '@components/Spinner'
 import useBoats from '@hooks/useBoats'
 import useHandleBookings from '@hooks/useHandleBookings'
 import { DateTime } from 'luxon'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
-import Spinner from '@components/Spinner'
 
 const Listing = () => {
   const [boat, setBoat] = useState({})
   const [loading, setLoading] = useState(false)
-  const [working, setWorking] = useState(false)
   const [serverError, setServerError] = useState(null)
+  const [working, setWorking] = useState(false)
   const { boat_id } = useParams()
-  const { getSingleBoat } = useBoats()
   const { createBooking } = useHandleBookings()
+  const { getSingleBoat } = useBoats()
 
   const {
     formState: { errors },
