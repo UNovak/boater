@@ -79,6 +79,19 @@ const Listing = () => {
       )}
       <main>
         <div>{JSON.stringify(boat)}</div>
+        {/* boat data format:
+      "id": int,
+      owner_id: uuid
+      "title": string,
+      "type": string,
+      "price": int,
+      "description": string,
+      "location": JSON ({"zip":"5000","city":"Izola","country":"Slovenia"}) ,
+      "image_urls": string[],
+      "updated_at": string,
+      "attributes": JSON[]: [{"label": string, "icon": string, "checked": boolean}, ...]
+      */}
+
         <form noValidate onSubmit={handleSubmit(onSubmit, onErrors)}>
           {/* date selection */}
           <div className='grid grid-cols-1 place-items-center'>
