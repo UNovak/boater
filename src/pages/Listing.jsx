@@ -79,7 +79,6 @@ const Listing = () => {
         <div className='text-md m-6 text-red-400'>{serverError.message}</div>
       )}
       <main>
-        <div>{JSON.stringify(boat)}</div>
         {/* boat data format:
       "id": int,
       owner_id: uuid
@@ -92,6 +91,21 @@ const Listing = () => {
       "updated_at": string,
       "attributes": JSON[]: [{"label": string, "icon": string, "checked": boolean}, ...]
       */}
+
+        <div className='mx-auto flex w-fit min-w-80 max-w-sm flex-row justify-center gap-2 rounded-lg border border-solid border-gray-300 bg-gray-50 p-3 text-sm text-gray-900 shadow-md sm:min-w-0 sm:max-w-none sm:grid-cols-4 xl:grid-cols-8 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400'>
+          {boat.attributes?.map((attribute) => (
+            <div key={attribute.label} className='col-span-1 xl:col-span-2'>
+              <label
+                htmlFor={attribute.label}
+                className='flex h-full w-full items-center justify-center rounded-lg border-2 border-gray-200 bg-white p-2 text-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300'>
+                <div className='flex w-full flex-col items-center justify-center'>
+                  <span className='mb-1 w-full text-xs'>{attribute.label}</span>
+                  <Icon type={attribute.icon} className='size-6' />
+                </div>
+              </label>
+            </div>
+          ))}
+        </div>
 
         <form noValidate onSubmit={handleSubmit(onSubmit, onErrors)}>
           {/* date selection */}
