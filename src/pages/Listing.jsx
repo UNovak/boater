@@ -1,4 +1,5 @@
 import Icon from '@components/Icon'
+import ImageCarousel from '@components/ImageCarousel'
 import Spinner from '@components/Spinner'
 import useBoats from '@hooks/useBoats'
 import useHandleBookings from '@hooks/useHandleBookings'
@@ -91,6 +92,8 @@ const Listing = () => {
       "updated_at": string,
       "attributes": JSON[]: [{"label": string, "icon": string, "checked": boolean}, ...]
       */}
+
+        {boat.image_urls && <ImageCarousel images={boat.image_urls} />}
 
         <div className='mx-auto flex w-fit min-w-80 max-w-sm flex-row justify-center gap-2 rounded-lg border border-solid border-gray-300 bg-gray-50 p-3 text-sm text-gray-900 shadow-md sm:min-w-0 sm:max-w-none sm:grid-cols-4 xl:grid-cols-8 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400'>
           {boat.attributes?.map((attribute) => (
