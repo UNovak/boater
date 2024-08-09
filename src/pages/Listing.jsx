@@ -115,25 +115,33 @@ const Listing = () => {
           </div>
         )}
         {/* attributes */}
-        <div className='mx-auto flex w-fit min-w-80 max-w-sm flex-row justify-center gap-2 rounded-lg border border-solid border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 shadow-md sm:max-w-none sm:grid-cols-4 xl:grid-cols-8 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400'>
-          {boat.attributes?.map((attribute) => (
-            <div key={attribute.label} className='col-span-1 xl:col-span-2'>
-              <label
-                htmlFor={attribute.label}
-                className='flex h-full w-full min-w-24 items-center justify-center rounded-lg border-2 border-gray-200 bg-white p-2 text-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 '>
-                <div className='flex w-full flex-col items-center justify-center'>
-                  <span className='mb-1 w-full text-xs'>{attribute.label}</span>
-                  <Icon type={attribute.icon} className='size-6' />
-                </div>
-              </label>
-            </div>
-          ))}
+        <div className='mx-auto'>
+          <label className='block text-xs text-gray-600 dark:text-gray-400'>
+            Attributes
+          </label>
+          <div className=' flex w-fit min-w-80 max-w-sm flex-row justify-center gap-2 rounded-lg border border-solid border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 shadow-md sm:max-w-none sm:grid-cols-4 xl:grid-cols-8 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400'>
+            {boat.attributes?.map((attribute) => (
+              <div key={attribute.label} className='col-span-1 xl:col-span-2'>
+                <label
+                  htmlFor={attribute.label}
+                  className='flex h-full w-full min-w-24 items-center justify-center rounded-lg border-2 border-gray-200 bg-white p-2 text-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 '>
+                  <div className='flex w-full flex-col items-center justify-center'>
+                    <span className='mb-1 w-full text-xs'>
+                      {attribute.label}
+                    </span>
+                    <Icon type={attribute.icon} className='size-6' />
+                  </div>
+                </label>
+              </div>
+            ))}
+          </div>
         </div>
+
         {/* description */}
         <div className='mx-auto w-4/5 max-w-screen-sm px-4'>
           <label
             htmlFor='about'
-            className='mx-1 block text-start text-xs text-gray-600 dark:text-white '>
+            className='mx-1 block text-xs text-gray-600 dark:text-gray-400'>
             About
           </label>
           <textarea
