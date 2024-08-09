@@ -8,14 +8,14 @@ import { RouterProvider } from 'react-router-dom'
 import './App.css'
 
 const App = () => {
-  const { getUser } = useUsers()
+  const { getSelf } = useUsers()
   const clearStore = useStore((state) => state.clearStore)
   const setSession = useStore((state) => state.setSession)
   const [loading, setLoading] = useState(true)
 
   const updateStatus = (id) => {
     setSession(id)
-    getUser()
+    getSelf()
   }
 
   useEffect(() => {
