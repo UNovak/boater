@@ -93,7 +93,11 @@ const Listing = () => {
       "attributes": JSON[]: [{"label": string, "icon": string, "checked": boolean}, ...]
       */}
 
-        {boat.image_urls && <ImageCarousel images={boat.image_urls} />}
+        {boat.image_urls && (
+          <div className='mx-auto h-96 w-4/5 max-w-lg p-4'>
+            <ImageCarousel images={boat.image_urls} />
+          </div>
+        )}
 
         <div className='mx-auto flex w-fit min-w-80 max-w-sm flex-row justify-center gap-2 rounded-lg border border-solid border-gray-300 bg-gray-50 p-3 text-sm text-gray-900 shadow-md sm:min-w-0 sm:max-w-none sm:grid-cols-4 xl:grid-cols-8 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400'>
           {boat.attributes?.map((attribute) => (
