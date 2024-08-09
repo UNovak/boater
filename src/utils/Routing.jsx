@@ -50,6 +50,7 @@ export const ProtectedRoutes = ({ condition }) => {
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<Layout />}>
+      <Route path='profile/:email' element={<Account mode={'public'} />} />
       <Route element={<ProtectedRoutes condition='no_host' />}>
         <Route index element={<LandingPage />} />
         <Route path='registration' element={<Registration />} />
