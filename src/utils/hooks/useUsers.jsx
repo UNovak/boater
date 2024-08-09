@@ -31,6 +31,16 @@ const useUsers = () => {
     return { data: profiles[0], error: null }
   }
 
+  const getUser = async (id) => {
+    const { data: profiles, error } = await supabase
+      .from('profiles')
+      .select('full_name,email,avatar_url')
+      .eq('id', id)
+
+    if (error) return { data: null, error }
+    if (profiles) return { data: profiles[0], error: null }
+  }
+
   const updateUser = async (values) => {
     const id = useStore.getState().session.id
     const { data, error } = await supabase
