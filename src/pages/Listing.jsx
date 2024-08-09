@@ -80,19 +80,6 @@ const Listing = () => {
         <div className='text-md m-6 text-red-400'>{serverError.message}</div>
       )}
       <main>
-        {/* boat data format:
-      "id": int,
-      owner_id: uuid
-      "title": string,
-      "type": string,
-      "price": int,
-      "description": string,
-      "location": JSON ({"zip":"5000","city":"Izola","country":"Slovenia"}) ,
-      "image_urls": string[],
-      "updated_at": string,
-      "attributes": JSON[]: [{"label": string, "icon": string, "checked": boolean}, ...]
-      */}
-
         {boat.image_urls && (
           <div className='mx-auto h-96 w-4/5 max-w-lg p-4'>
             <ImageCarousel images={boat.image_urls} />
