@@ -2,6 +2,7 @@ import Account from '@icon/account_circle.svg?react'
 import Add from '@icon/add.svg?react'
 import Bed from '@icon/bed.svg?react'
 import Bolt from '@icon/bolt.svg?react'
+import Chevron_back from '@icon/chevron_backwards.svg?react'
 import Chevron_forward from '@icon/chevron_forward.svg?react'
 import Close from '@icon/close.svg?react'
 import Facebook from '@icon/facebook.svg?react'
@@ -38,6 +39,7 @@ const icon = {
   Autopilot,
   Bed,
   Bolt,
+  Chevron_back,
   Chevron_forward,
   Close,
   Facebook,
