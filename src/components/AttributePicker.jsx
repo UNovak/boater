@@ -38,7 +38,9 @@ const AttributePicker = ({ control, name }) => {
               field.onChange(
                 _attributes
                   .filter((attribute) => attribute.checked)
-                  .map((attribute) => attribute.label),
+                  .map((attribute) => {
+                    return attribute
+                  }),
               )
 
               // update local state

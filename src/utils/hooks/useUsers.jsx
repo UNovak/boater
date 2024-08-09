@@ -2,11 +2,10 @@ import supabase from '@utils/supabase'
 import useStore from '@utils/Store'
 
 const useUsers = () => {
-  // update user values in local store
-  const getUser = async (fields = '*') => {
+  const getSelf = async (fields = '*') => {
     const id = useStore.getState().session.id
     // fetch current user data from supabase
-    let { data: profiles, error } = await supabase
+    const { data: profiles, error } = await supabase
       .from('profiles')
       .select(fields)
       .eq('id', id)
@@ -30,6 +29,16 @@ const useUsers = () => {
 
     // return fetched data
     return { data: profiles[0], error: null }
+  }
+
+  const getUser = async (id) => {
+    const { data: profiles, error } = await supabase
+      .from('profiles')
+      .select('full_name,email,avatar_url')
+      .eq('id', id)
+
+    if (error) return { data: null, error }
+    if (profiles) return { data: profiles[0], error: null }
   }
 
   const updateUser = async (values) => {
@@ -67,9 +76,10 @@ const useUsers = () => {
   }
 
   return {
+    getSelf,
     getUser,
-    updateUser,
     modeSwitch,
+    updateUser,
   }
 }
 

@@ -64,7 +64,7 @@ const ListingCard = ({ boat }) => {
           focus:ring-blue-300 active:text-blue-500 dark:bg-blue-600 dark:focus:ring-blue-300'>
           Details
           <Icon
-            type='ChevronForward'
+            type='Chevron_forward'
             className='-mb-px -mr-2 w-7 transition-transform duration-200 ease-linear group-hover/button:rotate-90'
           />
         </Link>
