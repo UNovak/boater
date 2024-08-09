@@ -23,21 +23,33 @@ const ImageCarousel = ({ images }) => {
   return (
     <>
       <div className='relative h-full w-full'>
-        <img
-          src={images[img]}
-          className='h-full w-full rounded object-cover'
-          alt='showcaseing the boat'
-        />
-
-        <button
-          className='group absolute left-0 top-1/2 z-10 -translate-y-1/2 transform'
-          type='button'
-          onClick={() => back()}>
-          <Icon
-            className='m-2 size-10 rounded-full text-gray-400 group-hover:bg-gray-700 group-hover:bg-opacity-80 group-hover:text-blue-500'
-            type='Chevron_back'
+        <div className='group/all h-full rounded'>
+          <img
+            src={images[img]}
+            className='h-full w-full rounded object-cover'
+            alt='showcaseing the boat'
           />
-        </button>
+
+          <button
+            className='group absolute left-0 top-1/2 z-10 -translate-y-1/2 transform'
+            type='button'
+            onClick={() => back()}>
+            <Icon
+              className='m-2 hidden size-10 rounded-full bg-gray-700 bg-opacity-40 text-gray-400 group-hover/all:inline-block group-hover:bg-opacity-80 group-hover:text-blue-600'
+              type='Chevron_back'
+            />
+          </button>
+
+          <button
+            className='group absolute right-0 top-1/2 z-10 -translate-y-1/2 transform'
+            type='button'
+            onClick={() => forward()}>
+            <Icon
+              type='Chevron_forward'
+              className='m-2 hidden size-10 rounded-full bg-gray-700 bg-opacity-40 text-gray-400 group-hover/all:inline-block group-hover:bg-opacity-80 group-hover:text-blue-600'
+            />
+          </button>
+        </div>
 
         <div className='absolute bottom-0 left-1/2 mb-1 flex -translate-x-1/2 flex-row items-center gap-1'>
           {images?.map((image, index) => (
@@ -50,16 +62,6 @@ const ImageCarousel = ({ images }) => {
             />
           ))}
         </div>
-
-        <button
-          className='group absolute right-0 top-1/2 z-10 -translate-y-1/2 transform'
-          type='button'
-          onClick={() => forward()}>
-          <Icon
-            type='Chevron_forward'
-            className='m-2 size-10 rounded-full text-gray-400 group-hover:bg-gray-700 group-hover:bg-opacity-80 group-hover:text-blue-500'
-          />
-        </button>
       </div>
     </>
   )
