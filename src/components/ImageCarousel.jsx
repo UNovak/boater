@@ -16,6 +16,10 @@ const ImageCarousel = ({ images }) => {
     } else setImg(img - 1)
   }
 
+  const jump = (index) => {
+    setImg(index)
+  }
+
   return (
     <>
       <div className='relative h-full w-full'>
@@ -35,13 +39,14 @@ const ImageCarousel = ({ images }) => {
           />
         </button>
 
-        <div className='absolute bottom-0 left-1/2 mb-1 flex -translate-x-1/2 flex-row gap-1'>
+        <div className='absolute bottom-0 left-1/2 mb-1 flex -translate-x-1/2 flex-row items-center gap-1'>
           {images?.map((image, index) => (
             <div
-              className={`hover: size-2 rounded-full ${
+              className={`size-2 cursor-pointer rounded-full hover:size-4 ${
                 img === index ? 'bg-gray-100' : 'bg-gray-400'
               }`}
               key={index}
+              onClick={() => jump(index)}
             />
           ))}
         </div>
