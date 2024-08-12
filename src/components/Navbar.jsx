@@ -2,12 +2,14 @@ import Dropdown from '@components/Dropdown'
 import Icon from '@components/Icon'
 import Modal from '@components/Modal'
 import useAuth from '@hooks/useAuth'
+import Login from '@modal/Login'
 import useStore from '@utils/Store'
 import { NavLink } from 'react-router-dom'
 
 const Navbar = () => {
   const authenticated = useStore((state) => state.session.authenticated)
   const hosting = useStore((state) => state.user.host)
+  const toggleModal = useStore((state) => state.toggleModal)
   const { logout } = useAuth()
 
   // Dropdown links
@@ -49,7 +51,7 @@ const Navbar = () => {
       type: 'guest',
       label: 'Login',
       icon: 'Login',
-      action: () => document.getElementById('login_modal').showModal(),
+      action: () => toggleModal(),
     },
   ].filter((link) => filters.some((filter) => filter(link)))
 
@@ -87,7 +89,10 @@ const Navbar = () => {
                   label={<Icon type='MenuOpen' className='size-8' />}
                   links={dropdownLinks}
                 />
-                <Modal />
+                <Modal
+                  content={<Login />}
+                  className={'min-h-fit min-w-fit bg-white'}
+                />
               </div>
             </div>
           </div>
