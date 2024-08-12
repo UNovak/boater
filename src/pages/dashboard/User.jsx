@@ -1,11 +1,17 @@
+import Modal from '@components/Modal'
 import useHandleBookings from '@hooks/useHandleBookings'
+import Details from '@modal/Details'
+import Rating from '@modal/Rating'
+import useStore from '@utils/Store'
 import { DateTime } from 'luxon'
 import { useEffect, useState } from 'react'
 
 const User = () => {
   const [bookings, setBookings] = useState([])
   const [loading, setLoading] = useState(false)
+  const [modal, setModal] = useState(null)
   const [serverError, setServerError] = useState(null)
+  const toggleModal = useStore((state) => state.toggleModal)
   const { getUserBookings } = useHandleBookings()
 
   useEffect(() => {
@@ -24,6 +30,11 @@ const User = () => {
     }
     fetchBookings()
   }, [])
+
+  const handleModal = (content) => {
+    setModal(content)
+    toggleModal()
+  }
 
   return loading ? (
     <>Loading ...</>
@@ -63,11 +74,17 @@ const User = () => {
 
                   <div className='flex justify-center gap-2 p-2'>
                     <button
+                      onClick={() =>
+                        handleModal(<Details boat_id={booking.boat} />)
+                      }
                       type='button'
                       className='flex w-full max-w-16 justify-center rounded-lg border border-transparent bg-blue-600 py-2 text-xs font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 lg:max-w-20'>
                       details
                     </button>
                     <button
+                      onClick={() =>
+                        handleModal(<Rating boat_id={booking.boat} />)
+                      }
                       type='button'
                       className='flex w-full max-w-16 justify-center rounded-lg border border-transparent bg-blue-600 py-2 text-xs font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 lg:max-w-20'>
                       rate
@@ -78,6 +95,7 @@ const User = () => {
             )
           })}
         </div>
+        <Modal content={modal} className={'container bg-white'} />
       </main>
     </div>
   )
