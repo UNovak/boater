@@ -13,6 +13,9 @@ const initialState = {
     avatar_url: '',
     host: false,
   },
+  modal: {
+    isOpen: false,
+  },
 }
 
 const useStore = create((set, get) => ({
@@ -37,6 +40,14 @@ const useStore = create((set, get) => ({
     })),
 
   getHost: () => get().user.host,
+
+  // modal state handlers
+  toggleModal: () =>
+    set((state) => ({
+      modal: {
+        isOpen: !state.modal.isOpen,
+      },
+    })),
 
   // Sets the store back to initial values
   clearStore: () => {

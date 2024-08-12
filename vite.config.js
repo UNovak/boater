@@ -12,10 +12,11 @@ export default defineConfig({
   resolve: {
     alias: {
       '@components': path.resolve(__dirname, './src/components'),
+      '@hooks': path.resolve(__dirname, './src/utils/hooks'),
       '@icon': path.resolve(__dirname, './src/assets/icons'),
+      '@modal': path.resolve(__dirname, './src/components/modals'),
       '@pages': path.resolve(__dirname, './src/pages'),
       '@utils': path.resolve(__dirname, './src/utils'),
-      '@hooks': path.resolve(__dirname, './src/utils/hooks'),
     },
   },
 })
