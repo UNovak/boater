@@ -48,12 +48,12 @@ const Rating = ({ boat_id, booking_id }) => {
             </label>
           ))}
         </div>
+        <button
+          type='submit'
+          className='mx-auto flex w-full max-w-16 justify-center rounded-lg border border-transparent bg-blue-600 py-2 text-xs font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 lg:max-w-20'>
+          Rate
+        </button>
       </form>
-      <button
-        type='submit'
-        className='flex w-full max-w-16 justify-center rounded-lg border border-transparent bg-blue-600 py-2 text-xs font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 lg:max-w-20'>
-        Rate
-      </button>
     </div>
   )
 }
