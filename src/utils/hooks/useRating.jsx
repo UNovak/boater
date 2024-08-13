@@ -1,6 +1,9 @@
 import supabase from '@utils/supabase'
+import useHandleBookings from '@hooks/useHandleBookings'
 
 const useRating = () => {
+  const { updateBooking } = useHandleBookings()
+
   const createRating = async (form) => {
     const { data, error } = await supabase
       .from('ratings')
@@ -17,7 +20,17 @@ const useRating = () => {
     if (error) {
       return { data: null, error }
     }
-    if (data) return { data: data[0], error: null }
+    if (data) {
+      // if rating was success mark booking as rated
+      const { error } = await updateBooking(form.booking, {
+        reviewed: true,
+      })
+      if (error) {
+        console.error(error)
+        return { data: null, error }
+      }
+      return { data: data[0], error: null }
+    }
   }
 
   const getAverage = async (id) => {
