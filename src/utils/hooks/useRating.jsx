@@ -1,5 +1,6 @@
-import supabase from '@utils/supabase'
 import useHandleBookings from '@hooks/useHandleBookings'
+import supabase from '@utils/supabase'
+import toast from 'react-hot-toast'
 
 const useRating = () => {
   const { updateBooking } = useHandleBookings()
@@ -39,11 +40,8 @@ const useRating = () => {
       .select('rating.avg()')
       .eq('boat_id', id)
 
-    if (error) {
-      console.error(error)
-      return { data: null, error }
-    }
-    if (data) return { data: data[0].avg, error: null }
+    if (error) toast.error(error.message || 'Failed to get average rating')
+    return data ? data[0].avg : null
   }
 
   return { createRating, getAverage }

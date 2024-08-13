@@ -7,13 +7,13 @@ import useUsers from '@hooks/useUsers'
 import { DateTime } from 'luxon'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import { Link, useParams } from 'react-router-dom'
 
 const Listing = () => {
   const [boat, setBoat] = useState({})
   const [loading, setLoading] = useState(false)
   const [owner, setOwner] = useState({})
-  const [serverError, setServerError] = useState(null)
   const [working, setWorking] = useState(false)
   const { boat_id } = useParams()
   const { createBooking } = useHandleBookings()
@@ -37,11 +37,9 @@ const Listing = () => {
   useEffect(() => {
     setLoading(true)
     const fetchBoat = async () => {
-      const { data, error } = await getSingleBoat(boat_id)
-      if (error) setServerError(error)
+      const { data } = await getSingleBoat(boat_id)
       if (data) setBoat(data)
       setLoading(false)
-      return
     }
     fetchBoat()
   }, [])
@@ -49,11 +47,8 @@ const Listing = () => {
   useEffect(() => {
     if (boat.owner_id) {
       const fetchOwner = async () => {
-        const { data, error } = await getUser(boat.owner_id)
-        if (error) console.log(error.message)
-        if (data) {
-          setOwner(data)
-        }
+        const { data } = await getUser(boat.owner_id)
+        if (data) setOwner(data)
       }
       fetchOwner()
     }
@@ -69,17 +64,8 @@ const Listing = () => {
       boat_price: boat.price,
       thumbnail_url: boat.image_urls[0] || '',
     }
-    const { data, error } = await createBooking(form)
-    if (error) {
-      setServerError(error)
-      setWorking(false)
-      return
-    }
-
-    if (data) {
-      console.log('success => ', data)
-    }
-
+    const { data } = await createBooking(form)
+    if (data) toast.success('booked successfully')
     setWorking(false)
     return
   }
@@ -92,9 +78,6 @@ const Listing = () => {
     <>Loading...</>
   ) : (
     <div className='min-h-lvh w-full'>
-      {serverError && (
-        <div className='text-md m-6 text-red-400'>{serverError.message}</div>
-      )}
       <main className='mt-4 flex flex-col gap-4'>
         <div className='text-2xl font-semibold'>{boat.title}</div>
         {/* images */}

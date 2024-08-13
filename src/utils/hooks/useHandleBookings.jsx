@@ -1,5 +1,6 @@
 import useStore from '@utils/Store'
 import supabase from '@utils/supabase'
+import toast from 'react-hot-toast'
 
 const useHandleBookings = () => {
   const createBooking = async (form) => {
@@ -19,8 +20,8 @@ const useHandleBookings = () => {
       .select()
 
     // if there is an error creating a new boat entry exit
-    if (error) return { data: null, error }
-    if (data) return { data: data[0], error: null }
+    if (error) toast.error(error.message || 'Unknown error')
+    if (data) return { data: data[0] }
   }
 
   const deleteBooking = async (booking_id) => {

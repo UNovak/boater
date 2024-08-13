@@ -152,13 +152,17 @@ const useBoats = () => {
       .select('*')
       .eq('id', boat_id)
 
-    if (error) return { error, data: null }
-    if (data) {
-      const { data: rating, error } = await getAverage(boat_id)
-      if (rating) return { data: { rating, ...data[0] }, error: null }
-      if (error) return { data: { rating: null, ...data[0] }, error: error }
+    if (error) {
+      toast.error(error.message || 'Failed to fetch boat details')
+      return { data: null }
     }
-    return { data: data[0], error: null }
+
+    if (data && data.length > 0) {
+      const rating = await getAverage(boat_id)
+      return { data: { ...data[0], rating } }
+    }
+
+    return { data: null }
   }
 
   return {

@@ -1,5 +1,6 @@
-import supabase from '@utils/supabase'
 import useStore from '@utils/Store'
+import supabase from '@utils/supabase'
+import toast from 'react-hot-toast'
 
 const useUsers = () => {
   const getSelf = async (fields = '*') => {
@@ -37,8 +38,8 @@ const useUsers = () => {
       .select('full_name,email,avatar_url')
       .eq('id', id)
 
-    if (error) return { data: null, error }
-    if (profiles) return { data: profiles[0], error: null }
+    if (error) toast.error(error.message || 'Unknown error')
+    if (profiles) return { data: profiles[0] }
   }
 
   const updateUser = async (values) => {
