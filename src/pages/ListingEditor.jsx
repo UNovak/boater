@@ -6,16 +6,21 @@ import useBoats from '@hooks/useBoats'
 import useStore from '@utils/Store'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 
 export const ListingEditor = (type) => {
+  const [images, setImages] = useState([])
+  const [working, setWorking] = useState(false)
+  const id = useStore((state) => state.session.id)
+  const navigate = useNavigate()
   const { createBoat } = useBoats()
   const {
     control,
+    formState: { errors },
     handleSubmit,
     register,
     watch,
-    formState: { errors },
   } = useForm({
     defaultValues: {
       attributes: [],
@@ -30,29 +35,21 @@ export const ListingEditor = (type) => {
       },
     },
   })
-  const id = useStore((state) => state.session.id)
-  const [images, setImages] = useState([])
-  const [working, setWorking] = useState(false)
-  const navigate = useNavigate()
+
   const descriptionCount = watch('description').length
 
   const onErrors = (errors) => {
-    console.log(errors)
+    toast.error('Check the form again')
   }
 
   const onSubmit = async (form) => {
     setWorking(true)
-    const { data, error } = await createBoat(form, id, images)
-    if (error) {
-      console.error(error.message)
-      setWorking(false)
-      return
-    }
-
+    const { data } = await createBoat(form, id, images)
     if (data) {
       setWorking(false)
       navigate('/host')
     }
+    setWorking(false)
   }
 
   return (
@@ -235,7 +232,7 @@ export const ListingEditor = (type) => {
         ) : (
           <input
             type='submit'
-            value='Post listing'
+            value='Submit'
             className='inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500'
           />
         )}

@@ -26,7 +26,10 @@ const useBoats = () => {
       .select()
 
     // if there is an error creating a new boat entry exit
-    if (error) return { data: null, error }
+    if (error) {
+      toast.error(`adding a boat failed : ${error.message}`)
+      return
+    }
     const boat_id = data[0].id
 
     // if images are to be added runs uploadFile on each
@@ -42,7 +45,10 @@ const useBoats = () => {
         }),
       )
 
-      if (errors.length > 0) return { data: null, error: errors } // if error when uploading images
+      if (errors.length > 0) {
+        toast.error(errors[0].message)
+        return
+      } // if error when uploading images
 
       // if images were uploaded update the images_url and thumbnail
       if (urls) {
@@ -50,11 +56,15 @@ const useBoats = () => {
           image_urls: urls,
         })
 
-        if (error) return { data: null, error }
-        return { data, error: null }
+        if (error) {
+          toast.error(error.message)
+          return
+        }
+        toast.success('images uploaded')
       }
     }
-    return { data, error: null }
+    toast.success('boat added')
+    return { data }
   }
 
   const updateBoat = async (boat_id, id, boat, images) => {
