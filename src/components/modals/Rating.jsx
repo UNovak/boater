@@ -1,9 +1,11 @@
 import { useForm } from 'react-hook-form'
 import useRating from '@hooks/useRating'
 import Icon from '@components/Icon'
+import useStore from '@utils/Store'
 
 const Rating = ({ boat_id, booking_id }) => {
   const { createRating } = useRating()
+  const toggleModal = useStore((state) => state.toggleModal)
   const { register, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
       rating: 1,
@@ -22,6 +24,7 @@ const Rating = ({ boat_id, booking_id }) => {
     if (data) console.log(data)
     if (error) console.log(error)
     console.log('form data: ', form)
+    toggleModal()
   }
 
   return (
