@@ -34,9 +34,21 @@ const useHandleBookings = () => {
     if (data) return { data, error: null }
   }
 
+  const updateBooking = async (booking_id, values) => {
+    const { data, error } = await supabase
+      .from('bookings')
+      .update(values)
+      .eq('id', booking_id)
+      .select()
+
+    if (error) return { data: null, error }
+    if (data) return { data, error: null }
+  }
+
   return {
     createBooking,
     getUserBookings,
+    updateBooking,
   }
 }
 
