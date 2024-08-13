@@ -23,6 +23,18 @@ const useHandleBookings = () => {
     if (data) return { data: data[0], error: null }
   }
 
+  const deleteBooking = async (booking_id) => {
+    const { error } = await supabase
+      .from('bookings')
+      .delete()
+      .eq('id', booking_id)
+
+    if (error) {
+      console.error(error)
+      return error
+    }
+  }
+
   const getUserBookings = async () => {
     const id = useStore.getState().session.id
     const { data, error } = await supabase
@@ -47,6 +59,7 @@ const useHandleBookings = () => {
 
   return {
     createBooking,
+    deleteBooking,
     getUserBookings,
     updateBooking,
   }
