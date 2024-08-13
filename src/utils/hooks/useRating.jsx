@@ -20,7 +20,20 @@ const useRating = () => {
     if (data) return { data: data[0], error: null }
   }
 
-  return { createRating }
+  const getAverage = async (id) => {
+    const { data, error } = await supabase
+      .from('ratings')
+      .select('rating.avg()')
+      .eq('boat_id', id)
+
+    if (error) {
+      console.error(error)
+      return { data: null, error }
+    }
+    if (data) return { data, error: null }
+  }
+
+  return { createRating, getAverage }
 }
 
 export default useRating
