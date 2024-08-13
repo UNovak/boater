@@ -25,6 +25,7 @@ import ScubaDiving from '@icon/scuba_diving.svg?react'
 import Search from '@icon/search.svg?react'
 import Settings from '@icon/settings.svg?react'
 import Shower from '@icon/shower.svg?react'
+import Star from '@icon/star.svg?react'
 import Trash_closed from '@icon/trashcan_closed.svg?react'
 import Trash_open from '@icon/trashcan_open.svg?react'
 import Twitter from '@icon/twitter.svg?react'
@@ -61,6 +62,7 @@ const icon = {
   Search,
   Settings,
   Shower,
+  Star,
   Trash_closed,
   Trash_open,
   Twitter,

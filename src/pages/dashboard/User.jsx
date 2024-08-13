@@ -75,7 +75,12 @@ const User = () => {
                   <div className='flex justify-center gap-2 p-2'>
                     <button
                       onClick={() =>
-                        handleModal(<Details boat_id={booking.boat} />)
+                        handleModal(
+                          <Details
+                            boat_id={booking.boat}
+                            booking_id={booking.id}
+                          />,
+                        )
                       }
                       type='button'
                       className='flex w-full max-w-16 justify-center rounded-lg border border-transparent bg-blue-600 py-2 text-xs font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 lg:max-w-20'>
@@ -83,7 +88,12 @@ const User = () => {
                     </button>
                     <button
                       onClick={() =>
-                        handleModal(<Rating boat_id={booking.boat} />)
+                        handleModal(
+                          <Rating
+                            boat_id={booking.boat}
+                            booking_id={booking.id}
+                          />,
+                        )
                       }
                       type='button'
                       className='flex w-full max-w-16 justify-center rounded-lg border border-transparent bg-blue-600 py-2 text-xs font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 lg:max-w-20'>
@@ -95,7 +105,7 @@ const User = () => {
             )
           })}
         </div>
-        <Modal content={modal} className={'container bg-white'} />
+        <Modal content={modal} className={'container h-fit bg-white'} />
       </main>
     </div>
   )
