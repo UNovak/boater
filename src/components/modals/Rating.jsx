@@ -1,11 +1,14 @@
-import { useForm } from 'react-hook-form'
-import useRating from '@hooks/useRating'
 import Icon from '@components/Icon'
+import Spinner from '@components/Spinner'
+import useRating from '@hooks/useRating'
 import useStore from '@utils/Store'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 
 const Rating = ({ boat_id, booking_id }) => {
-  const { createRating } = useRating()
+  const [working, setWorking] = useState(false)
   const toggleModal = useStore((state) => state.toggleModal)
+  const { createRating } = useRating()
   const { register, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
       rating: 1,
@@ -14,6 +17,8 @@ const Rating = ({ boat_id, booking_id }) => {
   const currentRating = watch('rating')
 
   const onSubmit = async (form) => {
+    setWorking(true)
+
     form = {
       ...form,
       boat_id: boat_id,
@@ -24,6 +29,7 @@ const Rating = ({ boat_id, booking_id }) => {
     if (data) console.log(data)
     if (error) console.log(error)
     console.log('form data: ', form)
+    setWorking(false)
     toggleModal()
   }
 
@@ -51,7 +57,7 @@ const Rating = ({ boat_id, booking_id }) => {
         <button
           type='submit'
           className='mx-auto flex w-full max-w-16 justify-center rounded-lg border border-transparent bg-blue-600 py-2 text-xs font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 lg:max-w-20'>
-          Rate
+          {working ? <Spinner /> : 'Rate'}
         </button>
       </form>
     </div>
