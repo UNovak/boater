@@ -1,9 +1,11 @@
 import supabase from '@utils/supabase'
 import useStore from '@utils/Store'
 import useBucket from '@hooks/useBucket'
+import useRating from '@hooks/useRating'
 
 const useBoats = () => {
   const { uploadImage, deleteFiles } = useBucket()
+  const { getAverage } = useRating()
 
   // create a new boat row in supabase
   const createBoat = async (form, id, images) => {
@@ -136,6 +138,11 @@ const useBoats = () => {
       .eq('id', boat_id)
 
     if (error) return { error, data: null }
+    if (data) {
+      const { data: rating, error } = await getAverage(boat_id)
+      if (rating) return { data: { rating, ...data[0] }, error: null }
+      if (error) return { data: { rating: null, ...data[0] }, error: error }
+    }
     return { data: data[0], error: null }
   }
 
