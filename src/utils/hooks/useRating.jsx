@@ -30,7 +30,7 @@ const useRating = () => {
       console.error(error)
       return { data: null, error }
     }
-    if (data) return { data, error: null }
+    if (data) return { data: data[0].avg, error: null }
   }
 
   return { createRating, getAverage }
