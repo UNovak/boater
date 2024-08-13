@@ -1,13 +1,35 @@
 import Icon from '@components/Icon'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import useRating from '@hooks/useRating'
 
 const ListingCard = ({ boat }) => {
+  const [loading, setLoading] = useState(false)
+  const [rating, setRating] = useState(null)
+  const { getAverage } = useRating()
+
   const getIcon = () => {
     if (boat.type) return boat.type.charAt(0).toUpperCase() + boat.type.slice(1)
     return 'Sailboat'
   }
 
-  return (
+  useEffect(() => {
+    setLoading(true)
+    const fetchRating = async () => {
+      const { data, error } = await getAverage(boat.id)
+      if (error) {
+        console.error(error)
+        return
+      }
+      if (data) setRating(data)
+      setLoading(false)
+    }
+    fetchRating()
+  }, [boat])
+
+  return loading ? (
+    'loading...'
+  ) : (
     <div className='group flex w-full max-w-sm flex-col gap-3 rounded-lg border border-gray-200 bg-white shadow-lg duration-100 ease-in-out hover:shadow-blue-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:shadow-gray-800'>
       <div className='overflow-hidden'>
         <img
@@ -20,12 +42,20 @@ const ListingCard = ({ boat }) => {
           alt='card thumbnail - boats best photo'
         />
       </div>
-      <div className='w-fit px-5 text-left'>
-        <Link
-          to={`listing/${boat.id}`}
-          className='mb-2 cursor-default text-2xl font-bold tracking-tight text-gray-900 dark:text-white'>
-          <h5>{boat.title.charAt(0).toUpperCase() + boat.title.slice(1)}</h5>
-        </Link>
+      <div className='w-full px-5 text-left'>
+        <div className='flex w-full flex-row justify-between align-middle'>
+          <Link
+            to={`listing/${boat.id}`}
+            className='cursor-default text-2xl font-bold tracking-tight text-gray-900 dark:text-white'>
+            <h5>{boat.title.charAt(0).toUpperCase() + boat.title.slice(1)}</h5>
+          </Link>
+          {rating && (
+            <span className='flex flex-row items-center gap-1 text-base'>
+              {rating}
+              <Icon type='Star' className={'size-4'} />
+            </span>
+          )}
+        </div>
         <div
           className=' flex flex-nowrap justify-start gap-8 py-2
           text-sm font-normal text-gray-700 *:flex-none dark:text-gray-400'>
