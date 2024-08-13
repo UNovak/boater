@@ -10,19 +10,13 @@ const Host = () => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
   const [working, setWorking] = useState(false)
-  const [serverError, setServerError] = useState(null)
   const [boats, setBoats] = useState([])
   const user = useStore((state) => state.user)
 
   useEffect(() => {
     setLoading(true)
     const fetchBoats = async () => {
-      const { data, error } = await getUserBoats()
-      if (error) {
-        setServerError(error.message)
-        setLoading(false)
-        return
-      }
+      const { data } = await getUserBoats()
       if (data) {
         setBoats(data)
         setLoading(false)
@@ -35,7 +29,6 @@ const Host = () => {
     setWorking(true)
     const { data, error } = await deleteBoat(id)
     if (error) {
-      setServerError(error.message)
       setLoading(false)
       setWorking(false)
       return

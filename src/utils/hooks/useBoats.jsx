@@ -2,6 +2,7 @@ import supabase from '@utils/supabase'
 import useStore from '@utils/Store'
 import useBucket from '@hooks/useBucket'
 import useRating from '@hooks/useRating'
+import toast from 'react-hot-toast'
 
 const useBoats = () => {
   const { uploadImage, deleteFiles } = useBucket()
@@ -99,8 +100,8 @@ const useBoats = () => {
       .select('*')
       .eq('owner_id', id)
 
-    if (error) return { error, data: null }
-    return { data, error: null }
+    if (error) toast.error(error.message)
+    if (data) return { data }
   }
 
   const deleteBoat = async (boat_id) => {
@@ -114,13 +115,17 @@ const useBoats = () => {
       .select()
 
     if (error) {
-      console.error(error)
-      return { error, data: null }
+      toast.error(error.message)
+      return { data: null, error }
     }
     if (data) {
       const { error } = await deleteFiles('boats', `${owner_id}/${boat_id}`)
-      if (error) return { error, data: null }
+      if (error) {
+        toast.error(error.message)
+        return { data: null, error }
+      }
     }
+    toast.success(`${data[0].title} removed`)
     return { data, error: null }
   }
 
