@@ -16,16 +16,12 @@ const ListingCard = ({ boat }) => {
   useEffect(() => {
     setLoading(true)
     const fetchRating = async () => {
-      const { data, error } = await getAverage(boat.id)
-      if (error) {
-        console.error(error)
-        return
-      }
-      if (data) setRating(data)
+      const avg = await getAverage(boat.id)
+      if (avg) setRating(avg)
       setLoading(false)
     }
     fetchRating()
-  }, [boat])
+  }, [boat, rating])
 
   return loading ? (
     'loading...'
