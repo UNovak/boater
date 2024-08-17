@@ -15,12 +15,14 @@ const useAuth = () => {
 
     // fetch error
     if (error) {
-      return { data: null, error }
+      toast.error(error.message)
+      return
     }
+
     if (data) {
       updateSession(data.user.id)
       toast.success(`logged in as ${data.user.email}`)
-      return { data, error: null }
+      return { data }
     }
   }
 
@@ -34,12 +36,12 @@ const useAuth = () => {
     // problem with auth
     if (error) {
       toast.error(error.message)
-      return { data: null, error }
+      return
     }
     if (data) {
       updateSession(data.user.id)
       toast.success(`account created for ${data.user.email}`)
-      return { data, error: null }
+      return { data }
     }
   }
 

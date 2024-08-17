@@ -7,12 +7,11 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
 export const Login = () => {
-  const [serverError, setServerError] = useState(null)
   const [show, setShow] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const navigate = useNavigate()
   const toggleModal = useStore((state) => state.toggleModal)
-  const { login } = useAuth()
+  const { login, signup } = useAuth()
   const {
     formState: { errors },
     handleSubmit,
@@ -24,23 +23,28 @@ export const Login = () => {
     },
   })
 
-  const signUp = () => {
-    navigate('registration')
-  }
-
   // runs when any button is clicked
   // validation passes
-  const onSubmit = async (form) => {
+  const onSubmit = async (form, register) => {
     setSubmitting(true)
-    const { data, error } = await login(form)
-    if (error) {
-      setServerError(error.message)
+
+    if (register) {
+      const data = await signup(form)
       setSubmitting(false)
+      if (data) {
+        toggleModal()
+        navigate('/registration')
+      }
       return
     }
-    if (data) {
+
+    if (!register) {
+      const data = await login(form)
       setSubmitting(false)
-      toggleModal()
+      if (data) {
+        toggleModal()
+      }
+      return
     }
   }
 
@@ -55,11 +59,6 @@ export const Login = () => {
       <h1 className='mt-2 text-center text-2xl font-bold text-blue-400 hover:text-blue-600 sm:text-3xl'>
         Welcome to Boater
       </h1>
-
-      {/* server error if any */}
-      {serverError && (
-        <div className='text-md mt-6 text-red-400'>{serverError}</div>
-      )}
 
       <form
         onSubmit={handleSubmit(onSubmit, onErrors)}
@@ -134,19 +133,39 @@ export const Login = () => {
           )}
         </div>
 
-        <button
-          disabled={submitting}
-          type='submit'
-          className='inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500'>
-          {!submitting ? 'Sign in' : <Spinner />}
-        </button>
+        {/* buttons */}
 
-        <p className='text-center text-sm text-gray-500'>
-          No account?
-          <a className='cursor-pointer pl-1 underline' onClick={() => signUp()}>
-            Sign up
-          </a>
-        </p>
+        <div className='flex w-full flex-row justify-center gap-2'>
+          <button
+            disabled={submitting}
+            type='button'
+            onClick={() => handleSubmit((form) => onSubmit(form, false))()}
+            className='inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-8 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500 disabled:px-7'>
+            {!submitting ? (
+              'Login'
+            ) : (
+              <span className='flex flex-row place-items-center justify-center gap-2 align-middle'>
+                Login
+                <Spinner size={2} />
+              </span>
+            )}
+          </button>
+
+          <button
+            disabled={submitting}
+            type='button'
+            onClick={() => handleSubmit((form) => onSubmit(form, true))()}
+            className='inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-8 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500 disabled:px-7'>
+            {!submitting ? (
+              'Signup'
+            ) : (
+              <span className='flex flex-row place-items-center justify-center gap-2 align-middle'>
+                Signup
+                <Spinner size={2} />
+              </span>
+            )}
+          </button>
+        </div>
       </form>
     </div>
   )
