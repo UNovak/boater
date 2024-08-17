@@ -17,11 +17,26 @@ import {
 } from 'react-router-dom'
 import Layout from './Layout'
 import useStore from './Store'
+import { useEffect, useState } from 'react'
 
 // router for handling the navigation accross the App
 export const ProtectedRoutes = ({ condition }) => {
   const authStatus = useStore((state) => state.session.authenticated)
   const hostRole = useStore((state) => state.user.host)
+  const registered = useStore((state) => state.user.registration_complete)
+  const [checking, setChecking] = useState(true)
+
+  useEffect(() => {
+    if (authStatus !== undefined && registered !== undefined) {
+      setChecking(false)
+    }
+  }, [registered, authStatus])
+
+  if (authStatus && checking) return <>Getting local store data</>
+
+  if (authStatus && !registered) {
+    return <Navigate to={'/registration'} />
+  }
 
   if (condition === 'no_host') {
     if (hostRole) return <Navigate to={'/host'} />
@@ -51,9 +66,9 @@ export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<Layout />}>
       <Route path='profile/:email' element={<Account mode={'public'} />} />
+      <Route path='registration' element={<Registration />} />
       <Route element={<ProtectedRoutes condition='no_host' />}>
         <Route index element={<LandingPage />} />
-        <Route path='registration' element={<Registration />} />
         <Route path='listing/:boat_id' element={<Listing />} />
       </Route>
       <Route element={<ProtectedRoutes condition='host' />}>
