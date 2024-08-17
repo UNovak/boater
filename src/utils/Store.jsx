@@ -56,15 +56,3 @@ const useStore = create((set, get) => ({
 }))
 
 export default useStore
-
-//  Usage example:
-//    import useStore from '@utils/Store'
-//
-//    get value:
-//      const user = useStore((state) => state.user) // all values
-//      const email = useUser(state => state.email);
-//
-//    use functions:
-//      const setUser = useStore.getState().setUser; // !rerender
-//      const setUser = useStore((state) => state.setUser()) // rerender
-//      () => setUser(user: JSON object) || setUser(user)
