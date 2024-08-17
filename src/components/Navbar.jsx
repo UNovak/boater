@@ -2,7 +2,7 @@ import Dropdown from '@components/Dropdown'
 import Icon from '@components/Icon'
 import Modal from '@components/Modal'
 import useAuth from '@hooks/useAuth'
-import Login from '@modal/Login'
+import Auth from '@modal/Auth'
 import useStore from '@utils/Store'
 import { NavLink } from 'react-router-dom'
 
@@ -90,8 +90,8 @@ const Navbar = () => {
                   links={dropdownLinks}
                 />
                 <Modal
-                  content={<Login />}
-                  className={'min-h-fit min-w-fit bg-white'}
+                  content={<Auth />}
+                  className={'min-h-fit min-w-fit bg-white p-10'}
                 />
               </div>
             </div>

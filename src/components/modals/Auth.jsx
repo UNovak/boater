@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
-export const Login = () => {
+export const Auth = () => {
   const [show, setShow] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const navigate = useNavigate()
@@ -171,4 +171,4 @@ export const Login = () => {
   )
 }
 
-export default Login
+export default Auth
