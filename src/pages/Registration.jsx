@@ -132,11 +132,11 @@ const Registration = () => {
               <div className='col-span-6 sm:col-span-3'>
                 <label
                   htmlFor='firstName'
-                  className='block text-sm font-medium text-gray-700'>
-                  First Name
+                  className='inline-flex flex-row items-center gap-2 text-sm font-medium text-gray-700'>
+                  First name {loading ? <Spinner /> : null}
                 </label>
-
                 <input
+                  disabled={loading}
                   {...register('firstName', {
                     required: {
                       value: true,
@@ -145,8 +145,8 @@ const Registration = () => {
                   })}
                   id='firstName'
                   type='text'
-                  className='w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0'
-                  placeholder='John'
+                  className={`w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0 ${loading ? 'animate-pulse' : ''}`}
+                  placeholder=''
                 />
                 {errors.firstName && (
                   <p className='mt-1 text-sm text-red-400 opacity-90'>
@@ -158,11 +158,12 @@ const Registration = () => {
               <div className='col-span-6 sm:col-span-3'>
                 <label
                   htmlFor='lastName'
-                  className='block text-sm font-medium text-gray-700'>
-                  Last Name
+                  className='inline-flex flex-row items-center gap-2 text-sm font-medium text-gray-700'>
+                  Last name {loading ? <Spinner /> : null}
                 </label>
 
                 <input
+                  disabled={loading}
                   {...register('lastName', {
                     required: {
                       value: true,
@@ -171,8 +172,8 @@ const Registration = () => {
                   })}
                   id='lastName'
                   type='text'
-                  className='w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0'
-                  placeholder='Doe'
+                  className={`w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0 ${loading ? 'animate-pulse' : ''}`}
+                  placeholder=''
                 />
                 {errors.lastName && (
                   <p className='mt-1 text-sm text-red-400 opacity-90'>
@@ -184,8 +185,8 @@ const Registration = () => {
               <div className='col-span-6 sm:col-span-3'>
                 <label
                   htmlFor='email'
-                  className='block text-sm font-medium text-gray-700'>
-                  Email
+                  className='inline-flex flex-row items-center gap-2 text-sm font-medium text-gray-700'>
+                  Email {loading ? <Spinner /> : null}
                 </label>
                 <input
                   {...register('email', {
@@ -195,10 +196,10 @@ const Registration = () => {
                       message: 'Invalid email format',
                     },
                   })}
-                  className='w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0'
-                  id='email'
-                  placeholder='john.doe@example.com'
+                  className={`w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0 ${loading ? 'animate-pulse' : ''}`}
+                  placeholder=''
                   type='email'
+                  disabled
                   autoComplete='email'
                 />
                 {errors.email && (
