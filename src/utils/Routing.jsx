@@ -45,7 +45,6 @@ export const ProtectedRoutes = ({ condition }) => {
 
   if (condition === 'host' && authStatus) {
     if (!hostRole) {
-      console.log('access denied need host')
       return
     }
     return <Outlet />
@@ -53,7 +52,6 @@ export const ProtectedRoutes = ({ condition }) => {
 
   if (condition === 'user' && authStatus) {
     if (hostRole) {
-      console.log('access denied need user')
       return
     }
     return <Outlet />

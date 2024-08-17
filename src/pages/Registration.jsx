@@ -12,11 +12,11 @@ const Registration = () => {
   const navigate = useNavigate()
   const { getSelf, updateUser } = useUsers()
   const {
-    register,
-    handleSubmit,
-    watch,
     control,
     formState: { errors },
+    handleSubmit,
+    register,
+    reset,
   } = useForm({
     defaultValues: {
       firstName: '',
@@ -208,38 +208,11 @@ const Registration = () => {
                 )}
               </div>
 
-              <div className='col-span-6 sm:col-span-3'>
-                <label
-                  htmlFor='password'
-                  className='block text-sm font-medium text-gray-700'>
-                  Password
-                </label>
-
-                <input
-                  {...register('password', {
-                    required: 'You must specify a password',
-                    minLength: {
-                      value: 8,
-                      message: 'Password must have at least 8 characters',
-                    },
-                  })}
-                  id='password'
-                  type='password'
-                  className='w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0'
-                  autoComplete='new-password webauthn'
-                />
-                {errors.password && (
-                  <p className='mt-1 text-sm text-red-400 opacity-90'>
-                    {errors.password.message}
-                  </p>
-                )}
-              </div>
-
+              {/* devider */}
               <div className='col-span-6'>
                 <span className='relative flex justify-center'>
-                  <div className='absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-transparent bg-gradient-to-r from-transparent via-gray-500 to-transparent opacity-75'></div>
-
-                  <span className='relative z-10 bg-white py-5'></span>
+                  <div className='absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-transparent bg-gradient-to-r from-transparent via-gray-500 to-transparent opacity-75' />
+                  <span className='relative z-10 bg-white py-5' />
                 </span>
 
                 <div className='container mx-auto inline-flex shrink-0 flex-wrap content-center justify-center gap-3 align-middle'>
@@ -253,7 +226,7 @@ const Registration = () => {
                       className='peer sr-only'
                       {...register('host')}
                     />
-                    <span className='absolute inset-y-0 start-0 m-1 size-4 rounded-full bg-white transition-all peer-checked:start-6'></span>
+                    <span className='absolute inset-y-0 start-0 m-1 size-4 rounded-full bg-white transition-all peer-checked:start-6' />
                   </label>
                 </div>
               </div>
@@ -294,14 +267,6 @@ const Registration = () => {
                   className='inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500 disabled:cursor-default disabled:hover:bg-blue-600'>
                   {!submitting ? 'Create an account' : <Spinner />}
                 </button>
-
-                <p className='mt-4 text-sm text-gray-500 sm:mt-0'>
-                  Already have an account?
-                  <a href='#' className='ml-1 text-gray-700 underline'>
-                    Log in
-                  </a>
-                  .
-                </p>
               </div>
             </form>
           </div>
