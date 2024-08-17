@@ -2,15 +2,15 @@ import Spinner from '@components/Spinner'
 import { DevTool } from '@hookform/devtools'
 import useAuth from '@hooks/useAuth'
 import useUsers from '@hooks/useUsers'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 
 const Registration = () => {
-  const navigate = useNavigate()
+  const [loading, setLoading] = useState(true) // Loading state for email fetch
   const [submitting, setSubmitting] = useState(false)
-  const { signup } = useAuth()
-  const { updateUser } = useUsers()
+  const navigate = useNavigate()
+  const { getSelf, updateUser } = useUsers()
   const {
     register,
     handleSubmit,
@@ -26,6 +26,23 @@ const Registration = () => {
       host: false,
     },
   })
+
+  useEffect(() => {
+    const prefill = async () => {
+      const { profile } = await getSelf()
+      if (profile) {
+        const name = profile.full_name.split(' ')
+        reset({
+          email: profile.email,
+          firstName: name[0],
+          lastName: name[1],
+        })
+        setLoading(false)
+      }
+    }
+
+    prefill()
+  }, [])
 
   const onErrors = (errors) => {
     console.log(errors)

@@ -31,7 +31,7 @@ const useUsers = () => {
     }
 
     // return fetched data
-    return { data: profile, error: null }
+    return { profile }
   }
 
   const getUser = async (id) => {
@@ -54,9 +54,11 @@ const useUsers = () => {
 
     if (error) {
       console.error(error)
-      return { data: null, error }
+      toast.error(error.message)
+      return
     }
-    return { data, error: null }
+    toast.success('user update success')
+    return { data }
   }
 
   const modeSwitch = async () => {
