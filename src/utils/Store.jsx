@@ -4,10 +4,10 @@ import { create } from 'zustand'
 const initialState = {
   session: {
     id: '',
-    authenticated: false,
+    authenticated: undefined,
   },
   user: {
-    id: '',
+    registration_complete: undefined,
     email: '',
     full_name: '',
     avatar_url: '',
