@@ -6,30 +6,32 @@ const useUsers = () => {
   const getSelf = async (fields = '*') => {
     const id = useStore.getState().session.id
     // fetch current user data from supabase
-    const { data: profiles, error } = await supabase
+    const { data: profile, error } = await supabase
       .from('profiles')
       .select(fields)
       .eq('id', id)
+      .single()
 
     // error when fetching
     if (error) {
       console.error(error)
+      toast.error('Failed fetching user')
       return { data: null, error }
     }
 
     // update zustand store if user data returned
-    if (profiles) {
-      const { host, email, full_name, avatar_url } = profiles[0]
+    if (profile) {
       useStore.getState().setUser({
-        host: host,
-        email: email,
-        full_name: full_name,
-        avatar_url: avatar_url,
+        host: profile.host,
+        email: profile.email,
+        full_name: profile.full_name,
+        avatar_url: profile.avatar_url,
+        registration_complete: profile.registration_complete,
       })
     }
 
     // return fetched data
-    return { data: profiles[0], error: null }
+    return { data: profile, error: null }
   }
 
   const getUser = async (id) => {
