@@ -17,6 +17,7 @@ const Registration = () => {
     handleSubmit,
     register,
     reset,
+    watch,
   } = useForm({
     defaultValues: {
       firstName: '',
@@ -24,8 +25,16 @@ const Registration = () => {
       email: '',
       password: '',
       host: false,
+      address: {
+        street: '',
+        city: '',
+        zip: '',
+        country: '',
+      },
     },
   })
+
+  const isHost = watch('host')
 
   useEffect(() => {
     const prefill = async () => {
@@ -128,7 +137,7 @@ const Registration = () => {
             <form
               onSubmit={handleSubmit(onSubmit, onErrors)}
               noValidate
-              className='mt-8 grid grid-cols-6 gap-6'>
+              className='mt-8 grid grid-cols-6 gap-4'>
               <div className='col-span-6 sm:col-span-3'>
                 <label
                   htmlFor='firstName'
@@ -231,6 +240,86 @@ const Registration = () => {
                   </label>
                 </div>
               </div>
+
+              {isHost && (
+                <>
+                  <div className='col-span-6 sm:col-span-4 sm:col-start-2 sm:grid-cols-subgrid'>
+                    <label
+                      htmlFor='street'
+                      className='inline-flex flex-row items-center gap-2 text-sm font-medium text-gray-700'>
+                      Address {loading ? <Spinner /> : null}
+                    </label>
+
+                    <input
+                      disabled={loading}
+                      {...register('address.street', {
+                        required: isHost ? 'required' : false,
+                      })}
+                      id='street'
+                      type='text'
+                      className={`w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0 ${loading ? 'animate-pulse' : ''}`}
+                      placeholder=''
+                    />
+                  </div>
+
+                  <div className='col-span-6 sm:col-span-4 sm:col-start-2 sm:grid-cols-subgrid'>
+                    <label
+                      htmlFor='city'
+                      className='inline-flex flex-row items-center gap-2 text-sm font-medium text-gray-700'>
+                      City {loading ? <Spinner /> : null}
+                    </label>
+
+                    <input
+                      disabled={loading}
+                      {...register('address.city', {
+                        required: isHost ? 'required' : false,
+                      })}
+                      id='city'
+                      type='text'
+                      className={`w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0 ${loading ? 'animate-pulse' : ''}`}
+                      placeholder=''
+                    />
+                  </div>
+
+                  <div className='col-span-6 sm:col-span-4 sm:col-start-2 sm:grid-cols-subgrid'>
+                    <label
+                      htmlFor='zip'
+                      className='inline-flex flex-row items-center gap-2 text-sm font-medium text-gray-700'>
+                      Zip {loading ? <Spinner /> : null}
+                    </label>
+
+                    <input
+                      disabled={loading}
+                      {...register('address.zip', {
+                        required: isHost ? 'required' : false,
+                      })}
+                      id='zip'
+                      type='text'
+                      className={`w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0 ${loading ? 'animate-pulse' : ''}`}
+                      placeholder=''
+                    />
+                  </div>
+
+                  <div className='col-span-6 sm:col-span-4 sm:col-start-2 sm:grid-cols-subgrid'>
+                    <label
+                      htmlFor='country'
+                      className='inline-flex flex-row items-center gap-2 text-sm font-medium text-gray-700'>
+                      Country {loading ? <Spinner /> : null}
+                    </label>
+
+                    <input
+                      disabled={loading}
+                      {...register('address.country', {
+                        required: isHost ? 'required' : false,
+                      })}
+                      id='country'
+                      type='text'
+                      className={`w-full rounded-lg border-gray-300 p-2 text-sm shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0 ${loading ? 'animate-pulse' : ''}`}
+                      placeholder=''
+                    />
+                  </div>
+                </>
+              )}
 
               <div className='col-span-6'>
                 <label htmlFor='marketingAccept' className='flex gap-4'>
