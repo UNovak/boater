@@ -1,5 +1,5 @@
 import useUsers from '@hooks/useUsers'
-import { router } from '@utils/Routing'
+import Router from '@utils/Routing'
 import useStore from '@utils/Store'
 import supabase from '@utils/supabase'
 import { useEffect, useState } from 'react'
@@ -53,7 +53,7 @@ const App = () => {
     return <div>Loading...</div>
   }
 
-  return <RouterProvider router={router} />
+  return <RouterProvider router={Router} />
 }
 
 export default App

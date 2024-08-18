@@ -20,7 +20,7 @@ import useStore from './Store'
 import { useEffect, useState } from 'react'
 
 // router for handling the navigation accross the App
-export const ProtectedRoutes = ({ condition }) => {
+const ProtectedRoutes = ({ condition }) => {
   const authStatus = useStore((state) => state.session.authenticated)
   const hostRole = useStore((state) => state.user.host)
   const registered = useStore((state) => state.user.registration_complete)
@@ -60,7 +60,7 @@ export const ProtectedRoutes = ({ condition }) => {
   return !authStatus ? <Navigate to={'/'} /> : <Outlet />
 }
 
-export const router = createBrowserRouter(
+const Router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<Layout />}>
       <Route path='profile/:email' element={<Account mode={'public'} />} />
@@ -93,3 +93,5 @@ export const router = createBrowserRouter(
     </Route>,
   ),
 )
+
+export default Router
