@@ -1,6 +1,5 @@
 import Spinner from '@components/Spinner'
 import { DevTool } from '@hookform/devtools'
-import useAuth from '@hooks/useAuth'
 import useUsers from '@hooks/useUsers'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -59,33 +58,35 @@ const Registration = () => {
 
   const onSubmit = async (form) => {
     setSubmitting(true)
-    const { data, error } = await signup(form)
-    if (error) {
-      setSubmitting(false)
-      return
+
+    // values accepted by supabase
+    const accepted = [
+      'full_name',
+      'email',
+      'address',
+      'host',
+      'updated_at',
+      'registration_complete',
+    ]
+
+    form = {
+      ...form,
+      registration_complete: true,
+      full_name: `${form.firstName} ${form.lastName}`,
     }
 
+    // remove all keys that dont fit in the db
+    Object.keys(form)
+      .filter((key) => !accepted.includes(key))
+      .map((key) => delete form[key])
+
+    // attempt updating values in db
+    const { data } = await updateUser(form)
     if (data) {
-      // remove data not fitting for user profile
-      const accepted = ['full_name', 'email', 'address', 'host', 'updated_at']
-      const values = {
-        ...form,
-        full_name: `${form.firstName} ${form.lastName}`,
-      }
-      Object.keys(form)
-        .filter((key) => !accepted.includes(key))
-        .map((key) => delete values[key])
-
-      // attempt updating values in database
-      const { error } = await updateUser(values)
-      if (error) {
-        setSubmitting(false)
-        return
-      }
+      setSubmitting(false)
+      navigate('/')
     }
-
     setSubmitting(false)
-    navigate('/')
   }
 
   return (
@@ -355,7 +356,7 @@ const Registration = () => {
                   disabled={submitting}
                   type='submit'
                   className='inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500 disabled:cursor-default disabled:hover:bg-blue-600'>
-                  {!submitting ? 'Create an account' : <Spinner />}
+                  {!submitting ? 'Complete registration' : <Spinner />}
                 </button>
               </div>
             </form>
