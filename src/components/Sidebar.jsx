@@ -1,8 +1,8 @@
 import Icon from '@components/Icon'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
 import useAuth from '@hooks/useAuth'
 import useUsers from '@hooks/useUsers'
 import useStore from '@utils/Store'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 
 const Sidebar = ({ type }) => {
   const { logout } = useAuth()
@@ -19,7 +19,13 @@ const Sidebar = ({ type }) => {
   const getAvatar = () => {
     // if we have an avatar image load that
     if (user.avatar_url !== '')
-      return <img src={user.avatar_url} className='size-10 rounded-full' />
+      return (
+        <img
+          src={user.avatar_url}
+          className='size-10 rounded-full'
+          alt="user's avatar"
+        />
+      )
 
     // if there is no image get initials
     const name = user.full_name.split(' ')
@@ -81,7 +87,7 @@ const Sidebar = ({ type }) => {
               className='peer sr-only'
               onChange={() => modeToggle()}
             />
-            <span className='absolute inset-y-0 start-0 m-0.5 size-3 rounded-full bg-white transition-all peer-checked:start-3'></span>
+            <span className='absolute inset-y-0 start-0 m-0.5 size-3 rounded-full bg-white transition-all peer-checked:start-3' />
           </label>
           <span className='invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible'>
             {user.host ? 'Toggle host off' : 'Toggle host on'}
