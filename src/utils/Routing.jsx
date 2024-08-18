@@ -8,6 +8,7 @@ import LandingPage from '@pages/LandingPage'
 import Listing from '@pages/Listing'
 import ListingEditor from '@pages/ListingEditor'
 import Registration from '@pages/Registration'
+import Faq from '@pages/Faq'
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -63,6 +64,7 @@ const ProtectedRoutes = ({ condition }) => {
 const Router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<Layout />}>
+      <Route path='faq' element={<Faq />} />
       <Route path='profile/:email' element={<Account mode={'public'} />} />
       <Route path='registration' element={<Registration />} />
       <Route element={<ProtectedRoutes condition='no_host' />}>
