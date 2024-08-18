@@ -4,13 +4,16 @@ import Modal from '@components/Modal'
 import useAuth from '@hooks/useAuth'
 import Auth from '@modal/Auth'
 import useStore from '@utils/Store'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
+import useUsers from '@hooks/useUsers'
 
 const Navbar = () => {
   const authenticated = useStore((state) => state.session.authenticated)
   const hosting = useStore((state) => state.user.host)
   const toggleModal = useStore((state) => state.toggleModal)
   const { logout } = useAuth()
+  const { modeSwitch } = useUsers()
+  const navigate = useNavigate()
 
   // Dropdown links
 
@@ -42,14 +45,21 @@ const Navbar = () => {
   ]
 
   const dropdownLinks = [
+    { type: 'all', label: 'FAQ', path: '/faq' },
     { type: 'user', label: 'Dashboard', path: '/user' },
     { type: 'host', label: 'Dashboard', path: '/host' },
-    { type: 'all', label: 'FAQ', path: '/faq' },
-    { type: 'guest', label: 'Signup', path: '/registration' },
+    {
+      type: 'user',
+      label: 'Switch to host',
+      action: () => {
+        modeSwitch()
+        navigate('/')
+      },
+    },
     { type: 'auth', label: 'Logout', icon: 'Logout', action: logout },
     {
       type: 'guest',
-      label: 'Login',
+      label: 'Login/Sign up',
       icon: 'Login',
       action: () => toggleModal(),
     },
@@ -71,19 +81,6 @@ const Navbar = () => {
 
           <div className='block items-center gap-4 md:flex'>
             <div className='flex gap-4'>
-              <NavLink
-                className={({ isActive }) =>
-                  'm-auto block rounded px-3 py-2  ' +
-                  (isActive
-                    ? ' pointer-events-none border-0 bg-transparent text-blue-600'
-                    : ' p-0 text-gray-900 hover:bg-gray-100 hover:bg-transparent hover:text-blue-600 md:border-0')
-                }
-                to={'registration'}>
-                <span className='rounded bg-slate-50 p-2 text-2xl shadow-sm sm:hidden'>
-                  ⛵️
-                </span>
-                <span className='hidden sm:flex'>Rent your boat</span>
-              </NavLink>
               <div className='block md:flex'>
                 <Dropdown
                   label={<Icon type='MenuOpen' className='size-8' />}
