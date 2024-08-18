@@ -26,6 +26,7 @@ const Listing = () => {
     handleSubmit,
     register,
     reset,
+    watch,
   } = useForm({
     mode: 'all',
     defaultValues: {
@@ -224,12 +225,14 @@ const Listing = () => {
 
             {/* calculated pricing */}
             <div className='mt-1 text-sm'>
-              total price:{' '}
-              {boat.price *
-                DateTime.fromISO(getValues('end'))
-                  .diff(DateTime.fromISO(getValues('start')), 'days')
-                  .as('days')}{' '}
-              $
+              {errors.start || errors.end
+                ? '---'
+                : ` total: ${
+                    boat.price *
+                    DateTime.fromISO(watch('end'))
+                      .diff(DateTime.fromISO(watch('start')), 'days')
+                      .as('days')
+                  }`}
             </div>
           </div>
         </form>
