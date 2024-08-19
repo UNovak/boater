@@ -45,7 +45,7 @@ const Navbar = () => {
   ]
 
   const dropdownLinks = [
-    { type: 'all', label: 'FAQ', path: '/faq' },
+    { type: 'all', label: 'About', path: 'about' },
     { type: 'user', label: 'Dashboard', path: '/user' },
     { type: 'host', label: 'Dashboard', path: '/host' },
     {

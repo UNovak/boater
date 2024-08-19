@@ -4,7 +4,7 @@ import Host from '@pages/dashboard/Host'
 import Inbox from '@pages/dashboard/Inbox'
 import Settings from '@pages/dashboard/Settings'
 import User from '@pages/dashboard/User'
-import Faq from '@pages/Faq'
+import About from '@pages/About'
 import LandingPage from '@pages/LandingPage'
 import Listing from '@pages/Listing'
 import ListingEditor from '@pages/ListingEditor'
@@ -67,7 +67,7 @@ const ProtectedRoutes = ({ condition }) => {
 const Router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<Layout />}>
-      <Route path='faq' element={<Faq />} />
+      <Route path='about' element={<About />} />
       <Route path='profile/:email' element={<Account mode={'public'} />} />
       <Route path='registration' element={<Registration />} />
       <Route element={<ProtectedRoutes condition='no_host' />}>
