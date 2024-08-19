@@ -77,8 +77,6 @@ const Navbar = () => {
             </NavLink>
           </div>
 
-          <div className='hidden md:block'>Search</div>
-
           <div className='block items-center gap-4 md:flex'>
             <div className='flex gap-4'>
               <div className='block md:flex'>
