@@ -30,12 +30,12 @@ const ProtectedRoutes = ({ condition }) => {
   const location = useLocation()
 
   useEffect(() => {
-    if (authStatus && registered) {
+    if (authStatus !== null && registered !== null) {
       setChecking(false)
     }
   }, [registered, authStatus])
 
-  if (authStatus && checking) return <>Loading...</>
+  if (authStatus && checking) return <>Loading routing data ...</>
 
   if (authStatus && !registered) {
     if (location.pathname.startsWith('/registration')) return
