@@ -6,6 +6,7 @@ import Chevron_back from '@icon/chevron_backwards.svg?react'
 import Chevron_forward from '@icon/chevron_forward.svg?react'
 import Close from '@icon/close.svg?react'
 import Facebook from '@icon/facebook.svg?react'
+import Github from '@icon/github.svg?react'
 import Autopilot from '@icon/hands_free.svg?react'
 import Hidden from '@icon/hidden.svg?react'
 import Home from '@icon/home.svg?react'
@@ -44,6 +45,7 @@ const icon = {
   Chevron_forward,
   Close,
   Facebook,
+  Github,
   Hidden,
   Home,
   Human,
