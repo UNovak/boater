@@ -43,6 +43,7 @@ export const Auth = () => {
       setSubmitting(false)
       if (data) {
         toggleModal()
+        navigate('/')
       }
       return
     }
