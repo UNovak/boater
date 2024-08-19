@@ -13,9 +13,9 @@ const App = () => {
   const setSession = useStore((state) => state.setSession)
   const [loading, setLoading] = useState(true)
 
-  const updateStatus = (id) => {
+  const updateStatus = async (id) => {
     setSession(id)
-    getSelf()
+    await getSelf()
   }
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const App = () => {
         data: { session },
       } = await supabase.auth.getSession()
       if (session) {
-        updateStatus(session.user.id)
+        await updateStatus(session.user.id)
       }
       setLoading(false)
     }

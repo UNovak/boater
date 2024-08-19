@@ -30,7 +30,7 @@ const ProtectedRoutes = ({ condition }) => {
   const location = useLocation()
 
   useEffect(() => {
-    if (authStatus !== undefined && registered !== undefined) {
+    if (authStatus && registered) {
       setChecking(false)
     }
   }, [registered, authStatus])
