@@ -1,6 +1,7 @@
 import Spinner from '@components/Spinner'
 import { DevTool } from '@hookform/devtools'
 import useUsers from '@hooks/useUsers'
+import useStore from '@utils/Store'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
@@ -73,6 +74,7 @@ const Registration = () => {
       ...form,
       registration_complete: true,
       full_name: `${form.firstName} ${form.lastName}`,
+      avatar_url: useStore.getState().user.avatar_url,
     }
 
     // remove all keys that dont fit in the db
@@ -83,7 +85,7 @@ const Registration = () => {
     // attempt updating values in db
     const { data } = await updateUser(form)
     if (data) {
-      setSubmitting(false)
+      useStore.getState().setUser({ registration_complete: true })
       navigate('/')
     }
     setSubmitting(false)

@@ -4,21 +4,22 @@ import Host from '@pages/dashboard/Host'
 import Inbox from '@pages/dashboard/Inbox'
 import Settings from '@pages/dashboard/Settings'
 import User from '@pages/dashboard/User'
+import Faq from '@pages/Faq'
 import LandingPage from '@pages/LandingPage'
 import Listing from '@pages/Listing'
 import ListingEditor from '@pages/ListingEditor'
 import Registration from '@pages/Registration'
-import Faq from '@pages/Faq'
+import { useEffect, useState } from 'react'
 import {
   createBrowserRouter,
   createRoutesFromElements,
   Navigate,
   Outlet,
   Route,
+  useLocation,
 } from 'react-router-dom'
 import Layout from './Layout'
 import useStore from './Store'
-import { useEffect, useState } from 'react'
 
 // router for handling the navigation accross the App
 const ProtectedRoutes = ({ condition }) => {
@@ -26,6 +27,7 @@ const ProtectedRoutes = ({ condition }) => {
   const hostRole = useStore((state) => state.user.host)
   const registered = useStore((state) => state.user.registration_complete)
   const [checking, setChecking] = useState(true)
+  const location = useLocation()
 
   useEffect(() => {
     if (authStatus !== undefined && registered !== undefined) {
@@ -33,9 +35,10 @@ const ProtectedRoutes = ({ condition }) => {
     }
   }, [registered, authStatus])
 
-  if (authStatus && checking) return <>Getting local store data</>
+  if (authStatus && checking) return <>Loading...</>
 
   if (authStatus && !registered) {
+    if (location.pathname.startsWith('/registration')) return
     return <Navigate to={'/registration'} />
   }
 
