@@ -22,7 +22,7 @@ const Sidebar = ({ type }) => {
       return (
         <img
           src={user.avatar_url}
-          className='size-10 rounded-full'
+          className='size-10 rounded-lg'
           alt="user's avatar"
         />
       )
