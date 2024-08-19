@@ -1,26 +1,32 @@
 import Icon from '@components/Icon'
-import { useState, useRef } from 'react'
+import useBucket from '@hooks/useBucket'
+import useStore from '@utils/Store'
+import { useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 
 const Avatar = () => {
-  const [img, setImg] = useState(null)
+  const { uploadImage } = useBucket()
   const [preview, setPreview] = useState(null)
   const inputRef = useRef(null)
 
-  const changeHandler = (e) => {
+  const changeHandler = async (e) => {
     e.preventDefault()
     const upload = e.target.files[0]
     if (upload.type.split('/')[0] !== 'image')
       toast.error('Plase upload an image')
     else {
-      setImg(upload)
       setPreview(URL.createObjectURL(upload))
+      const { data: url } = await uploadImage(upload, '', 'avatars')
+      if (url) {
+        useStore.getState().setUser({
+          avatar_url: url,
+        })
+      }
     }
   }
 
   const handleDelete = () => {
     setPreview(null)
-    setImg(null)
     inputRef.current.value = ''
   }
 

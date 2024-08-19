@@ -1,5 +1,6 @@
-import supabase from '@utils/supabase'
 import useStore from '@utils/Store'
+import supabase from '@utils/supabase'
+import toast from 'react-hot-toast'
 
 const useBucket = () => {
   const id = useStore((state) => state.session.id)
@@ -11,7 +12,10 @@ const useBucket = () => {
 
     // Attempt to upload the file
     const { error } = await supabase.storage.from(bucket).upload(filePath, file)
-    if (error) return { data: null, error }
+    if (error) {
+      toast.error(error.message)
+      return
+    }
 
     // If no error get and return publicUrl
     const { data } = supabase.storage.from(bucket).getPublicUrl(filePath)

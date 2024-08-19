@@ -1,3 +1,4 @@
+import Avatar from '@components/Avatar'
 import Spinner from '@components/Spinner'
 import { DevTool } from '@hookform/devtools'
 import useUsers from '@hooks/useUsers'
@@ -68,6 +69,7 @@ const Registration = () => {
       'host',
       'updated_at',
       'registration_complete',
+      'avatar_url',
     ]
 
     form = {
@@ -141,6 +143,10 @@ const Registration = () => {
               onSubmit={handleSubmit(onSubmit, onErrors)}
               noValidate
               className='mt-8 grid grid-cols-6 gap-4'>
+              <div className='col-span-6 flex justify-center'>
+                <Avatar />
+              </div>
+
               <div className='col-span-6 sm:col-span-3'>
                 <label
                   htmlFor='firstName'
