@@ -235,12 +235,12 @@ const Listing = () => {
             <div className='mt-1 text-sm'>
               {errors.start || errors.end
                 ? '---'
-                : ` total: ${
+                : ` total price: ${
                     boat.price *
                     DateTime.fromISO(watch('end'))
                       .diff(DateTime.fromISO(watch('start')), 'days')
                       .as('days')
-                  }`}
+                  } $`}
             </div>
           </div>
         </form>
