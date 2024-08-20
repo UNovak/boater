@@ -1,7 +1,6 @@
 import AttributePicker from '@components/AttributePicker'
 import ImageCollector from '@components/ImageCollector'
 import Spinner from '@components/Spinner'
-import { DevTool } from '@hookform/devtools'
 import useBoats from '@hooks/useBoats'
 import useStore from '@utils/Store'
 import { useState } from 'react'
@@ -237,7 +236,6 @@ export const ListingEditor = (type) => {
           />
         )}
       </form>
-      <DevTool control={control} />
     </>
   )
 }

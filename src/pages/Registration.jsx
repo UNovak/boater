@@ -1,6 +1,5 @@
 import Avatar from '@components/Avatar'
 import Spinner from '@components/Spinner'
-import { DevTool } from '@hookform/devtools'
 import useUsers from '@hooks/useUsers'
 import useStore from '@utils/Store'
 import { useEffect, useState } from 'react'
@@ -13,7 +12,6 @@ const Registration = () => {
   const navigate = useNavigate()
   const { getSelf, updateUser } = useUsers()
   const {
-    control,
     formState: { errors },
     handleSubmit,
     register,
@@ -371,7 +369,6 @@ const Registration = () => {
           </div>
         </main>
       </div>
-      <DevTool control={control} />
     </section>
   )
 }
