@@ -23,6 +23,7 @@ const Host = () => {
       }
     }
     fetchBoats()
+    console.log('length:', boats.length)
   }, [])
 
   const handleRemove = async (id) => {
@@ -64,7 +65,7 @@ const Host = () => {
         </div>
 
         {/* users boats cards  */}
-        {boats.length >= 1 &&
+        {boats.length > 0 &&
           boats.map((boat) => {
             return (
               <div
@@ -73,7 +74,11 @@ const Host = () => {
                 <div className='absolute -inset-1 z-10 hidden rounded-xl backdrop-blur-lg group-hover:block' />
                 <img
                   alt='boat thumbnail'
-                  src={boat.image_urls[0]}
+                  src={
+                    boat.image_urls
+                      ? boat.image_urls[0]
+                      : 'https://www.tessllc.us/wp-content/uploads/2020/07/yacht-post-825x510.jpg'
+                  }
                   className='max-h-64 w-full rounded-t-xl object-cover'
                 />
                 <h1 className='pb-2 text-center text-2xl'>{boat.title}</h1>
