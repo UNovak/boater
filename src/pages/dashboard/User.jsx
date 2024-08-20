@@ -23,7 +23,7 @@ const User = () => {
     }
 
     // Upcoming bookings: only details buttons
-    if (DateTime.fromISO(booking.start_date) > DateTime.now()) return [details]
+    // if (DateTime.fromISO(booking.start_date) > DateTime.now()) return [details]
 
     // Previous bookings: Not yet rated - details and rate
     if (!booking.reviewed) {
