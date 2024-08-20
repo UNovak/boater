@@ -9,8 +9,10 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { Link, useParams } from 'react-router-dom'
+import useStore from '@utils/Store'
 
 const Listing = () => {
+  const authenticated = useStore((state) => state.session.authenticated)
   const [boat, setBoat] = useState({})
   const [loading, setLoading] = useState(false)
   const [owner, setOwner] = useState({})
@@ -56,6 +58,12 @@ const Listing = () => {
   }, [boat.owner_id])
 
   const onSubmit = async (form) => {
+    // require authentication to book
+    if (!authenticated) {
+      toast.error('please login first')
+      return
+    }
+
     setWorking(true)
     // add boat data to form data
     form = {
